@@ -1,0 +1,375 @@
+.txt::placeholder {
+  color: black;
+  opacity: 1;
+}
+
+.hvr:hover {
+  border: 2px solid rgb(221, 216, 216);
+}
+
+.text-justify {
+  text-align: justify;
+  width: 100%;
+}
+
+.text-grey {
+  color: #b3b3b3;
+}
+
+.home-icon {
+  border-radius: 50%;
+  background-color: #2a2a2a;
+  padding: 2.3% !important;
+}
+.login-btn:hover {
+  transform: scale(1.03, 1.08);
+  transition: 33ms;
+  background-color: rgb(107, 228, 107);
+  border-color: rgb(107, 228, 107);
+}
+
+.font-size li {
+  font-size: 0.9em;
+  list-style-type: circle;
+}
+
+.b {
+  border: 2px solid gray;
+}
+
+.login {
+  background: linear-gradient(rgb(39, 37, 37) 50%, rgb(0, 0, 0) 100%);
+}
+
+.grey {
+  background-color: rgb(17, 16, 16);
+}
+
+.green-link:hover {
+  text-decoration-color: rgb(107, 228, 107);
+  color: rgb(107, 228, 107);
+}
+
+.wyt {
+  color: white;
+  text-decoration-color: white;
+}
+
+.eye {
+  left: 88%;
+}
+
+.eye:hover {
+  transform: scale(1.1);
+  color: white;
+}
+
+.hvr-artist:hover {
+  background: linear-gradient(to top, #4646464e 0%, transparent 100%);
+  transition-duration: 0.5s;
+}
+
+.play {
+  color: #1ed760 !important;
+  position: absolute;
+  top: 50%;
+  left: 68%;
+  display: none;
+  background-color: black;
+  border-radius: 50%;
+  transition-duration: 2000ms;
+}
+
+.hyt {
+  height: 18%;
+}
+
+.p:hover .play {
+  display: block;
+}
+
+.p {
+  position: relative;
+}
+
+.loading-hyt {
+  height: 78vh;
+}
+
+.bg-music {
+  background-color: #282828;
+}
+
+.music-icon {
+  height: 60px ;
+  width: 60px;
+}
+
+/* single album css */
+
+.artist-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(180deg, #1e3264, #121212);
+}
+
+.text {
+  font-size: 5rem;
+}
+
+.artist-header img {
+  width: 232px;
+  height: 232px;
+  margin-right: 20px;
+}
+
+.artist-header .details {
+  max-width: 600px;
+}
+
+.artist-header .details h1 {
+  font-size: 64px;
+  margin: 0;
+}
+.artist-header .details p {
+  font-size: 13px;
+  margin: 10px 0;
+  color: #a6a6a6;
+}
+.artist-header .details .stats {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+
+  color: #a6a6a6;
+}
+.artist-header .details .stats i {
+  margin-right: 5px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(180deg, #1e3264, #121212);
+}
+
+.playlist-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(180deg, #494949, #121212);
+}
+
+.playlist-body {
+  background-color: #121212;
+}
+
+.text {
+  font-size: 5rem;
+}
+.header img {
+  width: 200px;
+  height: 200px;
+  margin-right: 20px;
+}
+.header .details {
+  max-width: 600px;
+}
+.header .details h1 {
+  font-size: 64px;
+  margin: 0;
+}
+.header .details p {
+  font-size: 13px;
+  margin: 10px 0;
+  color: #a6a6a6;
+}
+.header .details .stats {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+
+  color: #a6a6a6;
+}
+.header .details .stats i {
+  margin-right: 5px;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  column-gap: 2.5%;
+}
+.controls .play-button {
+  background-color: #1db954;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.controls .play-button i {
+  font-size: 24px;
+  color: black;
+}
+.controls .other-controls i {
+  font-size: 24px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.table-container {
+  padding: 0 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+th,
+td {
+  padding: 10px;
+  text-align: left;
+}
+th {
+  font-size: 14px;
+  color: #b3b3b3;
+}
+td {
+  font-size: 16px;
+}
+tr:hover {
+  background-color: #282828;
+}
+
+.track-number {
+  width: 30px;
+}
+.track-title {
+  display: flex;
+  align-items: center;
+}
+.track-title img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+.footer {
+  background-color: #282828;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.link {
+  color: #1ed760 !important;
+}
+.auth-divider::before {
+  content: "";
+  height: 1px;
+  position: relative;
+  background-color: #a6a6a6;
+  display: block;
+}
+.auth-divider div {
+  position: absolute;
+  top: 30%;
+  left: 42%;
+}
+
+/* end custom css for single page */
+
+/* popover css */
+
+.popover-div {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: -5px;
+}
+
+.tr-border:hover .popover-div {
+  display: block;
+}
+
+.tr-border:hover .addIcon {
+  display: block;
+}
+
+.tr-border:hover .number {
+  display: none;
+}
+
+.popover {
+  position: absolute;
+  top: -30%;
+  left: -25%;
+  background-color: #333;
+  color: white;
+  text-wrap: nowrap;
+  display: none;
+  z-index: 1000;
+}
+
+.popover-target:hover ~ .popover {
+  display: block;
+}
+
+.addIcon {
+  position: absolute;
+  top: 30%;
+  left: -60%;
+  cursor: pointer;
+  display: none;
+}
+
+.playlist-popover-content {
+  position: absolute;
+  display: none;
+  top: -30%;
+  left: -120%;
+  background-color: #333;
+  box-shadow: inset;
+}
+
+.addIcon:hover ~ .playlist-popover-content {
+  display: block;
+}
+
+.addIcon:hover {
+  background-color: white;
+  border-radius: 50%;
+}
+
+.editIcon {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  background-color: rgba(0, 0, 0, 0.526);
+  padding: 19%;
+  border-radius: 3%;
+  display: none;
+}
+
+
+.bg-music:hover .editIcon{
+  display: block;
+  transition: ease-in-out;
+ 
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.fs-large{
+  font-size: 5em;
+  font-weight: 1000;
+}
