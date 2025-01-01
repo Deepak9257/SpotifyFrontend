@@ -7,7 +7,7 @@ function Forgot() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    var res = await axios.post("http://127.0.0.1:5000/auth/forgot", {
+    var res = await axios.post("http://spotifybackend.ap-1.evennode.com//auth/forgot", {
       email: uemail,
     });
 

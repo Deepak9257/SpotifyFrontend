@@ -14,7 +14,7 @@ function RytBar() {
     }, []);
 
     const getArtists = async () => {
-        var res = await axios.get("http://127.0.0.1:5000/artist/getAll");
+        var res = await axios.get("http://spotifybackend.ap-1.evennode.com//artist/getAll");
 
         console.log(res.data);
 
@@ -29,7 +29,7 @@ function RytBar() {
     }, [])
 
     const getAlbums = async () => {
-        var res = await axios.get("http://127.0.0.1:5000/album/getAll")
+        var res = await axios.get("http://spotifybackend.ap-1.evennode.com//album/getAll")
         setAlbum(res.data.albumData)
         setLoading(false)
 

@@ -3,23 +3,18 @@ import { useEffect, useState } from 'react';
 const Pricing = () => {
 
   const [pricingplan, setpricingplan] = useState([]);
-  const [userId, setUserId] = useState("");
-  const [paymentId, setPaymentId] = useState("");
-  const [orderId, setOrderId] = useState("");
-  const [amount, setAmount] = useState("");
-  const [status, setStatus] = useState("");
+
 
   useEffect(() => {
 
     getpricingplan()
-
 
   }, [])
 
   const getpricingplan = async () => {
 
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
-    var res = await axios.get("http://127.0.0.1:5000/pricing/getAll");
+    var res = await axios.get("http://spotifybackend.ap-1.evennode.com//pricing/getAll");
     res = res.data;
 
     setpricingplan(res.data);
@@ -33,7 +28,7 @@ const Pricing = () => {
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
       
   
-    var res= await axios.post("http://127.0.0.1:5000/payment/createOrder", {
+    var res= await axios.post("http://spotifybackend.ap-1.evennode.com//payment/createOrder", {
      amount:plan.amount * 100
     });
     res = res.data
@@ -50,14 +45,16 @@ const Pricing = () => {
         axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
       
         console.log(response)
-        var res= await axios.post("http://127.0.0.1:5000/payment/create", {
+        var res= await axios.post("http://spotifybackend.ap-1.evennode.com//payment/create", {
           orderId:response.razorpay_order_id, paymentId:response.razorpay_payment_id, amount:plan.amount, status:"pending", razorpay_signature:response.razorpay_signature
         });
        
+
+
       },
       "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
         "name": "Deepak Kumar", //your customer's name
-        "email": "gaurav.kumar@example.com",
+        "email": "gauravkumar@example.com",
         "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
       },
       "notes": {

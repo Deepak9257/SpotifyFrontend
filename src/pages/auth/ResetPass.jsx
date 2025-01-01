@@ -8,7 +8,7 @@ function ResetPass() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = window.location.pathname.split('/resetpassword/')[1];
-    var res = await axios.post("http://127.0.0.1:5000/auth/resetpassword", {
+    var res = await axios.post("http://spotifybackend.ap-1.evennode.com//auth/resetpassword", {
       password,
       token
     });
