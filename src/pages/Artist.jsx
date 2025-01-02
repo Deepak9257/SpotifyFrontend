@@ -18,7 +18,7 @@ const Artist = () => {
 
     const getArtist = async () => {
         const id = window.location.pathname.split('/artist/')[1]
-        var res = await axios.get("http://spotifybackend.ap-1.evennode.com//artist/get/" + id)
+        var res = await axios.get("http://127.0.0.1:5000/artist/get/" + id)
         res = res.data
         console.log(res.data);
         setArtist(res.data)
@@ -40,7 +40,7 @@ const Artist = () => {
     const getUser = async () => {
 
         const token = localStorage.getItem("token");
-        var res = await axios.post("http://spotifybackend.ap-1.evennode.com//auth/getUser", { token });
+        var res = await axios.post("http://127.0.0.1:5000/auth/getUser", { token });
         res=res.data; 
         setUser(res.data);
 

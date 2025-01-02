@@ -23,7 +23,7 @@ const Album = () => {
 
     const getAlbum = async () => {
         const id = window.location.pathname.split("/album/")[1];
-        var res = await axios.get("http://spotifybackend.ap-1.evennode.com//album/get/" + id);
+        var res = await axios.get("http://127.0.0.1:5000/album/get/" + id);
         res = res.data;
         console.log("album data", res.data);
         setAlbum(res.data);
@@ -32,7 +32,7 @@ const Album = () => {
 
     const getSong = async () => {
         const id = window.location.pathname.split("/album/")[1];
-        var res = await axios.get("http://spotifybackend.ap-1.evennode.com//song/getAllByAlbum/" + id);
+        var res = await axios.get("http://127.0.0.1:5000/song/getAllByAlbum/" + id);
         res = res.data;
         console.log(res.data);
         setSongs(res.data);
@@ -41,7 +41,7 @@ const Album = () => {
 
     const AddPlaylistSong = async (e) => {
         e.preventDefault();
-        var res = await axios.post("http://spotifybackend.ap-1.evennode.com//playlistSong/create", {
+        var res = await axios.post("http://127.0.0.1:5000/playlistSong/create", {
             song: songId,
             playlistId,
             artist: artistID,
@@ -58,7 +58,7 @@ const Album = () => {
     }, []);
 
     const getAllPlaylist = async () => {
-        var res = await axios.get("http://spotifybackend.ap-1.evennode.com//playlist/getAll");
+        var res = await axios.get("http://127.0.0.1:5000/playlist/getAll");
         res = res.data;
         setPlaylist(res.data);
         console.log(res.data);
@@ -75,7 +75,7 @@ const Album = () => {
 
     const getUser = async () => {
         const token = localStorage.getItem("token");
-        var res = await axios.post("http://spotifybackend.ap-1.evennode.com//auth/getUser", { token });
+        var res = await axios.post("http://127.0.0.1:5000/auth/getUser", { token });
         res = res.data;
         setUser(res.data);
     };

@@ -14,7 +14,7 @@ function Leftbar() {
 
   const createPlaylist = async (e) => {
     e.preventDefault();
-    var res = await axios.post("http://spotifybackend.ap-1.evennode.com//playlist/create", {
+    var res = await axios.post("http://127.0.0.1:5000/playlist/create", {
       name, image, status,
     });
     res = res.data;
@@ -31,7 +31,7 @@ function Leftbar() {
   }, []);
 
   const getAllPlaylist = async () => {
-    var res = await axios.get("http://spotifybackend.ap-1.evennode.com//playlist/getAll");
+    var res = await axios.get("http://127.0.0.1:5000/playlist/getAll");
     res = res.data;
     setPlaylist(res.data);
     console.log(res.data);

@@ -14,7 +14,7 @@ function SingnUp() {
   const validateEmail = async (e) => {
     e.preventDefault();
     setMsg('')
-    var res = await axios.post('http://spotifybackend.ap-1.evennode.com//auth/validateEmail', { email })
+    var res = await axios.post('http://127.0.0.1:5000/auth/validateEmail', { email })
     res = res.data;
 
     if (res.status == true) {
@@ -35,7 +35,7 @@ function SingnUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    var res = await axios.post("http://spotifybackend.ap-1.evennode.com//auth/register", {
+    var res = await axios.post("http://127.0.0.1:5000/auth/register", {
       name: uname, email: email, password: upassword
     })
 
