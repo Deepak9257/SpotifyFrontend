@@ -24,7 +24,7 @@ function App() {
       <BrowserRouter>
         <Routes>
            <Route element={<AppLayout/>}>
-           <Route path="/spotify9292.netlify.app" element={<Home/>}/>
+           <Route path="/" element={<Home/>}/>
            <Route path="/artist/:id" element={<Artist/>}/>
            <Route path="/album/:id" element={<Album/>}/>
 
@@ -34,7 +34,7 @@ function App() {
 
        
           <Route element={<AuthLayout/>}>
-          <Route path="/" element={<Home/>}/>
+     
           <Route path="/signup" element={<SingnUp/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/forgot" element={<Forgot/>}/>
