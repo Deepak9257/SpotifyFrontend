@@ -14,7 +14,7 @@ const Pricing = () => {
   const getpricingplan = async () => {
 
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
-    var res = await axios.get("http://127.0.0.1:5000/pricing/getAll");
+    var res = await axios.get("https://spotify-backend-ten.vercel.app/pricing/getAll");
     res = res.data;
 
     setpricingplan(res.data);
@@ -28,7 +28,7 @@ const Pricing = () => {
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
       
   
-    var res= await axios.post("http://127.0.0.1:5000/payment/createOrder", {
+    var res= await axios.post("https://spotify-backend-ten.vercel.app/payment/createOrder", {
      amount:plan.amount * 100
     });
     res = res.data
@@ -45,7 +45,7 @@ const Pricing = () => {
         axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
       
         console.log(response)
-        var res= await axios.post("http://127.0.0.1:5000/payment/create", {
+        var res= await axios.post("https://spotify-backend-ten.vercel.app/payment/create", {
           orderId:response.razorpay_order_id, paymentId:response.razorpay_payment_id, amount:plan.amount, status:"pending", razorpay_signature:response.razorpay_signature
         });
        

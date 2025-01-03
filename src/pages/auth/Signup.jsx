@@ -14,7 +14,7 @@ function SingnUp() {
   const validateEmail = async (e) => {
     e.preventDefault();
     setMsg('')
-    var res = await axios.post('http://127.0.0.1:5000/auth/validateEmail', { email })
+    var res = await axios.post('https://spotify-backend-ten.vercel.app/auth/validateEmail', { email })
     res = res.data;
 
     if (res.status == true) {
@@ -35,7 +35,7 @@ function SingnUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    var res = await axios.post("http://127.0.0.1:5000/auth/register", {
+    var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/register", {
       name: uname, email: email, password: upassword
     })
 
