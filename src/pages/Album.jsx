@@ -1,11 +1,15 @@
 import axios from "axios";
 import Bottom from "../components/Bottom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import Player from "../components/AudioPlayer";
 import AddIcon from "../Icons/AddIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
 
+
 const Album = () => {
+
+   
+
     const [loading, setLoading] = useState(true);
     const [PlayerSong, setPlayerSong] = useState("");
 
