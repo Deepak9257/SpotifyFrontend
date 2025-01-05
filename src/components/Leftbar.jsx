@@ -27,6 +27,9 @@ function Leftbar() {
     var user = localStorage.getItem("token");
     if (user) {
       getAllPlaylist();
+     
+    } else{
+      setLoading(false)
     }
   }, []);
 
@@ -34,9 +37,12 @@ function Leftbar() {
     var res = await axios.get("https://spotify-backend-ten.vercel.app/playlist/getAll");
     res = res.data;
     setPlaylist(res.data);
-    console.log(res.data);
-    setLoading(false);
+    setLoading(false)
+  
+    
   };
+
+
     // loading condition
   if (loading) {
     return (
@@ -113,6 +119,7 @@ function Leftbar() {
       </>
     );
   }
+
 
   return (
     <>
@@ -199,7 +206,9 @@ function Leftbar() {
               </div>
             </div>
           </div>
+          
         )}
+        
 
         <div className="text-white mt-5">
           <div className="">
