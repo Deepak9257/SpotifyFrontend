@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import MusicIcon from "../Icons/MusicIcon";
 
 function Leftbar() {
-  const navigate = useNavigate();
+  
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [status, setStatus] = useState("");
@@ -15,11 +15,34 @@ function Leftbar() {
   const createPlaylist = async (e) => {
     e.preventDefault();
     var res = await axios.post("https://spotify-backend-ten.vercel.app/playlist/create", {
-      name, image, status,
+      name, image, status, userId:user?._id
     });
     res = res.data;
-    window.location.reload();
+    // window.location.reload();
+    console.log(res.data)
   };
+
+
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+      const user = localStorage.getItem("token");
+      if (user) {
+
+          getUser();
+      }
+
+  }, []);
+
+
+  const getUser = async () => {
+      const token = localStorage.getItem("token");
+      var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/getUser", { token });
+      res = res.data;
+      setUser(res.data);
+      console.log(res.data)
+
+  }
 
   const [playlist, setPlaylist] = useState([]);
 
@@ -34,6 +57,7 @@ function Leftbar() {
   }, []);
 
   const getAllPlaylist = async () => {
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
     var res = await axios.get("https://spotify-backend-ten.vercel.app/playlist/getAll");
     res = res.data;
     setPlaylist(res.data);

@@ -8,7 +8,7 @@ import SmallPlayIcon from "../Icons/SmallPlayIcon";
 
 const Album = () => {
 
-   
+
 
     const [loading, setLoading] = useState(true);
     const [PlayerSong, setPlayerSong] = useState("");
@@ -45,11 +45,13 @@ const Album = () => {
 
     const AddPlaylistSong = async (e) => {
         e.preventDefault();
+
         var res = await axios.post("https://spotify-backend-ten.vercel.app/playlistSong/create", {
             song: songId,
             playlistId,
             artist: artistID,
             album: albumID,
+            userId: user?._id
         });
         res = res.data;
         console.log(res.data);
@@ -62,6 +64,7 @@ const Album = () => {
     }, []);
 
     const getAllPlaylist = async () => {
+        
         var res = await axios.get("https://spotify-backend-ten.vercel.app/playlist/getAll");
         res = res.data;
         setPlaylist(res.data);
@@ -82,6 +85,8 @@ const Album = () => {
         var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/getUser", { token });
         res = res.data;
         setUser(res.data);
+        console.log(res.data);
+
     };
 
     if (loading) {
@@ -97,6 +102,7 @@ const Album = () => {
     }
 
     const user2 = user?._id ? user : null;
+    console.log(user?._id)
 
     return (
         <>
@@ -184,7 +190,7 @@ const Album = () => {
                                                     <span
                                                         className="addIcon"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#AddPlaylistID"
+                                                        data-bs-target="#AddToPlaylist"
                                                         onClick={() => {
                                                             setSongId(song._id);
                                                             setAlbumID(song?.album?._id);
@@ -197,6 +203,7 @@ const Album = () => {
                                                     <div className="playlist-popover-content text-white px-3 rounded shadow">
                                                         Add to playlist
                                                     </div>
+
                                                 </td>
                                             </tr>
                                         ))}
@@ -215,14 +222,15 @@ const Album = () => {
             {playlist && (
                 <div
                     className="modal fade"
-                    id="AddPlaylistID"
+                    id="AddToPlaylist"
                     tabIndex={-1}
+                    aria-labelledby="CreatePlaylist"
                     aria-hidden="true"
                 >
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h1 className="modal-title fs-5" id="ViewSongModal">
+                                <h1 className="modal-title fs-5" id="AddToPlaylist">
                                     Add to Playlist
                                 </h1>
                                 <button
@@ -250,7 +258,7 @@ const Album = () => {
                                                 </>
                                             );
                                         })}
-                                </div>  
+                                </div>
                                 <div className="modal-footer">
                                     <button type="submit" className="btn btn-info">
                                         Done
@@ -261,6 +269,11 @@ const Album = () => {
                     </div>
                 </div>
             )}
+
+         
+
+
+
 
 
 

@@ -3,6 +3,7 @@ import HomeIcon from '../Icons/HomeIcon';
 import FileIcon from '../Icons/FileIcon';
 import SearchIcon from '../Icons/SearchIcon';
 import SpotifyIcon from '../Icons/SpotifyIcon';
+import {useNavigate} from "react-router-dom"
 
 
 function Navbar({ user }) {
@@ -11,11 +12,12 @@ function Navbar({ user }) {
 
 
     const handleLogout = () => {
+        
         const confirm = window.confirm("Are you sure?");
         if (confirm) {
             localStorage.removeItem("token");
             window.location.reload();
-
+            useNavigate("/")
 
         }
     }

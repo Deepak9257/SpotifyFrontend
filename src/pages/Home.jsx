@@ -30,7 +30,7 @@ function Home() {
         res = res.data;
 
         setUser(res.data);
-
+        console.log(res.data)
 
     }
 
