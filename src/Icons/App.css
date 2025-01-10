@@ -57,8 +57,8 @@
 
 .eye {
   left: 88%;
-  top:18%;
-
+  top:10%;
+  height: 28px;
 }
 
 .eye:hover {

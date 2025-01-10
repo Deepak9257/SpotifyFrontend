@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MusicIcon from "../Icons/MusicIcon";
 
-function Leftbar() {
-  
+function Leftbar({ user }) {
+
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [status, setStatus] = useState("");
@@ -15,7 +15,7 @@ function Leftbar() {
   const createPlaylist = async (e) => {
     e.preventDefault();
     var res = await axios.post("https://spotify-backend-ten.vercel.app/playlist/create", {
-      name, image, status, userId:user?._id
+      name, image, status, userId: user?._id
     });
     res = res.data;
     // window.location.reload();
@@ -23,26 +23,6 @@ function Leftbar() {
   };
 
 
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-      const user = localStorage.getItem("token");
-      if (user) {
-
-          getUser();
-      }
-
-  }, []);
-
-
-  const getUser = async () => {
-      const token = localStorage.getItem("token");
-      var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/getUser", { token });
-      res = res.data;
-      setUser(res.data);
-      console.log(res.data)
-
-  }
 
   const [playlist, setPlaylist] = useState([]);
 
@@ -50,8 +30,8 @@ function Leftbar() {
     var user = localStorage.getItem("token");
     if (user) {
       getAllPlaylist();
-     
-    } else{
+
+    } else {
       setLoading(false)
     }
   }, []);
@@ -62,12 +42,11 @@ function Leftbar() {
     res = res.data;
     setPlaylist(res.data);
     setLoading(false)
-  
-    
+
   };
 
 
-    // loading condition
+  // loading condition
   if (loading) {
     return (
       <>
@@ -76,22 +55,22 @@ function Leftbar() {
           style={{ backgroundColor: "#121212", height: "78vh" }}
         >
           <div className=" fw-bold text-grey p-3 d-flex justify-content-between align-items-center">
-             
+
             <span className="d-flex gap-3 align-items-center">
-               
-              <LibraryIcon /> Your library 
-            </span> 
+
+              <LibraryIcon /> Your library
+            </span>
             <span>
-               
+
               <a
                 href="#"
                 data-bs-toggle="modal"
                 data-bs-target="#CreatePlaylist"
               >
-                 
-                <PlusIcon /> 
-              </a> 
-            </span> 
+
+                <PlusIcon />
+              </a>
+            </span>
           </div>
 
           <div
@@ -110,19 +89,19 @@ function Leftbar() {
 
           <div className="text-white mt-5">
             <div className="">
-               
+
               <a href="#" className="text-decoration-none text-white">
-                 
-                Legal 
-              </a> 
+
+                Legal
+              </a>
               <a href="#" className="text-decoration-none text-white">
-                 
+
                 Safety & PrivacyCenter
-              </a> 
+              </a>
               <a href="#" className="text-decoration-none text-white">
-                 
+
                 Privacy Policy
-              </a> 
+              </a>
             </div>
             <div className="">Cookies AboutAds Accessibility</div>
 
@@ -130,13 +109,13 @@ function Leftbar() {
           </div>
 
           <div className="px-3 my-3 text-white">
-             
+
             <button
               type="button"
               className="btn rounded-5 border border-white text-white"
             >
-               
-              English 
+
+              English
             </button>
           </div>
         </div>
@@ -144,6 +123,7 @@ function Leftbar() {
     );
   }
 
+  const user2 = user?._id ? user : null;
 
   return (
     <>
@@ -152,103 +132,195 @@ function Leftbar() {
         style={{ backgroundColor: "#121212", height: "78vh" }}
       >
         <div className=" fw-bold text-grey p-3 d-flex justify-content-between align-items-center">
-           
+
           <span className="d-flex gap-3 align-items-center">
-             
-            <LibraryIcon /> Your library 
-          </span> 
+
+            <LibraryIcon /> Your library
+          </span>
           <span>
-             
+
             <a href="#" data-bs-toggle="modal" data-bs-target="#CreatePlaylist">
-               
-              <PlusIcon /> 
-            </a> 
-          </span> 
+
+              <PlusIcon />
+            </a>
+          </span>
         </div>
 
         {playlist && playlist.length > 0 ? (
           playlist &&
           playlist.map((item, index) => (
             <a href={`/playlist/${item._id}`} className="text-decoration-none">
-               
-      
+
+
               <div className="d-flex gap-2 align-items-center text-white rounded p-2">
-                 <div className="p-2" style={{ backgroundColor: "#2c2c2c" }}>     
-                 <MusicIcon /> 
-               </div>
+                <div className="p-2" style={{ backgroundColor: "#2c2c2c" }}>
+                  <MusicIcon />
+                </div>
 
-               <div>
-               {item.name} 
-                
-                 </div>
+                <div>
+                  {item.name}
 
-              </div> 
+                </div>
+
+              </div>
             </a>
           ))
-        ) : (
-          <div
-            className="scroll py-2 w-100"
-            style={{ backgroundColor: "#121212", maxHeight: "35vh" }}
-          >
-            <div
-              className="rounded text-white my-3 p-2"
-              style={{ backgroundColor: "#2c2c2c" }}
-            >
-              <h4>Create your first playlist</h4>
-              <h5>It's easy, we'll help you</h5>
-              <a
-                href="/playlist"
-                className="text-decoration-none text-dark"
-                data-bs-toggle="modal"
-                data-bs-target="#CreatePlaylist"
-              >
-                 
-                <div className="px-3">
-                   
-                  <button
-                    type="button"
-                    className="btn btn-light rounded-5 text-black"
-                  >
-                     
-                    Create Playlist
-                  </button>
-                </div>
-              </a>
-            </div>
+        ) :
 
-            <div
-              className="rounded text-white my-3 p-2"
-              style={{ backgroundColor: "#2c2c2c" }}
-            >
-              <h4>Let's find some podcasts to follow</h4>
-              <h5>We'll keep you updated on new episodes</h5>
-              <div className="px-3">
-                 
-                <button type="button" className="btn btn-light rounded-5">
-                  Browse podcasts
-                </button>
+          !user2 ? (
+            <>
+
+              <div
+                className="scroll py-2 w-100"
+                style={{ backgroundColor: "#121212", maxHeight: "35vh" }}
+              >
+                <div
+                  className="rounded text-white my-3 p-2"
+                  style={{ backgroundColor: "#2c2c2c" }}
+                >
+                  <h4>Create your first playlist</h4>
+                  <h5>It's easy, we'll help you</h5>
+                  <a
+                    href="#"
+                    className="text-decoration-none text-dark"
+                    data-bs-toggle="modal"
+                    data-bs-target="#LoginModal"
+                  >
+
+                    <div className="px-3">
+
+                      <button
+                        type="button"
+                        className="btn btn-light rounded-5 text-black"
+                      >
+                        Create Playlist
+                      </button>
+                    </div>
+                  </a>
+                </div>
+
+                <div
+                  className="rounded text-white my-3 p-2"
+                  style={{ backgroundColor: "#2c2c2c" }}
+                >
+                  <h4>Let's find some podcasts to follow</h4>
+                  <h5>We'll keep you updated on new episodes</h5>
+                  <div className="px-3">
+
+                    <button type="button" className="btn btn-light rounded-5">
+                      Browse podcasts
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          
-        )}
-        
+
+              {/* Modal for Login */}
+              <div
+                className="modal fade"
+                id="LoginModal"
+                tabIndex="-1"
+                aria-labelledby="LoginModalLabel"
+                aria-hidden="true"
+              >
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="LoginModalLabel">Login</h5>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div className="modal-body">
+                      <p>Please log in to create a playlist.</p>
+                      {/* Login form or other components */}
+                      <form>
+                        <div className="mb-3">
+                          <label htmlFor="email" className="form-label">Email</label>
+                          <input type="email" className="form-control" id="email" required />
+                        </div>
+                        <div className="mb-3">
+                          <label htmlFor="password" className="form-label">Password</label>
+                          <input type="password" className="form-control" id="password" required />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Login</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </>
+
+          ) : (
+            <>
+
+              <div
+                className="scroll py-2 w-100"
+                style={{ backgroundColor: "#121212", maxHeight: "35vh" }}
+              >
+                <div
+                  className="rounded text-white my-3 p-2"
+                  style={{ backgroundColor: "#2c2c2c" }}
+                >
+                  <h4>Create your first playlist</h4>
+                  <h5>It's easy, we'll help you</h5>
+                  <a
+                    href="/playlist"
+                    className="text-decoration-none text-dark"
+                    data-bs-toggle="modal"
+                    data-bs-target="#CreatePlaylist"
+                  >
+
+                    <div className="px-3">
+
+                      <button
+                        type="button"
+                        className="btn btn-light rounded-5 text-black"
+                      >
+
+                        Create Playlist
+                      </button>
+                    </div>
+                  </a>
+                </div>
+
+                <div
+                  className="rounded text-white my-3 p-2"
+                  style={{ backgroundColor: "#2c2c2c" }}
+                >
+                  <h4>Let's find some podcasts to follow</h4>
+                  <h5>We'll keep you updated on new episodes</h5>
+                  <div className="px-3">
+
+                    <button type="button" className="btn btn-light rounded-5">
+                      Browse podcasts
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </>
+
+          )}
+
 
         <div className="text-white mt-5">
           <div className="">
-             
+
             <a href="#" className="text-decoration-none text-white">
-               
-              Legal 
-            </a> 
+
+              Legal
+            </a>
             <a href="#" className="text-decoration-none text-white">
-               
+
               Safety & PrivacyCenter
-            </a> 
+            </a>
             <a href="#" className="text-decoration-none text-white">
-               
+
               Privacy Policy
-            </a> 
+            </a>
           </div>
           <div className="">Cookies AboutAds Accessibility</div>
 
@@ -256,13 +328,13 @@ function Leftbar() {
         </div>
 
         <div className="px-3 my-3 text-white">
-           
+
           <button
             type="button"
             className="btn rounded-5 border border-white text-white"
           >
-             
-            English 
+
+            English
           </button>
         </div>
 

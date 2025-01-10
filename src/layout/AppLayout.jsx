@@ -32,7 +32,7 @@ const AppLayout = () => {
         <>
 
             <Navbar user={user}/>
-            <Leftbar />
+            <Leftbar user={user} />
             <Outlet />
             
 
