@@ -66,7 +66,7 @@ function Login() {
         <div className=" p-5 grey w-50 w-sm-100 rounded d-flex flex-column align-items-center">
           <div className="w-50">
             <div className="mb-3 text-white">
-              <i class="fa-brands fa-spotify fa-3x"></i>
+              <i className="fa-brands fa-spotify fa-3x"></i>
 
               <h1 className="fw-bold fs-3">Log in to Spotify</h1>
             </div>
@@ -79,7 +79,7 @@ function Login() {
 
                 <span className="fs-4 col-3">
 
-                  <i class="bi bi-google"></i>
+                  <i className="bi bi-google"></i>
                 </span>
                 <span className="col"> Continue with Google</span>
               </button>
@@ -90,7 +90,7 @@ function Login() {
 
                 <span className="fs-4 col-3">
 
-                  <i class="bi bi-facebook"></i>
+                  <i className="bi bi-facebook"></i>
                 </span>
                 <span className="col"> Continue with Facebook</span>
               </button>
@@ -101,7 +101,7 @@ function Login() {
 
                 <span className="fs-4 col-3">
 
-                  <i class="bi bi-apple"></i>
+                  <i className="bi bi-apple"></i>
                 </span>
                 <span className="col"> Continue with Apple</span>
               </button>
@@ -213,11 +213,11 @@ function Login() {
 
       {/* for small screen */}
 
-      <div className="text-center d-flex justify-content-center">
+      <div className="d-none sm-screen text-center d-flex justify-content-center">
         <div className="w-100 p-2 d-flex flex-column align-items-center">
           <div className="w-100">
             <div className="mb-3 text-white">
-              <i class="fa-brands fa-spotify fa-3x"></i>
+              <i className="fa-brands fa-spotify fa-3x"></i>
 
               <h1 className="fw-bold fs-3">Log in to Spotify</h1>
             </div>
@@ -230,7 +230,7 @@ function Login() {
 
                 <span className="fs-4 col-3">
 
-                  <i class="bi bi-google"></i>
+                  <i className="bi bi-google"></i>
                 </span>
                 <span className="col"> Continue with Google</span>
               </button>
@@ -241,7 +241,7 @@ function Login() {
 
                 <span className="fs-4 col-3">
 
-                  <i class="bi bi-facebook"></i>
+                  <i className="bi bi-facebook"></i>
                 </span>
                 <span className="col"> Continue with Facebook</span>
               </button>
@@ -252,7 +252,7 @@ function Login() {
 
                 <span className="fs-4 col-3">
 
-                  <i class="bi bi-apple"></i>
+                  <i className="bi bi-apple"></i>
                 </span>
                 <span className="col"> Continue with Apple</span>
               </button>
@@ -285,7 +285,7 @@ function Login() {
               <div className="row-gap-3 d-grid p-3 ">
                 <div className="text-white text-start fw-bold col">
 
-                  <label htmlFor="email">Email or Username</label>
+                  <label htmlFor="email2">Email or Username</label>
                 </div>
                 <div className="col">
                   <input
@@ -293,7 +293,7 @@ function Login() {
                     type="email"
                     onKeyUp={(e) => setEmail(e.target.value)}
                     className={"w-100 p-2 rounded hvr grey b text-white"}
-                    id="email"
+                    id="email2"
                     placeholder="Email or Username"
                     required
                   />
@@ -301,7 +301,7 @@ function Login() {
 
                 <div className="text-white text-start fw-bold col">
 
-                  <label htmlFor="pswrd">Password</label>
+                  <label htmlFor="2">Password</label>
                 </div>
                 <div className="col position-relative z-0 d-flex align-items-center">
 
@@ -310,7 +310,7 @@ function Login() {
                       type={pswrd ? "password" : "text"}
                       onKeyUp={(e) => setPassword(e.target.value)}
                       className="w-100 p-2 rounded hvr grey b"
-                      id="pswrd"
+                      id="pswrd2"
                       placeholder="Password"
                       required
                     />

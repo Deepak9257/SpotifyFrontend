@@ -3,7 +3,8 @@ import HomeIcon from '../Icons/HomeIcon';
 import FileIcon from '../Icons/FileIcon';
 import SearchIcon from '../Icons/SearchIcon';
 import SpotifyIcon from '../Icons/SpotifyIcon';
-import {useNavigate} from "react-router-dom"
+import {useNavigate, Link} from "react-router-dom"
+
 
 
 function Navbar({ user }) {
@@ -26,15 +27,18 @@ function Navbar({ user }) {
 
         <>
             <div className="container-fluid">
+
                 <nav className="navbar row justify-content-between px-2">
-                    <div className="col-2">
-                        <a className="navbar-brand text-white ms-3" href="/">
+                    <div className="col-2 navbar-brand text-white ms-3">
+                    <Link to={"/"}>
+                        
                             <SpotifyIcon />
-                        </a>
+                        
+                    </Link>
                     </div>
 
                     <div className="col-4 d-flex align-items-center gap-2 text-white ">
-                        <div className='home-icon p-2 d-flex align-items-center'> <a href="/" className="d-flex align-items-center">  <HomeIcon /> </a>  </div>
+                        <div className='home-icon p-2 d-flex align-items-center'>  <Link to={"/"}> <HomeIcon /> </Link> </div>
                         <div className="d-flex bg-base rounded-pill align-items-center py-1 justify-content-between container-fluid" >
                             <div className='col-10 d-flex align-items-center'>
                                 <div className='col-1 py-1'>  <SearchIcon /> </div>

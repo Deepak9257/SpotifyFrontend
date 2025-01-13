@@ -1,7 +1,7 @@
-import {BrowserRouter,Routes,Route} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "./pages/Home"
 import SingnUp from "./pages/auth/Signup"
-import Login from "./pages/auth/Login" 
+import Login from "./pages/auth/Login"
 import Forgot from "./pages/auth/Forgot"
 import ResetPass from "./pages/auth/ResetPass"
 import "../src/components/index.css"
@@ -12,34 +12,39 @@ import Album from "./pages/Album"
 import Artist from "./pages/Artist"
 import Playlist from "./pages/Playlist"
 import Pricing from "./pages/Pricing"
-
-
+import songContext from "./contexts/createContext"
+import { useState } from "react"
 
 
 function App() {
+
+  const [currentSong, setCurrentSong] = useState('hello kashdf')
+  console.log('current song=',currentSong.songfile)
 
   return (
     <>
 
       <BrowserRouter>
+
         <Routes>
-           <Route element={<AppLayout/>}>
-           <Route path="/" element={<Home/>}/>
-           <Route path="/artist/:id" element={<Artist/>}/>
-           <Route path="/album/:id" element={<Album/>}/>
 
-           <Route path="/playlist/:id" element={<Playlist/>}/>
-           <Route path="/pricing" element={<Pricing/>}/>
-           </Route>
+          <Route element={<songContext.Provider value={{ currentSong, setCurrentSong }}> <AppLayout /> </songContext.Provider>}>
+            <Route path="/" element={<Home />} />
+            <Route path="/artist/:id" element={<Artist />} />
+            <Route path="/album/:id" element={<Album />} />
 
-       
-          <Route element={<AuthLayout/>}>
-     
-          <Route path="/signup" element={<SingnUp/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/forgot" element={<Forgot/>}/>
-          <Route path="/resetpassword/:token" element={<ResetPass/>}/> 
-           </Route>
+            <Route path="/playlist/:id" element={<Playlist />} />
+            <Route path="/pricing" element={<Pricing />} />
+          </Route>
+
+
+          <Route element={<AuthLayout />}>
+
+            <Route path="/signup" element={<SingnUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot" element={<Forgot />} />
+            <Route path="/resetpassword/:token" element={<ResetPass />} />
+          </Route>
 
         </Routes>
       </BrowserRouter>

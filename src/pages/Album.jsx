@@ -4,11 +4,13 @@ import React, { useEffect, useState } from 'react';
 import Player from "../components/AudioPlayer";
 import AddIcon from "../Icons/AddIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
-
+import { useContext } from "react";
+import songContext from "../contexts/createContext";
 
 const Album = () => {
 
-
+    const {currentSong, setCurrentSong} = useContext(songContext);
+   
 
     const [loading, setLoading] = useState(true);
     const [PlayerSong, setPlayerSong] = useState("");
@@ -102,8 +104,7 @@ const Album = () => {
     }
 
     const user2 = user?._id ? user : null;
-    console.log(user?._id)
-
+    
     return (
         <>
             <div className="w-100 float-center text-white container-fluid">
@@ -156,7 +157,7 @@ const Album = () => {
                                             <tr className="tr-border position-relative">
                                                 <td class="track-number "><div className="number">{index + 1}</div></td>
 
-                                                <td className="popover-div" onClick={() => setPlayerSong(song.songfile)}>
+                                                <td className="popover-div" onClick={() => setCurrentSong(song)}>
 
                                                     <div className="smallplayIcon popover-container">
 
@@ -216,7 +217,7 @@ const Album = () => {
 
             {!user2 && <Bottom />}
 
-            {PlayerSong && <Player file={PlayerSong} />}
+            {currentSong && <Player file={currentSong.songfile} />}
 
             {/* Playlist Model */}
             {playlist && (

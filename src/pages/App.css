@@ -396,5 +396,9 @@ tr:hover {
     display: none !important;
    }
  
+   .sm-screen{
+    display: block !important;
+   }
+
 }
 
