@@ -37,9 +37,6 @@
   border: 2px solid gray;
 }
 
-.login {
-  background: linear-gradient(rgb(39, 37, 37) 50%, rgb(0, 0, 0) 100%);
-}
 
 .grey {
   background-color: rgb(17, 16, 16);
@@ -379,3 +376,25 @@ tr:hover {
   font-size: 5em;
   font-weight: 1000;
 }
+
+.login {
+  /* background: linear-gradient(rgb(39, 37, 37) 50%, rgb(0, 0, 0) 100%); */
+  background: linear-gradient(rgb(39, 37, 37) 50%, rgb(0, 0, 0) 100%);
+}
+
+
+@media only screen and (max-width: 426px) {
+  .login .div {
+   padding: 0 !important;
+   
+
+  }
+  .grey{
+   display: none !important;
+  }
+  .login-bottom{
+    display: none !important;
+   }
+ 
+}
+
