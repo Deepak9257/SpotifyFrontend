@@ -9,8 +9,8 @@ import songContext from "../contexts/createContext";
 
 const Album = () => {
 
-    const {currentSong, setCurrentSong} = useContext(songContext);
-   
+    const { currentSong, setCurrentSong } = useContext(songContext);
+
 
     const [loading, setLoading] = useState(true);
     const [PlayerSong, setPlayerSong] = useState("");
@@ -66,7 +66,7 @@ const Album = () => {
     }, []);
 
     const getAllPlaylist = async () => {
-        
+
         var res = await axios.get("https://spotify-backend-ten.vercel.app/playlist/getAll");
         res = res.data;
         setPlaylist(res.data);
@@ -104,7 +104,7 @@ const Album = () => {
     }
 
     const user2 = user?._id ? user : null;
-    
+
     return (
         <>
             <div className="w-100 float-center text-white container-fluid">
@@ -217,7 +217,6 @@ const Album = () => {
 
             {!user2 && <Bottom />}
 
-            {currentSong && <Player file={currentSong.songfile} />}
 
             {/* Playlist Model */}
             {playlist && (
@@ -271,7 +270,7 @@ const Album = () => {
                 </div>
             )}
 
-         
+
 
 
 

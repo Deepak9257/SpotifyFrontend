@@ -8,7 +8,6 @@ import { useContext } from "react";
 import songContext from "../contexts/createContext";
 
 
-
 function Home() {
 
     const {currentSong, setCurrentSong} = useContext(songContext);
@@ -46,7 +45,7 @@ function Home() {
         <>
             <RytBar />
             <Bottom user={user} />
-            {user2 && <Player file={currentSong.songfile}  />}
+            {/* {user2 && <Player file={currentSong.songfile}  />} */}
         </>
     )
 

@@ -1,10 +1,18 @@
 import { Outlet } from "react-router-dom";
 import Leftbar from "../components/Leftbar";
 import Navbar from "../components/Navbar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import Player from "../components/AudioPlayer";
+
+import songContext from "../contexts/createContext";
+
 import axios from 'axios'
 
 const AppLayout = () => {
+
+
+    const {currentSong, setCurrentSong} = useContext(songContext);
+
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -28,14 +36,19 @@ const AppLayout = () => {
         
        }
 
+
+
+       const user2 = user?._id ? user : null;
+       console.log('user2',user2 )
+
     return (
         <>
 
             <Navbar user={user}/>
-            <Leftbar user={user} />
+            <Leftbar user={user}/>
             <Outlet />
+            {user2 && <Player file={currentSong.songfile}  />}
             
-
         </>
     )
 }
