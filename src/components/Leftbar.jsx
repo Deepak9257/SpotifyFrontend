@@ -2,7 +2,7 @@ import LibraryIcon from "../Icons/LibraryIcon";
 import PlusIcon from "../Icons/PlusIcon";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MusicIcon from "../Icons/MusicIcon";
 
 function Leftbar({ user }) {
@@ -21,7 +21,6 @@ function Leftbar({ user }) {
     // window.location.reload();
     console.log(res.data)
   };
-
 
 
   const [playlist, setPlaylist] = useState([]);
@@ -149,7 +148,7 @@ function Leftbar({ user }) {
         {playlist && playlist.length > 0 ? (
           playlist &&
           playlist.map((item, index) => (
-            <a href={`/playlist/${item._id}`} className="text-decoration-none">
+            <Link to={`/playlist/${item._id}`} className="text-decoration-none">
 
 
               <div className="d-flex gap-2 align-items-center text-white rounded p-2">
@@ -163,7 +162,7 @@ function Leftbar({ user }) {
                 </div>
 
               </div>
-            </a>
+            </Link>
           ))
         ) :
 

@@ -7,6 +7,7 @@ import Player from "../components/AudioPlayer";
 import songContext from "../contexts/createContext";
 
 import axios from 'axios'
+import Bottom from "../components/Bottom";
 
 const AppLayout = () => {
 
@@ -47,6 +48,7 @@ const AppLayout = () => {
             <Navbar user={user}/>
             <Leftbar user={user}/>
             <Outlet />
+            <Bottom user={user} />
             {user2 && <Player file={currentSong.songfile}  />}
             
         </>

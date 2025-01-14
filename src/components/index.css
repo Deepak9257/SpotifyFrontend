@@ -93,3 +93,20 @@
   transition: 33ms;
 }
 
+
+
+.reactPlayer {
+  background-color: black;
+}
+
+.playIcon{
+  background: #fff;
+  color: black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25%;
+ 
+  
+}

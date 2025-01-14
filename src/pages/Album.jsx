@@ -103,8 +103,6 @@ const Album = () => {
         );
     }
 
-    const user2 = user?._id ? user : null;
-
     return (
         <>
             <div className="w-100 float-center text-white container-fluid">
@@ -215,7 +213,7 @@ const Album = () => {
                 )}
             </div>
 
-            {!user2 && <Bottom />}
+           
 
 
             {/* Playlist Model */}
@@ -269,16 +267,6 @@ const Album = () => {
                     </div>
                 </div>
             )}
-
-
-
-
-
-
-
-
-
-
 
 
 
