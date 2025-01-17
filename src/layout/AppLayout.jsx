@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import { useEffect, useState, useContext } from "react";
 import Player from "../components/AudioPlayer";
 
-import songContext from "../contexts/createContext";
+import songContext from "../contexts/SongContext";
 
 import axios from 'axios'
 import Bottom from "../components/Bottom";
@@ -13,6 +13,7 @@ const AppLayout = () => {
 
 
     const {currentSong, setCurrentSong} = useContext(songContext);
+
 
     const [user, setUser] = useState({});
 
@@ -38,17 +39,16 @@ const AppLayout = () => {
        }
 
 
-
        const user2 = user?._id ? user : null;
-       console.log('user2',user2 )
+
 
     return (
         <>
 
             <Navbar user={user}/>
             <Leftbar user={user}/>
-            <Outlet />
-            <Bottom user={user} />
+            <Outlet/>
+            <Bottom user={user}/>
             {user2 && <Player file={currentSong.songfile}  />}
             
         </>

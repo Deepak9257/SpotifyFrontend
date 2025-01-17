@@ -1,15 +1,16 @@
 import axios from "axios";
 import Bottom from "../components/Bottom";
 import React, { useEffect, useState } from 'react';
-import Player from "../components/AudioPlayer";
 import AddIcon from "../Icons/AddIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import { useContext } from "react";
-import songContext from "../contexts/createContext";
+import songContext from "../contexts/SongContext";
+import playlistContext from "../contexts/PlaylistContext";
 
 const Album = () => {
 
-    const { currentSong, setCurrentSong } = useContext(songContext);
+    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const { setCurrentPlaylist } = useContext(playlistContext);
 
 
     const [loading, setLoading] = useState(true);
@@ -33,6 +34,7 @@ const Album = () => {
         res = res.data;
         console.log("album data", res.data);
         setAlbum(res.data);
+
         setLoading(false);
     };
 
@@ -42,6 +44,7 @@ const Album = () => {
         res = res.data;
         console.log(res.data);
         setSongs(res.data);
+
         setLoading(false);
     };
 
@@ -155,11 +158,11 @@ const Album = () => {
                                             <tr className="tr-border position-relative">
                                                 <td class="track-number "><div className="number">{index + 1}</div></td>
 
-                                                <td className="popover-div" onClick={() => setCurrentSong(song)}>
+                                                <td className="popover-div" >
 
                                                     <div className="smallplayIcon popover-container">
 
-                                                        <div className="popover-target">
+                                                        <div className="popover-target" onClick={() => { { setCurrentIndex(index), setCurrentSong(song) , setCurrentPlaylist(songs) } }} >
                                                             <SmallPlayIcon />
                                                         </div>
 
@@ -213,7 +216,7 @@ const Album = () => {
                 )}
             </div>
 
-           
+
 
 
             {/* Playlist Model */}

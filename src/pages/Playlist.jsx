@@ -1,26 +1,31 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
-import Player from "../components/AudioPlayer";
+import { useState, useEffect, useContext } from "react";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import EditIcon from "../Icons/EditIcon";
+import songContext from "../contexts/SongContext";
 
 
 
 const Playlist = () => {
 
+    const {currentSong, setCurrentSong} = useContext(songContext);
 
+
+    const {id}= useParams()
+    // const id = window.location.pathname.split('/playlist/')[1]
     const navigate = useNavigate()
     const [playlist, setPlaylist] = useState([]);
-    const [PlayerSong, setPlayerSong] = useState("");
-
+    const [song, setSong] = useState([])
+    // const [PlayerSong, setPlayerSong] = useState("");
+console.log(song)
 
     useEffect(() => {
 
         getAllPlaylist(),
-            getSong()
+        getSong()
 
-    }, []);
+    }, [id]);
 
     const getAllPlaylist = async () => {
         const id = window.location.pathname.split('/playlist/')[1]
@@ -30,7 +35,7 @@ const Playlist = () => {
         console.log(res.data)
     }
 
-    const [song, setSong] = useState([])
+
 
     const getSong = async () => {
         const id = window.location.pathname.split('/playlist/')[1]
@@ -38,6 +43,7 @@ const Playlist = () => {
         res = res.data
         console.log(res.data);
         setSong(res.data)
+
 
     }
 
@@ -140,8 +146,7 @@ const Playlist = () => {
                                 <tr className="tr-border position-relative">
                                     <td className="track-number"> <div className="number">{index + 1}</div> </td>
 
-                                    <td className="popover-div" onClick={() => setPlayerSong(playlistSong?.song?.songfile)}>
-
+                                    <td className="popover-div" onClick={() => setCurrentSong(playlistSong?.song)}>
 
                                         <div className="smallplayIcon">
                                             <div className="popover-target">
@@ -186,11 +191,6 @@ const Playlist = () => {
                 </div>
 
             </div>
-
-            {PlayerSong && <Player file={PlayerSong} />}
-
-
-
 
             {/* Delete Playlist Model */}
             {playlist && (

@@ -12,7 +12,8 @@ import Album from "./pages/Album"
 import Artist from "./pages/Artist"
 import Playlist from "./pages/Playlist"
 import Pricing from "./pages/Pricing"
-import songContext from "./contexts/createContext"
+import songContext from "./contexts/SongContext"
+import playlistContext from "./contexts/PlaylistContext"
 import { useState } from "react"
 
 
@@ -20,8 +21,11 @@ import { useState } from "react"
 
 function App() {
 
-  const [currentSong, setCurrentSong] = useState('hello kashdf')
-  console.log('current song=',currentSong.songfile)
+  const [currentSong, setCurrentSong] = useState({})
+  const [currentIndex, setCurrentIndex] = useState({})
+  const [currentPlaylist, setCurrentPlaylist] = useState([])
+  console.log('current song=', currentSong)
+  console.log('current playlist=', currentPlaylist)
 
   return (
     <>
@@ -30,13 +34,23 @@ function App() {
 
         <Routes>
 
-          <Route element={<songContext.Provider value={{ currentSong, setCurrentSong }}> <AppLayout /> </songContext.Provider>}>
+          <Route element={<songContext.Provider value={{ currentSong, setCurrentSong, currentIndex, setCurrentIndex }}>
+
+            <playlistContext.Provider value={{ currentPlaylist, setCurrentPlaylist }}>
+
+              <AppLayout />
+           
+   
+              </playlistContext.Provider>
+          </songContext.Provider>}>
+
             <Route path="/" element={<Home />} />
             <Route path="/artist/:id" element={<Artist />} />
             <Route path="/album/:id" element={<Album />} />
 
             <Route path="/playlist/:id" element={<Playlist />} />
             <Route path="/pricing" element={<Pricing />} />
+            
           </Route>
 
 

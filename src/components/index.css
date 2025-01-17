@@ -1,25 +1,16 @@
-
-
-
 .txt::placeholder {
   color: #b3b3b3 !important;
   /* Change this to white */
   opacity: 1;
   /* Ensures the placeholder is fully opaque */
   padding: 10px;
- 
-
 }
 
-
-.bg-base{
+.bg-base {
   background-color: #1f1f1f;
 }
 
-
-
 .padding {
-
   padding: 0.7em;
 }
 
@@ -32,31 +23,22 @@
   transform: scale(1.07);
   transition: 33ms;
   color: white;
-  
-
 }
 
 .nav-signup-btn:hover .signup-text {
-
   color: white;
-  
-
 }
 
 .signup-text {
-
   color: #555;
 }
-
 
 .grey {
   color: rgb(172, 170, 170);
 }
 
-
 .scroll {
   overflow-y: auto;
-
 }
 
 .scroll::-webkit-scrollbar {
@@ -74,13 +56,16 @@
 .scroll:hover::-webkit-scrollbar-thumb {
   background-color: #202020;
   position: absolute;
-
 }
 
-
 .bottom-bg {
-  background: linear-gradient(to right, #d244bf 0%, #a914c0 35%, #1b81f6 85%, rgb(3, 157, 252) 100%);
-
+  background: linear-gradient(
+    to right,
+    #d244bf 0%,
+    #a914c0 35%,
+    #1b81f6 85%,
+    rgb(3, 157, 252) 100%
+  );
 }
 
 .signup-btn {
@@ -93,20 +78,39 @@
   transition: 33ms;
 }
 
-
-
 .reactPlayer {
-  background-color: black;
+  background-color: black !important;
 }
 
-.playIcon{
+.playIcon {
   background: #fff;
   color: black;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 25%;
- 
+  padding: 18%;
+  margin: 4%;
+}
+
+
+.playIcon:hover {
+  transform: scale(1.08);
+}
+
+
+.controls-btn:hover path {
+  fill: white;
   
+}
+
+.controls-btn:hover svg{
+  transform: scale(1.1);
+}
+
+
+.controls-btn{
+  display: flex;
+  justify-content: center;
+
 }
