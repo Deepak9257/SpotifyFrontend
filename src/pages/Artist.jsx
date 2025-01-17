@@ -1,20 +1,62 @@
 import axios from "axios";
 import Bottom from "../components/Bottom"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import VerifiedIcon from "../Icons/Verified";
+import SmallPlayIcon from "../Icons/SmallPlayIcon";
+import AddIcon from "../Icons/AddIcon";
+import songContext from "../contexts/SongContext";
+import playlistContext from "../contexts/PlaylistContext";
 
 const Artist = () => {
 
+
+    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const { setCurrentPlaylist } = useContext(playlistContext);
+
     const [loading, setLoading] = useState(true)
+    const [songs, setSongs] = useState([])
+    const [songId, setSongId] = useState("");
+    const [playlistId, setPlaylistId] = useState("");
+    const [artistID, setArtistID] = useState("");
+    const [albumID, setAlbumID] = useState("");
+
+
+    const [playlist, setPlaylist] = useState([]);
 
 
 
-    
     const [Artist, setArtist] = useState({});
     useEffect(() => {
         getArtist()
+        getSong()
 
     }, []);
+
+
+    const AddPlaylistSong = async (e) => {
+        e.preventDefault();
+
+        var res = await axios.post("https://spotify-backend-ten.vercel.app/playlistSong/create", {
+            song: songId,
+            playlistId,
+            artist: artistID,
+            album: albumID,
+            userId: user?._id
+        });
+        res = res.data;
+        console.log(res.data);
+    };
+
+
+    const getSong = async () => {
+        const id = window.location.pathname.split("/artist/")[1];
+        var res = await axios.get("https://spotify-backend-ten.vercel.app/song/getAllByArtist/" + id);
+        res = res.data;
+        console.log("Artist song data:", res.data);
+        setSongs(res.data);
+        setLoading(false);
+    };
+
 
     const getArtist = async () => {
         const id = window.location.pathname.split('/artist/')[1]
@@ -41,14 +83,24 @@ const Artist = () => {
 
         const token = localStorage.getItem("token");
         var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/getUser", { token });
-        res=res.data; 
+        res = res.data;
         setUser(res.data);
 
 
     }
 
-    const user2 = user?._id ? user : null;
 
+    useEffect(() => {
+        getAllPlaylist();
+    }, []);
+
+    const getAllPlaylist = async () => {
+
+        var res = await axios.get("https://spotify-backend-ten.vercel.app/playlist/getAll");
+        res = res.data;
+        setPlaylist(res.data);
+        console.log(res.data);
+    };
 
 
     if (loading) {
@@ -75,7 +127,7 @@ const Artist = () => {
                             <img src={Artist.image} alt="" srcset="" className="object-fit-cover rounded-circle" />
 
                             <div className="">
-                                <div> <VerifiedIcon/> Verified Artist </div>
+                                <div> <VerifiedIcon /> Verified Artist </div>
                                 <span className="fw-bold text ">{Artist.name}</span> <br />
                                 <span>42,405,290 monthly listeners                              </span>
 
@@ -92,77 +144,80 @@ const Artist = () => {
                             </div>
 
                             <div> <i class="fas fa-ellipsis-h py-2"></i> </div>
-                            
+
                         </div>
                         <div>  <span className="fs-2 fw-bold">Popular</span> </div>
 
                         <div class="table-container">
                             <table>
-                           
+                                <thead>
+                                    <tr>
+                                        <th class="track-number">#</th>
+                                        <th>Title</th>
+                                        <th>Album</th>
+                                        <th>Date added</th>
+                                        <th>
+                                            <i class="far fa-clock"></i>
+                                        </th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="track-number">1</td>
-                                        <td class="track-title">
-                                            <img src="https://placehold.co/40x40" alt="Album cover for Slumber Rain" />
-                                            <div>
-                                                <div>Slumber Rain</div>
-                                                <div>Nature Of Sweden</div>
-                                            </div>
-                                        </td>
-                                        <td>Rainy Mind</td>
-                                        <td>Jul 12, 2024</td>
-                                        <td>2:26</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="track-number">2</td>
-                                        <td class="track-title">
-                                            <img src="https://placehold.co/40x40" alt="Album cover for Stormy Night Reflections: Rain Soundscape" />
-                                            <div>
-                                                <div>Stormy Night Reflections: Rain Soundscape</div>
-                                                <div>24H Rain Sounds</div>
-                                            </div>
-                                        </td>
-                                        <td>Stormy Night Reflections: Rain Soundscape</td>
-                                        <td>Jul 12, 2024</td>
-                                        <td>2:35</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="track-number">3</td>
-                                        <td class="track-title">
-                                            <img src="https://placehold.co/40x40" alt="Album cover for Clarity" />
-                                            <div>
-                                                <div>Clarity</div>
-                                                <div>Relaxcation</div>
-                                            </div>
-                                        </td>
-                                        <td>Drizzle & Shower</td>
-                                        <td>Jul 12, 2024</td>
-                                        <td>2:19</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="track-number">4</td>
-                                        <td class="track-title">
-                                            <img src="https://placehold.co/40x40" alt="Album cover for Watch The Storm" />
-                                            <div>
-                                                <div>Watch The Storm</div>
-                                                <div>Distantic</div>
-                                            </div>
-                                        </td>
-                                        <td>It's A Storm</td>
-                                        <td>Jul 12, 2024</td>
-                                        <td>2:33</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="track-number">5</td>
-                                        <td class="track-title">
-                                            <img src="https://placehold.co/40x40" alt="Album cover for Healing Night Rain" />
-                                            <div>
-                                                <div>Healing Night Rain</div>
-                                                <div>Sprightly Showers</div>
-                                            </div>
-                                        </td>
-                                        <td>Healing Night Rain</td>
-                                    </tr>
+                                    {songs &&
+                                        songs.map((song, index) => (
+                                            <tr className="tr-border position-relative">
+                                                <td class="track-number "><div className="number">{index + 1}</div></td>
+
+                                                <td className="popover-div" >
+
+                                                    <div className="smallplayIcon popover-container">
+
+                                                        <div className="popover-target" onClick={() => { { setCurrentIndex(index), setCurrentSong(song), setCurrentPlaylist(songs) } }} >
+                                                            <SmallPlayIcon />
+                                                        </div>
+
+                                                        <div className="popover px-3 shadow ">
+                                                            Play
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </td>
+                                                <td class="track-title">
+                                                    <img
+                                                        src={song.image}
+                                                        alt="Album cover for Slumber Rain"
+
+                                                    />
+                                                    <div>
+                                                        <div>{song.name}</div>
+                                                        <div>{song?.artist?.name}</div>
+                                                    </div>
+                                                </td>
+                                                <td> {song?.album?.name}</td>
+                                                <td>{song.createdAt}</td>
+                                                <td className="position-relative">
+                                                    {song.time}
+                                                    <span
+                                                        className="addIcon"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#AddToPlaylist"
+                                                        onClick={() => {
+                                                            setSongId(song._id);
+                                                            setAlbumID(song?.album?._id);
+                                                            setArtistID(song?.artist?._id);
+                                                        }}
+                                                    >
+                                                        <AddIcon />
+                                                    </span>
+
+                                                    <div className="playlist-popover-content text-white px-3 rounded shadow">
+                                                        Add to playlist
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        ))}
                                 </tbody>
                             </table>
                         </div>
@@ -175,11 +230,57 @@ const Artist = () => {
             </div>
 
 
+            {/* Playlist Model */}
+            {playlist && (
+                <div
+                    className="modal fade"
+                    id="AddToPlaylist"
+                    tabIndex={-1}
+                    aria-labelledby="CreatePlaylist"
+                    aria-hidden="true"
+                >
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5" id="AddToPlaylist">
+                                    Add to Playlist
+                                </h1>
+                                <button
+                                    type="button"
+                                    className="btn-close bg-dark"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                />
+                            </div>
+                            <form method="post" onSubmit={AddPlaylistSong}>
+                                <div className="mb-3">
+                                    <label class="form-label">Select Playlist</label>
 
-
-
-            {!user2 &&
-                <Bottom />}
+                                    {playlist &&
+                                        playlist.map((playlist, index) => {
+                                            return (
+                                                <>
+                                                    <option
+                                                        type="button"
+                                                        className="border border-dark p-1 rounded my-2"
+                                                        onClick={() => setPlaylistId(playlist._id)}
+                                                    >
+                                                        {playlist.name}
+                                                    </option>
+                                                </>
+                                            );
+                                        })}
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="submit" className="btn btn-info">
+                                        Done
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </>
     )

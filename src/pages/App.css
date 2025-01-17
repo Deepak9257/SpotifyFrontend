@@ -20,7 +20,42 @@
   border-radius: 50%;
   background-color: #2a2a2a;
   padding: 2.3% !important;
+  transition: 0.2s all;
 }
+
+.home-icon:hover {
+  transform: scale(1.05);
+}
+
+.search-bar{
+  transition: 0.1s all;
+}
+
+.search-bar:hover{
+  background: #2a2a2a;
+}
+
+
+.search-bar:hover .search-Icon svg{
+  fill: white;
+}
+.search-bar:focus-within {
+  outline: 2.5px solid #ffff !important; 
+  background: #2a2a2a;
+}
+
+.search-input {
+  outline: none;
+  background: none;
+  caret-color: white;
+  color: white;
+ 
+}
+
+.home-icon:active {
+  transform: scale(0.98);
+}
+
 .login-btn:hover {
   transform: scale(1.03, 1.08);
   transition: 33ms;
@@ -36,7 +71,6 @@
 .b {
   border: 2px solid gray;
 }
-
 
 .grey {
   background-color: rgb(17, 16, 16);
@@ -54,17 +88,15 @@
 
 .eye {
   left: 88%;
-  top:18%;
-
+  top: 18%;
 }
 
 .eye:hover {
   transform: scale(1.1);
-
 }
 
 .eye:hover path {
-  fill:white
+  fill: white;
 }
 
 .hvr-artist:hover {
@@ -104,7 +136,7 @@
 }
 
 .music-icon {
-  height: 60px ;
+  height: 60px;
   width: 60px;
 }
 
@@ -361,18 +393,16 @@ tr:hover {
   display: none;
 }
 
-
-.bg-music:hover .editIcon{
+.bg-music:hover .editIcon {
   display: block;
   transition: ease-in-out;
- 
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
-.fs-large{
+.fs-large {
   font-size: 5em;
   font-weight: 1000;
 }
@@ -382,25 +412,18 @@ tr:hover {
   background: linear-gradient(rgb(39, 37, 37) 50%, rgb(0, 0, 0) 100%);
 }
 
-
 @media only screen and (max-width: 426px) {
   .login .div {
-   padding: 0 !important;
-   
-
+    padding: 0 !important;
   }
-  .grey{
-   display: none !important;
-  }
-  .login-bottom{
+  .grey {
     display: none !important;
-   }
- 
-   .sm-screen{
+  }
+  .login-bottom {
+    display: none !important;
+  }
+
+  .sm-screen {
     display: block !important;
-   }
-
+  }
 }
-
-
-

@@ -14,7 +14,6 @@ const Album = () => {
 
 
     const [loading, setLoading] = useState(true);
-    const [PlayerSong, setPlayerSong] = useState("");
 
     const [Album, setAlbum] = useState({});
     const [songs, setSongs] = useState([]);
@@ -44,7 +43,6 @@ const Album = () => {
         res = res.data;
         console.log(res.data);
         setSongs(res.data);
-
         setLoading(false);
     };
 

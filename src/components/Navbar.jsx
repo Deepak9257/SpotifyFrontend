@@ -3,7 +3,7 @@ import HomeIcon from '../Icons/HomeIcon';
 import FileIcon from '../Icons/FileIcon';
 import SearchIcon from '../Icons/SearchIcon';
 import SpotifyIcon from '../Icons/SpotifyIcon';
-import {useNavigate, Link} from "react-router-dom"
+import {useNavigate, Link, useLocation} from "react-router-dom"
 
 
 
@@ -11,7 +11,7 @@ function Navbar({ user }) {
 
     user = user?._id ? user : null;
 
-
+const location = useLocation();
     const handleLogout = () => {
         
         const confirm = window.confirm("Are you sure?");
@@ -22,6 +22,9 @@ function Navbar({ user }) {
 
         }
     }
+
+    const currentPage = location.pathname.split();
+    console.log("url:",currentPage)
 
     return (
 
@@ -39,12 +42,12 @@ function Navbar({ user }) {
 
                     <div className="col-4 d-flex align-items-center gap-2 text-white ">
                         <div className='home-icon p-2 d-flex align-items-center'>  <Link to={"/"}> <HomeIcon /> </Link> </div>
-                        <div className="d-flex bg-base rounded-pill align-items-center py-1 justify-content-between container-fluid" >
+                        <div className="d-flex bg-base search-bar rounded-pill align-items-center py-1 justify-content-between container-fluid" >
                             <div className='col-10 d-flex align-items-center'>
-                                <div className='col-1 py-1'>  <SearchIcon /> </div>
+                                <div className='col-1 py-1 search-Icon'>  <SearchIcon /> </div>
 
                                 <input
-                                    className="col p-2 bg-base rounded-pill border-0 txt w-100"
+                                    className="col-11 search-input p-2 bg-base rounded-pill border-0 txt w-100"
                                     placeholder="What do you want to play?"
                                 />
 
