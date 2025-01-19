@@ -49,7 +49,7 @@ function SingnUp() {
 
         setMsg({ status: "success", message: res.data.message + '   Opening Login Page...' });
 
-        Promise(setTimeout(() => {
+        new Promise(setTimeout(() => {
           navigate('/login')
 
         }, 2000))
