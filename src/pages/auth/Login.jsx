@@ -18,7 +18,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/login", {
+    var res = await axios.post("https://spotify-backend-blue.vercel.app/auth/login", {
       email: uemail, password: upassword
     })
 

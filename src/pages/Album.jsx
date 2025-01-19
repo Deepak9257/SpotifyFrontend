@@ -29,7 +29,7 @@ const Album = () => {
 
     const getAlbum = async () => {
         const id = window.location.pathname.split("/album/")[1];
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/album/get/" + id);
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/album/get/" + id);
         res = res.data;
         console.log("album data", res.data);
         setAlbum(res.data);
@@ -39,7 +39,7 @@ const Album = () => {
 
     const getSong = async () => {
         const id = window.location.pathname.split("/album/")[1];
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/song/getAllByAlbum/" + id);
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/song/getAllByAlbum/" + id);
         res = res.data;
         console.log(res.data);
         setSongs(res.data);
@@ -49,7 +49,7 @@ const Album = () => {
     const AddPlaylistSong = async (e) => {
         e.preventDefault();
 
-        var res = await axios.post("https://spotify-backend-ten.vercel.app/playlistSong/create", {
+        var res = await axios.post("https://spotify-backend-blue.vercel.app/playlistSong/create", {
             song: songId,
             playlistId,
             artist: artistID,
@@ -68,7 +68,7 @@ const Album = () => {
 
     const getAllPlaylist = async () => {
 
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/playlist/getAll");
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/playlist/getAll");
         res = res.data;
         setPlaylist(res.data);
         console.log(res.data);
@@ -85,7 +85,7 @@ const Album = () => {
 
     const getUser = async () => {
         const token = localStorage.getItem("token");
-        var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/getUser", { token });
+        var res = await axios.post("https://spotify-backend-blue.vercel.app/auth/getUser", { token });
         res = res.data;
         setUser(res.data);
         console.log(res.data);

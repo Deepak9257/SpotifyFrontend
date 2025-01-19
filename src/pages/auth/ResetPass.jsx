@@ -8,7 +8,7 @@ function ResetPass() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = window.location.pathname.split('/resetpassword/')[1];
-    var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/resetpassword", {
+    var res = await axios.post("https://spotify-backend-blue.vercel.app/auth/resetpassword", {
       password,
       token
     });

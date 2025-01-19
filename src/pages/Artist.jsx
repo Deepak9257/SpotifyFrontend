@@ -36,7 +36,7 @@ const Artist = () => {
     const AddPlaylistSong = async (e) => {
         e.preventDefault();
 
-        var res = await axios.post("https://spotify-backend-ten.vercel.app/playlistSong/create", {
+        var res = await axios.post("https://spotify-backend-blue.vercel.app/playlistSong/create", {
             song: songId,
             playlistId,
             artist: artistID,
@@ -50,7 +50,7 @@ const Artist = () => {
 
     const getSong = async () => {
         const id = window.location.pathname.split("/artist/")[1];
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/song/getAllByArtist/" + id);
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/song/getAllByArtist/" + id);
         res = res.data;
         console.log("Artist song data:", res.data);
         setSongs(res.data);
@@ -60,7 +60,7 @@ const Artist = () => {
 
     const getArtist = async () => {
         const id = window.location.pathname.split('/artist/')[1]
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/artist/get/" + id)
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/artist/get/" + id)
         res = res.data
         console.log(res.data);
         setArtist(res.data)
@@ -82,7 +82,7 @@ const Artist = () => {
     const getUser = async () => {
 
         const token = localStorage.getItem("token");
-        var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/getUser", { token });
+        var res = await axios.post("https://spotify-backend-blue.vercel.app/auth/getUser", { token });
         res = res.data;
         setUser(res.data);
 
@@ -96,7 +96,7 @@ const Artist = () => {
 
     const getAllPlaylist = async () => {
 
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/playlist/getAll");
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/playlist/getAll");
         res = res.data;
         setPlaylist(res.data);
         console.log(res.data);

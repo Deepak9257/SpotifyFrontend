@@ -29,7 +29,7 @@ const Playlist = () => {
 
     const getAllPlaylist = async () => {
         const id = window.location.pathname.split('/playlist/')[1]
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/playlist/getById/" + id)
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/playlist/getById/" + id)
         res = res.data
         setPlaylist(res.data)
         console.log(res.data)
@@ -38,7 +38,7 @@ const Playlist = () => {
 
     const getSong = async () => {
         const id = window.location.pathname.split('/playlist/')[1]
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/playlistSong/getAllSongs/" + id)
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/playlistSong/getAllSongs/" + id)
         res = res.data
         console.log(res.data);
         setSong(res.data)
@@ -52,7 +52,7 @@ const Playlist = () => {
     const [status, setStatus] = useState("")
 
     const UpdateByID = async (id) => {
-        var res = await axios.put("https://spotify-backend-ten.vercel.app/playlist/update/" + id, {
+        var res = await axios.put("https://spotify-backend-blue.vercel.app/playlist/update/" + id, {
             name, image, status
         })
         res = res.data
@@ -64,7 +64,7 @@ const Playlist = () => {
 
     const handleDelete = async (id) => {
 
-        var res = await axios.delete("https://spotify-backend-ten.vercel.app/playlist/deleteById/" + id)
+        var res = await axios.delete("https://spotify-backend-blue.vercel.app/playlist/deleteById/" + id)
         res = res.data
         navigate("/")
         window.location.reload();

@@ -42,7 +42,7 @@ function RytBar() {
             return;
         }
 
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/song/getAllByArtist/" + id)
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/song/getAllByArtist/" + id)
 
         var res = res.data
         setCurrentPlaylist(res.data)
@@ -52,7 +52,7 @@ function RytBar() {
     }
 
     const getArtists = async () => {
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/artist/getAll");
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/artist/getAll");
 
         console.log(res.data);
 
@@ -67,7 +67,7 @@ function RytBar() {
     }, [])
 
     const getAlbums = async () => {
-        var res = await axios.get("https://spotify-backend-ten.vercel.app/album/getAll")
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/album/getAll")
         setAlbum(res.data.albumData)
         setLoading(false)
 

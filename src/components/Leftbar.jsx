@@ -15,7 +15,7 @@ function Leftbar({ user }) {
 
   const createPlaylist = async (e) => {
     e.preventDefault();
-    var res = await axios.post("https://spotify-backend-ten.vercel.app/playlist/create", {
+    var res = await axios.post("https://spotify-backend-blue.vercel.app/playlist/create", {
       name, image, status, userId: user?._id
     });
     res = res.data;
@@ -38,7 +38,7 @@ function Leftbar({ user }) {
 
   const getAllPlaylist = async () => {
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
-    var res = await axios.get("https://spotify-backend-ten.vercel.app/playlist/getAll");
+    var res = await axios.get("https://spotify-backend-blue.vercel.app/playlist/getAll");
     res = res.data;
     setPlaylist(res.data);
     setLoading(false)
