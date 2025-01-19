@@ -1,17 +1,55 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import PlayIcon from "../Icons/PlayIcon";
 import { Link } from "react-router-dom";
+import songContext from "../contexts/SongContext";
+import playlistContext from "../contexts/PlaylistContext";
+import PauseIcon from "../Icons/PauseIcon";
+import SmallPlayIcon from "../Icons/SmallPlayIcon";
 
 function RytBar() {
     const [artist, setArtist] = useState([]);
     const [album, setAlbum] = useState([]);
+    const [id, setId] = useState("");
     const [loading, setLoading] = useState(true)
+    const [playId, setPlayId] = useState(null)
+
+
+    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const { setCurrentPlaylist, currentPlaylist } = useContext(playlistContext)
 
     //Get All Artists
     useEffect(() => {
         getArtists();
     }, []);
+
+
+    useEffect(() => {
+        getArtistSongs();
+
+        console.log('rendered')
+
+    }, [id])
+
+    console.log("id:", id)
+    console.log("artist songs:", currentPlaylist)
+
+
+    const getArtistSongs = async () => {
+
+
+        if (!id) {
+            return;
+        }
+
+        var res = await axios.get("https://spotify-backend-ten.vercel.app/song/getAllByArtist/" + id)
+
+        var res = res.data
+        setCurrentPlaylist(res.data)
+        setCurrentSong(res.data[0])
+        setCurrentIndex(0)
+
+    }
 
     const getArtists = async () => {
         var res = await axios.get("https://spotify-backend-ten.vercel.app/artist/getAll");
@@ -35,6 +73,9 @@ function RytBar() {
 
 
     }
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
     if (loading) {
         return (
@@ -92,8 +133,14 @@ function RytBar() {
                     <div className="row mx-auto px-3 justify-content-evenly">
                         {artist &&
                             artist.slice(0, 6).map((item, index) => (
-                                <div className="rounded col-2 p hvr-artist py-2 position-relative my-3" key={index}>
-                                    <Link to={`/artist/${item._id}`} className="text-decoration-none">
+                                <div
+                                    className="rounded col-2 p hvr-artist py-2 position-relative my-3"
+                                    key={index}
+                                >
+                                    <Link
+                                        to={`/artist/${item._id}`}
+                                        className="text-decoration-none"
+                                    >
                                         <div className="d-flex justify-content-center pb-4">
                                             <img
                                                 src={item.image}
@@ -105,15 +152,37 @@ function RytBar() {
                                         </div>
                                         <span className="text-white"> {item.name} </span> <br />
                                         <span className="text-secondary"> {item.category} </span>
-
-                                        <div className="play">
-                                            <PlayIcon />
-                                        </div>
                                     </Link>
+                                    <div
+                                        className="play"
+                                        onClick={() => {
+                                            setId(item._id), setPlayId(item._id);
+                                        }}
+                                    >
+                                        {playId === item._id ? (
+                                            <div
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title={`Pause ${item.name}`}
+                                            >
+                                                <PauseIcon />
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="smallPlayIcon2"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title={`Play ${item.name}`}
+                                            >
+                                                <SmallPlayIcon />
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             ))}
                     </div>
-
 
                     {/* album section */}
 
@@ -140,8 +209,14 @@ function RytBar() {
                     <div className="row mx-auto px-3 justify-content-evenly">
                         {album &&
                             album.slice(0, 6).map((item, index) => (
-                                <div className="rounded hvr-artist p col-2 py-2 my-3 position-relative" key={index}>
-                                    <Link to={`/album/${item._id}`} className="text-decoration-none">
+                                <div
+                                    className="rounded hvr-artist p col-2 py-2 my-3 position-relative"
+                                    key={index}
+                                >
+                                    <Link
+                                        to={`/album/${item._id}`}
+                                        className="text-decoration-none"
+                                    >
                                         <div className="d-flex justify-content-center pb-4 ">
                                             <img
                                                 src={item.image}
@@ -155,10 +230,34 @@ function RytBar() {
                                             <span className="">{item.albumName} </span> <br />
                                             <span>{item.artistName}</span>
                                         </div>
-                                        <div className="play">
-                                            <PlayIcon />
-                                        </div>
                                     </Link>
+                                    <div
+                                        className="play"
+                                        onClick={() => {
+                                            setId(item._id), setPlayId(item._id);
+                                        }}
+                                    >
+                                        {playId === item._id ? (
+                                            <div
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title={`Pause ${item.name}`}
+                                            >
+                                                <PauseIcon />
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="smallPlayIcon2"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title={`Play ${item.name}`}
+                                            >
+                                                <SmallPlayIcon />
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             ))}
                     </div>

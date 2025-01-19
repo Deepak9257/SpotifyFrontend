@@ -2,8 +2,9 @@ import LibraryIcon from "../Icons/LibraryIcon";
 import PlusIcon from "../Icons/PlusIcon";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import MusicIcon from "../Icons/MusicIcon";
+import SmallPlayIcon from "../Icons/SmallPlayIcon";
 
 function Leftbar({ user }) {
 
@@ -122,7 +123,19 @@ function Leftbar({ user }) {
     );
   }
 
+
+
+
   const user2 = user?._id ? user : null;
+
+
+
+  // tooltip code
+
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+
 
   return (
     <>
@@ -147,15 +160,24 @@ function Leftbar({ user }) {
 
         {playlist && playlist.length > 0 ? (
           playlist &&
-          playlist.map((item, index) => (
-            <Link to={`/playlist/${item._id}`} className="text-decoration-none" >
+          playlist.map((item) => (
+            <NavLink to={`/playlist/${item._id}`} className={`text-decoration-none`}  >
 
 
-              <div className="d-flex gap-2 align-items-center text-white rounded p-2">
+              <div className="d-flex position-relative rounded playlist-bar gap-2 align-items-center text-white rounded p-2">
                 <div className="p-2" style={{ backgroundColor: "#2c2c2c" }}>
                   <MusicIcon />
                 </div>
+                  <div
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      data-bs-custom-class="custom-tooltip"
+                      data-bs-title={`Play ${item.name}`}
+      
 
+                  className="position-absolute smallPlayIcon">
+                    <SmallPlayIcon/>
+                  </div>
                 <div>
 
                   {item.name}
@@ -163,7 +185,7 @@ function Leftbar({ user }) {
                 </div>
 
               </div>
-            </Link>
+            </NavLink>
           ))
         ) :
 

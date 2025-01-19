@@ -5,7 +5,7 @@ import MusicPlayIcon from '../Icons/MusicPlayIcon';
 import './index.css';
 import PreviousBtn from '../Icons/PreviousIcon';
 import NextBtn from '../Icons/NextIcon';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import songContext from '../contexts/SongContext';
 import playlistContext from '../contexts/PlaylistContext';
 
@@ -19,17 +19,24 @@ const Player = () => {
   const { currentPlaylist } = useContext(playlistContext)
   const [songSrc, setSongSrc] = useState("")
 
+  const [play, setPlay] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null)
 
 
   useEffect(() => {
 
+    if (!currentSong || currentSong.length === 0) {
+      return;
+    }
     setSongSrc(currentSong.songfile)
+    console.log('rendered')
 
   }, [currentSong])
 
 
-  console.log(songSrc)
-  console.log('current Index:', currentIndex)
+ 
+
 
   const handleNext = () => {
 
@@ -52,11 +59,11 @@ const Player = () => {
     }
 
     if (currentIndex === 0) {
-          setCurrentSong(currentPlaylist[currentPlaylist.length-1])
-          setTimeout(()=>{
-            setCurrentIndex(0);
-            setCurrentSong(currentPlaylist[0]);
-          },0)
+      setCurrentSong(currentPlaylist[currentPlaylist.length - 1])
+      setTimeout(() => {
+        setCurrentIndex(0);
+        setCurrentSong(currentPlaylist[0]);
+      }, 0)
       return
     }
 
@@ -66,33 +73,55 @@ const Player = () => {
 
   };
 
+  const handlePause = () => {
+    setPlay(false)
+  }
 
+  const handlePlay = () => {
+    setPlay(true)
+    console.log("handle Play:", play)
+
+  }
+
+  console.log("song url:", songSrc)
+  console.log("play:", play)
   return (
 
     <>
 
 
+
       <AudioPlayer
-    
+
         autoPlay
+
+        controls={true}
         src={songSrc}
-        onPlay={e => console.log("playing:", currentSong.name)}
+        onPlay={e => { console.log("Playing now:", currentSong.name); handlePlay() }}
+        onPause={handlePause}
+        onEnded={handleNext}
         onClickNext={handleNext}
         onClickPrevious={handlePrevious}
+        onCanPlay={handlePlay}
         showSkipControls={true}  // Show Next/Previous buttons
         showJumpControls={false}
         volume={0.5}
         customIcons={{
           play: <div className='playIcon btn btn-light'>  <MusicPlayIcon /> </div>,
-          pause: <div className='playIcon btn btn-light' ><PauseIcon /></div>,
+          pause: <div className='playIcon btn btn-light'>{play ? <PauseIcon /> : <MusicPlayIcon />}</div>,
           previous: <div className='controls-btn'> <PreviousBtn /> </div>,
           next: <div className='controls-btn'> <NextBtn /> </div>,
 
         }}
 
         className='reactPlayer'
-        
+
       />
+
+
+
+
+
     </>
   )
 };

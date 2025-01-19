@@ -126,3 +126,29 @@
 }
 
 
+.playlist-bar:hover {
+  background-color: #2a2a2a;
+  border-radius: 80%;
+
+}
+
+.playlist-bar:hover .smallPlayIcon {
+  visibility: visible;
+  
+}
+
+.smallPlayIcon{
+  visibility: hidden;
+  left: 2%;
+  padding: 3% 3.8%;
+  background-color: #2a2a2a84;
+  transition:  ease-in;
+}
+
+.active{
+  background-color: #2a2a2a;
+  border-radius: 5px;
+}
+
+
+

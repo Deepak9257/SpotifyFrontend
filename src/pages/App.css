@@ -112,8 +112,35 @@
   display: none;
   background-color: black;
   border-radius: 50%;
-  transition-duration: 2000ms;
+  transition: 0.1s all;
 }
+
+.play div{
+  background-color: #1ed760;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.1s all;
+
+}
+
+.play div:hover {
+  background-color: #3be477 !important;
+  transform: scale(1.03);
+}
+
+.play div:active{
+  background-color: #148f3f !important;
+  transform: scale(0.99);
+}
+
+.play .smallPlayIcon2 svg{
+  fill: black;
+
+}
+
 
 .hyt {
   height: 18%;
@@ -238,7 +265,7 @@
   column-gap: 2.5%;
 }
 .controls .play-button {
-  background-color: #1db954;
+  background-color: #1ed760;
   border: none;
   border-radius: 50%;
   width: 56px;
@@ -253,6 +280,21 @@
   font-size: 24px;
   color: black;
 }
+
+
+.play-button{
+  transition: 0.05s all;
+}
+.play-button:hover {
+  background-color: #3be477 !important;
+  transform: scale(1.05);
+}
+
+.play-button:active{
+  background-color: #148f3f !important;
+  transform: scale(0.99);
+}
+
 .controls .other-controls i {
   font-size: 24px;
   margin-right: 20px;
@@ -353,9 +395,7 @@ tr:hover {
   z-index: 1000;
 }
 
-.popover-target:hover ~ .popover {
-  display: block;
-}
+
 
 .addIcon {
   position: absolute;
@@ -363,6 +403,7 @@ tr:hover {
   left: -60%;
   cursor: pointer;
   display: none;
+  transition: 0.1s ease-in;
 }
 
 .playlist-popover-content {
@@ -374,13 +415,13 @@ tr:hover {
   box-shadow: inset;
 }
 
-.addIcon:hover ~ .playlist-popover-content {
-  display: block;
+.addIcon:active{
+  transform: scale(0.98);
 }
 
-.addIcon:hover {
-  background-color: white;
-  border-radius: 50%;
+.addIcon:hover svg {
+  fill: white;
+  transform: scale(1.1);
 }
 
 .editIcon {
@@ -411,6 +452,17 @@ tr:hover {
   /* background: linear-gradient(rgb(39, 37, 37) 50%, rgb(0, 0, 0) 100%); */
   background: linear-gradient(rgb(39, 37, 37) 50%, rgb(0, 0, 0) 100%);
 }
+
+
+.custom-tooltip {
+  --bs-tooltip-bg: #2a2a2a;
+  --bs-tooltip-color: var(--bs-white);
+    font-weight: bolder;
+  
+}
+
+
+
 
 @media only screen and (max-width: 426px) {
   .login .div {

@@ -114,6 +114,11 @@ const Artist = () => {
             </>
         )
     }
+//tooltip code
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+
     return (
         <>
             <div className="w-100 float-center text-white container-fluid" >
@@ -134,12 +139,26 @@ const Artist = () => {
 
                             </div>
                         </div>
-                        <div class="controls ">
-                            <div class="play-button">
-                                <i class="fas fa-play"></i>
+                        <div className="controls ">
+                            <div 
+                            
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip"
+                            data-bs-title={`Play ${Artist.name}`}
+            
+                            
+                            
+                            className="play-button" onClick={()=>{setCurrentPlaylist(songs), setCurrentSong(songs[0]), setCurrentIndex(0)}  }>
+                                <i 
+                               
+                                
+                                
+                                
+                                className="fas fa-play"></i>
                             </div>
 
-                            <div class="other-controls d-flex gap-4">
+                            <div className="other-controls d-flex gap-4">
                                 <div className="px-3 border rounded-pill py-1">Follow</div>
                             </div>
 

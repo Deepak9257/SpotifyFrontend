@@ -12,7 +12,7 @@ import Bottom from "../components/Bottom";
 const AppLayout = () => {
 
 
-    const {currentSong, setCurrentSong} = useContext(songContext);
+    
 
 
     const [user, setUser] = useState({});
@@ -49,7 +49,7 @@ const AppLayout = () => {
             <Leftbar user={user}/>
             <Outlet/>
             <Bottom user={user}/>
-            {user2 && <Player file={currentSong.songfile}  />}
+            {user2 && <Player/>}
             
         </>
     )

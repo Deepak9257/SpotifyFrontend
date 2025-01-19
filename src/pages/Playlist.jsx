@@ -125,7 +125,15 @@ const Playlist = () => {
                 )}
 
                 <div className="controls">
-                    <button className="play-button" fdprocessedid="tuqbn">
+                    <button
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          data-bs-custom-class="custom-tooltip"
+                          data-bs-title={`Play ${playlist.name}`}
+          
+                    
+                    
+                    className="play-button" onClick={()=>{setCurrentPlaylist(song.map(item=>item.song)), setCurrentSong(song[0].song), setCurrentIndex(0)}  }>
                         <i className="fas fa-play" />
                     </button>
                     <div className="other-controls">

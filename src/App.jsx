@@ -47,7 +47,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/artist/:id" element={<Artist />} />
             <Route path="/album/:id" element={<Album />} />
-
             <Route path="/playlist/:id" element={<Playlist />} />
             <Route path="/pricing" element={<Pricing />} />
             
@@ -60,6 +59,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/resetpassword/:token" element={<ResetPass />} />
+
           </Route>
 
         </Routes>

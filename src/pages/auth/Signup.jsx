@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,6 +11,8 @@ function SingnUp() {
   const navigate = useNavigate();
 
 
+
+
   const validateEmail = async (e) => {
     e.preventDefault();
     setMsg('')
@@ -19,10 +21,10 @@ function SingnUp() {
 
     if (res.status == true) {
       setOpenForm(true)
-      setMsg({ status: "success", message: res.message})
+      setMsg({ status: "success", message: res.message })
 
     } else {
-      setMsg({ status: "success", message: res.message})
+      setMsg({ status: "success", message: res.message })
     }
     console.log(res.data);
 
@@ -36,7 +38,7 @@ function SingnUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     var res = await axios.post("https://spotify-backend-ten.vercel.app/auth/register", {
-      name: uname, email: email, password: upassword
+      uname, email, password: upassword
     })
 
     console.log(res.data)
@@ -47,10 +49,10 @@ function SingnUp() {
 
         setMsg({ status: "success", message: res.data.message + '   Opening Login Page...' });
 
-        new Promise(setTimeout(() => {
+        Promise(setTimeout(() => {
           navigate('/login')
 
-        }, 2500))
+        }, 2000))
 
 
 
@@ -69,6 +71,9 @@ function SingnUp() {
   }
 
 
+  console.log("user Name:", uname)
+  console.log("user Email:", email)
+
   return <>
     <div className="text-center d-flex justify-content-center container-fluid p-5">
       <div className=" px-4 w-25">
@@ -77,22 +82,23 @@ function SingnUp() {
           <i class="fa-brands fa-spotify fa-3x "></i>
 
           <h1 className="fw-bold mt-4">
-            Sign up to <br/> start listening
+            Sign up to <br /> start listening
           </h1>
         </header>
         {msg && msg.status && <div className={`alert alert${msg.status == "success" ? `-success` : '-danger'}`}>{msg.message}</div>}
 
 
         {openForm ?
-       (   <form method='post' onSubmit={handleSubmit}>
+          (<form method='post' onSubmit={handleSubmit}>
             <div className="text-white text-start fw-bold "> <label htmlFor="name">Name</label></div>
-            <div className="">
+            <div className="name-input">
               <input
                 type="text"
-                onKeyUp={(e) => setName(e.target.value)}
+                value={uname}
+                onChange={(e) => setName(e.target.value)}
                 className="w-100 p-2 rounded hvr bg-dark b"
                 id="name"
-                placeholder="name"
+                placeholder="Name"
                 required
 
               />
@@ -120,13 +126,13 @@ function SingnUp() {
 
             <button className="btn btn-success w-100 py-2 rounded-pill my-3" type="submit"> Submit </button>
 
-          </form>) : 
-          
-      (    <form method='post' onSubmit={validateEmail}>
+          </form>) :
+
+          (<form method='post' onSubmit={validateEmail}>
 
 
             <div className="text-white text-start fw-bold "> <label htmlFor="email">Email address</label></div>
-            <div className="">
+            <div className="email-input">
               <input
                 type="email"
                 onKeyUp={(e) => setEmail(e.target.value)}

@@ -4,6 +4,7 @@ import FileIcon from '../Icons/FileIcon';
 import SearchIcon from '../Icons/SearchIcon';
 import SpotifyIcon from '../Icons/SpotifyIcon';
 import {useNavigate, Link, useLocation} from "react-router-dom"
+import HomeIcon2 from '../Icons/HomeIcon2';
 
 
 
@@ -22,9 +23,9 @@ const location = useLocation();
 
         }
     }
-
-    const currentPage = location.pathname.split();
-    console.log("url:",currentPage)
+        const url = useLocation().pathname
+        console.log("currentUrl:",url)
+ 
 
     return (
 
@@ -41,7 +42,7 @@ const location = useLocation();
                     </div>
 
                     <div className="col-4 d-flex align-items-center gap-2 text-white ">
-                        <div className='home-icon p-2 d-flex align-items-center'>  <Link to={"/"}> <HomeIcon /> </Link> </div>
+                        <div className='home-icon p-2 d-flex align-items-center'>  <Link to={"/"}> {url === "/" ? <HomeIcon/> : <HomeIcon2 />} </Link> </div>
                         <div className="d-flex bg-base search-bar rounded-pill align-items-center py-1 justify-content-between container-fluid" >
                             <div className='col-10 d-flex align-items-center'>
                                 <div className='col-1 py-1 search-Icon'>  <SearchIcon /> </div>
