@@ -23,7 +23,7 @@ const Search = () => {
 
     const getResult = async () => {
 
-        var res = await axios.get(`http://spotify-backend-blue.vercel.app/song/search/?search=` + query)
+        var res = await axios.get(`https://spotify-backend-blue.vercel.app/song/search/?search=` + query)
 
         res = res.data
         console.log("search Data :", res.data)
