@@ -23,7 +23,7 @@ const Search = () => {
 
     const getResult = async () => {
 
-        var res = await axios.get(`http://localhost:8000/song/search/?search=` + query)
+        var res = await axios.get(`http://spotify9292.netlify.app/song/search/?search=` + query)
 
         res = res.data
         console.log("search Data :", res.data)
