@@ -1,5 +1,4 @@
 import axios from "axios";
-import Bottom from "../components/Bottom"
 import { useContext, useEffect, useState } from "react";
 import VerifiedIcon from "../Icons/Verified";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
@@ -85,7 +84,6 @@ const Artist = () => {
         var res = await axios.post("https://spotify-backend-blue.vercel.app/auth/getUser", { token });
         res = res.data;
         setUser(res.data);
-
 
     }
 

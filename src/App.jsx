@@ -15,6 +15,8 @@ import Pricing from "./pages/Pricing"
 import songContext from "./contexts/SongContext"
 import playlistContext from "./contexts/PlaylistContext"
 import { useState } from "react"
+import Search from "./pages/Search"
+import SearchSong from "./pages/SongSearch"
 
 
 
@@ -49,6 +51,8 @@ function App() {
             <Route path="/album/:id" element={<Album />} />
             <Route path="/playlist/:id" element={<Playlist />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/search" element={<Search/>}/>
+            <Route path="/search/songs" element={<SearchSong/>}/>
             
           </Route>
 

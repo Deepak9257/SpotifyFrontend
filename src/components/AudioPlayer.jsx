@@ -19,9 +19,6 @@ const Player = () => {
   const { currentPlaylist } = useContext(playlistContext)
   const [songSrc, setSongSrc] = useState("")
 
-  const [play, setPlay] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null)
 
 
   useEffect(() => {
@@ -35,7 +32,7 @@ const Player = () => {
   }, [currentSong])
 
 
- 
+
 
 
   const handleNext = () => {
@@ -73,18 +70,12 @@ const Player = () => {
 
   };
 
-  const handlePause = () => {
-    setPlay(false)
-  }
-
-  const handlePlay = () => {
-    setPlay(true)
-    console.log("handle Play:", play)
-
-  }
 
   console.log("song url:", songSrc)
-  console.log("play:", play)
+
+
+
+ 
   return (
 
     <>
@@ -97,18 +88,20 @@ const Player = () => {
 
         controls={true}
         src={songSrc}
-        onPlay={e => { console.log("Playing now:", currentSong.name); handlePlay() }}
-        onPause={handlePause}
+        onPlay={e => { console.log("Playing now:", currentSong.name) }}
+
         onEnded={handleNext}
         onClickNext={handleNext}
         onClickPrevious={handlePrevious}
-        onCanPlay={handlePlay}
+
         showSkipControls={true}  // Show Next/Previous buttons
         showJumpControls={false}
         volume={0.5}
         customIcons={{
-          play: <div className='playIcon btn btn-light'>  <MusicPlayIcon /> </div>,
-          pause: <div className='playIcon btn btn-light'>{play ? <PauseIcon /> : <MusicPlayIcon />}</div>,
+          play: <div className='playIcon btn btn-light' data-bs-toggle="tooltip">  <MusicPlayIcon /> </div>,
+
+
+          pause: <div className='playIcon btn btn-light'><PauseIcon /></div>,
           previous: <div className='controls-btn'> <PreviousBtn /> </div>,
           next: <div className='controls-btn'> <NextBtn /> </div>,
 

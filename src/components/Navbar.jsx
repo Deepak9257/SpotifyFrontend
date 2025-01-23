@@ -1,31 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import HomeIcon from '../Icons/HomeIcon';
 import FileIcon from '../Icons/FileIcon';
 import SearchIcon from '../Icons/SearchIcon';
 import SpotifyIcon from '../Icons/SpotifyIcon';
-import {useNavigate, Link, useLocation} from "react-router-dom"
+import { useNavigate, Link, useLocation } from "react-router-dom"
+
 import HomeIcon2 from '../Icons/HomeIcon2';
+
+
+
 
 
 
 function Navbar({ user }) {
 
-    user = user?._id ? user : null;
+    const navigate = useNavigate()
+    const location = useLocation();
+    const [query, setQuery] = useState("")
+    const [delayQuery, setDelayQuery] = useState("")
 
-const location = useLocation();
+
+    useEffect(() => {
+
+        const timer = setTimeout(() => {
+
+            setDelayQuery(query)
+
+        }, 500);
+        console.log('timer')
+        return () => clearTimeout(timer)
+
+    }, [query])
+
+
     const handleLogout = () => {
-        
+
         const confirm = window.confirm("Are you sure?");
         if (confirm) {
             localStorage.removeItem("token");
             window.location.reload();
-            useNavigate("/")
+            navigate("/")
 
         }
     }
-        const url = useLocation().pathname
-        console.log("currentUrl:",url)
- 
+    const url = location.pathname
+    // console.log("currentUrl:", url)
+
+    useEffect(() => {
+
+        navigateToSearch()
+        console.log('latest search query upated ')
+    }, [delayQuery])
+
+
+    const navigateToSearch = () => {
+        navigate(`/search?q=${delayQuery}`);
+    }
+    user = user?._id ? user : null;
 
     return (
 
@@ -34,15 +65,15 @@ const location = useLocation();
 
                 <nav className="navbar row justify-content-between px-2">
                     <div className="col-2 navbar-brand text-white ms-3">
-                    <Link to={"/"}>
-                        
+                        <Link to={"/"}>
+
                             <SpotifyIcon />
-                        
-                    </Link>
+
+                        </Link>
                     </div>
 
                     <div className="col-4 d-flex align-items-center gap-2 text-white ">
-                        <div className='home-icon p-2 d-flex align-items-center'>  <Link to={"/"}> {url === "/" ? <HomeIcon/> : <HomeIcon2 />} </Link> </div>
+                        <div className='home-icon p-2 d-flex align-items-center'>  <Link to={"/"}> {url === "/" ? <HomeIcon /> : <HomeIcon2 />} </Link> </div>
                         <div className="d-flex bg-base search-bar rounded-pill align-items-center py-1 justify-content-between container-fluid" >
                             <div className='col-10 d-flex align-items-center'>
                                 <div className='col-1 py-1 search-Icon'>  <SearchIcon /> </div>
@@ -50,6 +81,8 @@ const location = useLocation();
                                 <input
                                     className="col-11 search-input p-2 bg-base rounded-pill border-0 txt w-100"
                                     placeholder="What do you want to play?"
+                                    value={query}
+                                    onChange={(e) => { setQuery(e.target.value), navigateToSearch() }}
                                 />
 
                             </div>

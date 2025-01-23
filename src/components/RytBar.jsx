@@ -26,7 +26,7 @@ function RytBar() {
 
     useEffect(() => {
         getArtistSongs();
-
+        getAlbumsSongs();
         console.log('rendered')
 
     }, [id])
@@ -50,6 +50,25 @@ function RytBar() {
         setCurrentIndex(0)
 
     }
+
+
+
+    const getAlbumsSongs = async () => {
+
+
+        if (!id) {
+            return;
+        }
+
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/song/getAllByAlbum/" + id)
+
+        var res = res.data
+        setCurrentPlaylist(res.data)
+        setCurrentSong(res.data[0])
+        setCurrentIndex(0)
+
+    }
+
 
     const getArtists = async () => {
         var res = await axios.get("https://spotify-backend-blue.vercel.app/artist/getAll");
@@ -161,20 +180,14 @@ function RytBar() {
                                     >
                                         {playId === item._id ? (
                                             <div
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                data-bs-custom-class="custom-tooltip"
-                                                data-bs-title={`Pause ${item.name}`}
+
                                             >
                                                 <PauseIcon />
                                             </div>
                                         ) : (
                                             <div
                                                 className="smallPlayIcon2"
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                data-bs-custom-class="custom-tooltip"
-                                                data-bs-title={`Play ${item.name}`}
+
                                             >
                                                 <SmallPlayIcon />
                                             </div>
@@ -239,20 +252,14 @@ function RytBar() {
                                     >
                                         {playId === item._id ? (
                                             <div
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                data-bs-custom-class="custom-tooltip"
-                                                data-bs-title={`Pause ${item.name}`}
+
                                             >
                                                 <PauseIcon />
                                             </div>
                                         ) : (
                                             <div
                                                 className="smallPlayIcon2"
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                data-bs-custom-class="custom-tooltip"
-                                                data-bs-title={`Play ${item.name}`}
+
                                             >
                                                 <SmallPlayIcon />
                                             </div>

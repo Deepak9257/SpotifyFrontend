@@ -461,7 +461,40 @@ tr:hover {
   
 }
 
+.top-result{
+  background-color: #181818;
+  transition: 0.2s ease-in-out;
+}
 
+.top-result:hover {
+  background-color: #292929;
+}
+
+.song-div{
+  transition: 0.2s ease-in-out;
+}
+.song-div:hover {
+  background-color: #292929;
+
+}
+
+.btn-div div button{
+  background-color: #2a2a2a ;
+  border: none;
+  padding: 15px;
+  transition: 0.2s ease-in;
+}
+
+.btn-div div button:hover{
+  background-color: #3b3b3b; ;
+
+}
+
+.no-search{
+  margin-top: 20%;
+  background-color: #121212;
+
+}
 
 
 @media only screen and (max-width: 426px) {
