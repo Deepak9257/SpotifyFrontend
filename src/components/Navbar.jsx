@@ -16,21 +16,25 @@ function Navbar({ user }) {
 
     const navigate = useNavigate()
     const location = useLocation();
-    const [query, setQuery] = useState("")
-    const [delayQuery, setDelayQuery] = useState("")
+    // const [query, setQuery] = useState("")
+    // const [updatedQuery, setUpdatedQuery] = useState("")
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const timer = setTimeout(() => {
+    //     let timer = setTimeout(() => {
 
-            setDelayQuery(query)
+    //         setUpdatedQuery(query)
+    //         console.log('updated query :', updatedQuery)
+    //     }, 500)
 
-        }, 500);
-        console.log('timer')
-        return () => clearTimeout(timer)
+    //     return ()=>{
+    //         clearTimeout(timer)
+    //     }
 
-    }, [query])
+    // }, [query])
+
+
 
 
     const handleLogout = () => {
@@ -43,21 +47,15 @@ function Navbar({ user }) {
 
         }
     }
-    const url = location.pathname
-    // console.log("currentUrl:", url)
 
-    useEffect(() => {
+    const handleChange = (e) => {
 
-        navigateToSearch()
-        console.log('latest search query upated ')
-    }, [delayQuery])
-
-
-    const navigateToSearch = () => {
-        navigate(`/search?q=${delayQuery}`);
+        // setQuery(e.target.value);
+        navigate(`/search?q=${e.target.value}`);
     }
-    user = user?._id ? user : null;
 
+    user = user?._id ? user : null;
+    const url = location.pathname
     return (
 
         <>
@@ -79,10 +77,10 @@ function Navbar({ user }) {
                                 <div className='col-1 py-1 search-Icon'>  <SearchIcon /> </div>
 
                                 <input
-                                    className="col-11 search-input p-2 bg-base rounded-pill border-0 txt w-100"
+                                    className="col-11 search-input p-2 rounded-pill border-0 txt w-100"
                                     placeholder="What do you want to play?"
-                                    value={query}
-                                    onChange={(e) => { setQuery(e.target.value), navigateToSearch() }}
+                                    // value={query}
+                                    onChange={(e) => { handleChange(e) }}
                                 />
 
                             </div>

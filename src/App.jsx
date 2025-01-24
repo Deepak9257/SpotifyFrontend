@@ -17,6 +17,7 @@ import playlistContext from "./contexts/PlaylistContext"
 import { useState } from "react"
 import Search from "./pages/Search"
 import SearchSong from "./pages/SongSearch"
+import SearchLayout from "./layout/SearchLayout"
 
 
 
@@ -51,8 +52,12 @@ function App() {
             <Route path="/album/:id" element={<Album />} />
             <Route path="/playlist/:id" element={<Playlist />} />
             <Route path="/pricing" element={<Pricing />} />
+            < Route element={<SearchLayout/>} >
+
             <Route path="/search" element={<Search/>}/>
             <Route path="/search/songs" element={<SearchSong/>}/>
+
+            </Route>
             
           </Route>
 

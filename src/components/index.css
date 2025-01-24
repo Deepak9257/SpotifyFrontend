@@ -42,21 +42,28 @@
 }
 
 .scroll::-webkit-scrollbar {
-  display: none;
-}
+    transition: 0.2s all;
+    position: absolute;
+    width: 12px;
+   
+  }
 
-.scroll:hover::-webkit-scrollbar {
-  position: absolute;
-  width: 12px;
-  background-color: #ffffff00;
-  display: block;
-  z-index: 99999;
+  .scroll::-webkit-scrollbar-thumb:hover{
+    background-color: #7c7c7c;
+  }
+
+
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #5a5a5a;
+  visibility: hidden;
+  transition: 0.1s all;
 }
 
 .scroll:hover::-webkit-scrollbar-thumb {
-  background-color: #202020;
-  position: absolute;
+  visibility: visible;
 }
+
 
 .bottom-bg {
   background: linear-gradient(
