@@ -3,14 +3,12 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 function SingnUp() {
-  const [uname, setName] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [upassword, setPassword] = useState('');
   const [msg, setMsg] = useState({});
   const [openForm, setOpenForm] = useState(false)
   const navigate = useNavigate();
-
-
 
 
   const validateEmail = async (e) => {
@@ -34,11 +32,10 @@ function SingnUp() {
   }
 
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     var res = await axios.post("https://spotify-backend-blue.vercel.app/auth/register", {
-      uname, email, password: upassword
+      name, email, password: upassword
     })
 
     console.log(res.data)
@@ -71,7 +68,7 @@ function SingnUp() {
   }
 
 
-  console.log("user Name:", uname)
+  console.log("user Name:", name)
   console.log("user Email:", email)
 
   return <>
@@ -94,7 +91,7 @@ function SingnUp() {
             <div className="name-input">
               <input
                 type="text"
-                value={uname}
+                value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-100 p-2 rounded hvr bg-dark b"
                 id="name"
