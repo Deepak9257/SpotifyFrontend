@@ -15,9 +15,13 @@ import Pricing from "./pages/Pricing"
 import songContext from "./contexts/SongContext"
 import playlistContext from "./contexts/PlaylistContext"
 import { useState } from "react"
-import Search from "./pages/Search"
+import Search from "./pages/AllSearch"
 import SearchSong from "./pages/SongSearch"
 import SearchLayout from "./layout/SearchLayout"
+import SongSearch from "./pages/SongSearch"
+import ArtistSearch from "./pages/ArtistSearch"
+import AlbumSearch from "./pages/AlbumSearch"
+import Browse from "./pages/Browse"
 
 
 
@@ -52,10 +56,13 @@ function App() {
             <Route path="/album/:id" element={<Album />} />
             <Route path="/playlist/:id" element={<Playlist />} />
             <Route path="/pricing" element={<Pricing />} />
-            < Route element={<SearchLayout/>} >
+            <Route element={<SearchLayout/>} >
 
-            <Route path="/search" element={<Search/>}/>
-            <Route path="/search/songs" element={<SearchSong/>}/>
+            <Route path="/search" element={<Browse/>}/>
+            <Route path="/search/:q" element={<Search/>}/>
+            <Route path="/search/:q/song" element={<SongSearch/>}/>
+            <Route path="/search/:q/artist" element={<ArtistSearch/>}/>
+            <Route path="/search/:q/album" element={<AlbumSearch/>}/>
 
             </Route>
             

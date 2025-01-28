@@ -16,25 +16,7 @@ function Navbar({ user }) {
 
     const navigate = useNavigate()
     const location = useLocation();
-    // const [query, setQuery] = useState("")
-    // const [updatedQuery, setUpdatedQuery] = useState("")
-
-
-    // useEffect(() => {
-
-    //     let timer = setTimeout(() => {
-
-    //         setUpdatedQuery(query)
-    //         console.log('updated query :', updatedQuery)
-    //     }, 500)
-
-    //     return ()=>{
-    //         clearTimeout(timer)
-    //     }
-
-    // }, [query])
-
-
+    const [searchValue, setSearchValue] = useState('');
 
 
     const handleLogout = () => {
@@ -48,14 +30,34 @@ function Navbar({ user }) {
         }
     }
 
+    const url = location.pathname
+    console.log("url:",url )
+
     const handleChange = (e) => {
 
-        // setQuery(e.target.value);
-        navigate(`/search?q=${e.target.value}`);
+        const category = url.split(`/`)[3] || ""
+
+        console.log("category:",category )
+
+        const value = e.target.value?.trim() || ""
+        console.log("value:",`/search/${value}`)
+        
+        if(value === ""){
+        navigate(`/search`);
+        return;
+        }   
+
+        if(category.length > 0){
+       
+            return navigate(`/search/${value}/${category}`);
+          
+        }
+        
+        navigate(`/search/${value}`);
     }
 
     user = user?._id ? user : null;
-    const url = location.pathname
+
     return (
 
         <>
@@ -79,7 +81,6 @@ function Navbar({ user }) {
                                 <input
                                     className="col-11 search-input p-2 rounded-pill border-0 txt w-100"
                                     placeholder="What do you want to play?"
-                                    // value={query}
                                     onChange={(e) => { handleChange(e) }}
                                 />
 

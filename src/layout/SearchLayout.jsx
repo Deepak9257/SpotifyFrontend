@@ -3,13 +3,20 @@ import SearchNav from "../components/SearchNav";
 
 
 const SearchLayout = () => {
-    
-    
-    
+
+
+
     return (<>
 
-            {/* <SearchNav/> */}
-            <Outlet/>
+
+        <div className="mx-1 rounded  justify-content-between gap-2 text-white rounded-bottom scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
+
+            <SearchNav />
+
+            <Outlet />
+
+        </div>
+
 
 
     </>)

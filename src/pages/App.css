@@ -312,6 +312,7 @@ th,
 td {
   padding: 10px;
   text-align: left;
+  
 }
 th {
   font-size: 14px;
@@ -320,7 +321,7 @@ th {
 td {
   font-size: 16px;
 }
-tr:hover {
+.table-container tr:hover {
   background-color: #282828;
 }
 
@@ -372,8 +373,14 @@ tr:hover {
   left: -5px;
 }
 
+.search-title-bar div{
+  font-size: 14px;
+  color: #b3b3b3;
+}
+
 .tr-border:hover .popover-div {
   display: block;
+
 }
 
 .tr-border:hover .addIcon {
@@ -495,6 +502,21 @@ tr:hover {
   background-color: #121212;
 
 }
+
+.searchNav button{
+  color: black !important;
+  background-color: white !important;
+}
+
+.song-bar{
+  transition: 0.1s all;
+}
+.song-bar:hover{
+background-color: #3b3b3b;
+
+}
+
+
 
 
 @media only screen and (max-width: 426px) {

@@ -39,31 +39,46 @@
 
 .scroll {
   overflow-y: auto;
-}
+  overflow-x: hidden;
+} 
 
 .scroll::-webkit-scrollbar {
-    transition: 0.2s all;
-    position: absolute;
-    width: 12px;
-   
-  }
+  transition: 0.2s all;
+  width: 12px;
 
-  .scroll::-webkit-scrollbar-thumb:hover{
-    background-color: #7c7c7c;
-  }
+ 
+}
 
+.w-175{
+  width: 175px;
+}
+
+.hvr-grey{
+  transition: 0.1s ease-in-out;
+}
+
+.hvr-grey:hover{
+  background: #2a2a2a;
+}
+
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #7c7c7c;
+ 
+}
 
 
 .scroll::-webkit-scrollbar-thumb {
   background-color: #5a5a5a;
   visibility: hidden;
   transition: 0.1s all;
+
+ 
 }
 
 .scroll:hover::-webkit-scrollbar-thumb {
   visibility: visible;
 }
-
 
 .bottom-bg {
   background: linear-gradient(
@@ -99,63 +114,52 @@
   padding: 18%;
   margin: 4%;
   transition: 0.1s all !important;
-
 }
 
-.playIcon:active{
+.playIcon:active {
   transform: scale(0.98) !important;
 }
-
 
 .playIcon:hover {
   transform: scale(1.08);
 }
 
-
 .controls-btn:hover path {
   fill: white;
-  
 }
 
-.controls-btn:hover svg{
+.controls-btn:hover svg {
   transform: scale(1.1);
 }
 
-.controls-btn:active{
+.controls-btn:active {
   transform: scale(0.95);
 }
 
-
-.controls-btn{
+.controls-btn {
   display: flex;
   justify-content: center;
   transition: 0.05s all;
 }
 
-
 .playlist-bar:hover {
   background-color: #2a2a2a;
   border-radius: 80%;
-
 }
 
 .playlist-bar:hover .smallPlayIcon {
   visibility: visible;
-  
 }
 
-.smallPlayIcon{
+.smallPlayIcon {
   visibility: hidden;
   left: 2%;
   padding: 3% 3.8%;
   background-color: #2a2a2a84;
-  transition:  ease-in;
+  transition: ease-in;
 }
 
-.active{
+.active {
   background-color: #2a2a2a;
   border-radius: 5px;
 }
-
-
-
