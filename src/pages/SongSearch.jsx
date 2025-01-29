@@ -1,9 +1,21 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
+import AddIcon from "../Icons/AddIcon";
+import songContext from "../contexts/SongContext";
+import playlistContext from "../contexts/PlaylistContext";
 
 const SongSearch = () => {
+
+
+
+    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const { setCurrentPlaylist } = useContext(playlistContext);
+
+
+
+
     const [result, setResult] = useState([]);
 
     const [loading, setLoading] = useState(true);
@@ -75,14 +87,30 @@ const SongSearch = () => {
                         result.slice(0, 4).map((song, index) => (
                             <>
 
-                                <div className="song-bar d-flex align-items-center rounded py-1">
-                                    <div className="px-4">{index + 1}</div>
+                                <div className="song-bar position-relative  d-flex align-items-center rounded py-1">
+                                    <div className="px-4 song-index">{index + 1}</div>
                                     <div className="col-6">
 
                                         <div className="d-flex col align-items-center">
 
-                                            <div >
+                                            <div className="d-flex align-items-center">
+
                                                 <img src={song.image} alt="song Image" height={40} className="rounded" />
+
+                                                <span className="search-song-play-icon"
+                                                 onClick={() => {
+                                                    {
+                                                      setCurrentIndex(index),
+                                                        setCurrentSong(song),
+                                                        setCurrentPlaylist(result);
+                                                    }
+                                                  }}
+                                                
+                                                
+                                                
+                                                >
+                                                <SmallPlayIcon/>
+                                                </span>
                                             </div>
 
                                             <div className="px-2">
@@ -93,6 +121,9 @@ const SongSearch = () => {
 
                                     </div>
                                     <div className="col-5">{song?.album?.name}</div>
+                                    <span className="addIcon3">
+                                    <AddIcon />
+                                    </span>
                                     <div className="col">3.7</div>
                                 </div>
 

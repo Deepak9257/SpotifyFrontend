@@ -1,9 +1,18 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
+import AddIcon from "../Icons/AddIcon";
+import songContext from "../contexts/SongContext";
+import playlistContext from "../contexts/PlaylistContext";
 
 const Search = () => {
+
+
+    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const { setCurrentPlaylist } = useContext(playlistContext);
+
+
 
     const [result, setResult] = useState([]);
 
@@ -35,6 +44,27 @@ const Search = () => {
 
     }
 
+
+    const getUniqueData = (data, artist) => {
+        let res = data.map((item) => {
+            return item[artist].name
+        })
+
+
+        res = [... new Set(res)]
+        console.log("unique data:", res)
+
+        const uniqueArtist = res.map((artistName) => {
+            return data.find((item) => item[artist].name === artistName)
+        })
+        console.log("Unique artist: ", uniqueArtist);
+
+        return uniqueArtist;
+    }
+
+    const uniqueData = getUniqueData(result, "artist")
+
+
     if (loading) {
         return <div className="mx-1 p-5 justify-content-between text-center gap-2 text-white p-3 rounded overflow-auto scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
             Loading.....
@@ -53,6 +83,8 @@ const Search = () => {
     }
 
 
+    const { q } = useParams()
+    const query2 = q || ""
 
     return (<>
 
@@ -64,12 +96,12 @@ const Search = () => {
 
             <div className="d-flex fw-bold">
 
-                <div className="p-3 col-5">
+                <div className="px-3  py-4 col-5 ">
 
                     <div className="fs-3 mb-2">  Top result </div>
 
                     {
-                        <div className="top-result p-3 rounded" >
+                        <div className="top-result p-3 p rounded" >
 
                             <img className="rounded-circle " width={100} height={100} src={result.length === 0 ? "" : result[0].artist.image} alt="" srcset="" /> <br />
 
@@ -79,49 +111,109 @@ const Search = () => {
 
                             </span> <br />
 
-                            <span> Artist </span>
+
+                            <span className="text-grey"> Artist </span>
+
+                            <div
+                                className="top-play rounded-circle d-flex position-absolute justify-content-center align-items-center p-3"
+                                onClick={() => {
+                                    setCurrentPlaylist(result),
+                                      setCurrentSong(result[0]),
+                                      setCurrentIndex(0);
+                                  }}
+                            >
+                                {playId === result[0]._id ? (
 
 
+
+                                 <span className="d-flex align-items-center"> 
+                                       <PauseIcon />
+                                 </span>
+
+                                ) : (
+                                    <span className="d-flex align-items-center">
+
+                                        <SmallPlayIcon />
+                                    </span>
+
+
+                                )}
+                            </div>
                         </div>}
+
+
+
+
+
 
                 </div>
 
 
-                <div className="col pt-3 ">
+                <div className="col py-4  ">
+
+                    <div className="fs-3 ">
+
+                        <Link to={`/search/${query2}/song`}
+                            class="fw-bold fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+
+                        >
+                            Songs
+                        </Link>
 
 
-                    <div className="fs-3">  Songs </div>
+                    </div>
 
                     {result && result.slice(0, 4).map((song, index) => (
 
                         <>
 
-                                <div key={index} className="" >
+                            <div key={index} className="search-song-div" >
 
-                                    <div className="d-flex my-2 song-div rounded px-2 align-items-center ">
+                                <div className="d-flex song-div rounded p-1 px-2 align-items-center ">
 
-                                        {/* song name/image  div */}
-                                        <div className="d-flex col align-items-center">
+                                    {/* song name/image  div */}
+                                    <div className="d-flex col align-items-center">
 
-                                            <div >
-                                                <img src={song.image} alt="song Image" height={40} className="rounded" />
-                                            </div>
-
-                                            <div className="px-2">
-                                                <span> {song.name} </span> <br />
-                                                <span> {song.artist.name} </span>
-                                            </div>
+                                        <div className="d-flex align-items-center">
+                                            
+                                            <img src={song.image} alt="song Image" height={42} className="rounded" />
+                                           
+                                            <span className="search-play-icon" 
+                                             onClick={() => {
+                                                {
+                                                  setCurrentIndex(index),
+                                                    setCurrentSong(song),
+                                                    setCurrentPlaylist(result);
+                                                }
+                                              }}
+                                            
+                                             
+                                            >
+                                                <SmallPlayIcon/>
+                                            </span>
                                         </div>
 
-                                        {/* time div */}
-                                        <div className="col-1 me-2" >
-                                            {song.time}
-                                        </div >
-
-
+                                        <div className="px-2">
+                                            <span> {song.name} </span> <br />
+                                            <span className="text-grey"> {song.artist.name} </span>
+                                        </div>
                                     </div>
 
+                                    <span className="addIcon2">
+                                    <AddIcon />
+                                    </span>
+                                    {/* time div */}
+                                    <div className="col-1 me-2" >
+                                        {song.time}
+                                        
+                                    </div >
+
+                                   
+
+
                                 </div>
+
+                            </div>
                         </>
                     ))}
 
@@ -133,19 +225,19 @@ const Search = () => {
             {/* Artist Section */}
 
             <div className="col text-white">
-                <a
+                <Link to={`/search/${query2}/artist`}
                     class="fw-bold fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
-                    href="#"
+
                 >
                     Artists
-                </a>
+                </Link>
             </div>
 
-            <div className="row mx-auto px-3 justify-content-evenly">
-                {result &&
-                    result.slice(0, 6).map((song, index) => (
+            <div className="d-flex mx-auto px-3">
+                {uniqueData &&
+                    uniqueData.map((song, index) => (
                         <div
-                            className="rounded col-2 p hvr-artist py-2 position-relative my-3"
+                            className="rounded p hvr-grey p-2 pt-3 position-relative my-3"
                             key={index}
                         >
                             <Link
@@ -157,8 +249,8 @@ const Search = () => {
                                         src={song.artist.image}
                                         alt="hi"
                                         className="rounded-circle shadow object-fit-cover"
-                                        height={"150px"}
-                                        width={"150px"}
+                                        height={"185px"}
+                                        width={"195px"}
                                     />
                                 </div>
                                 <span className="text-white"> {song.artist.name} </span> <br />
@@ -168,8 +260,10 @@ const Search = () => {
                             <div
                                 className="play"
                                 onClick={() => {
-                                    setId(song._id), setPlayId(song._id);
-                                }}
+                                    setCurrentPlaylist(uniqueData),
+                                      setCurrentSong(song),
+                                      setCurrentIndex(0);
+                                  }}
                             >
                                 {playId === song._id ? (
                                     <div
@@ -194,42 +288,40 @@ const Search = () => {
             {/* ALbum Section */}
 
             <div className="col text-white">
-                <a
+                <Link
                     class="fw-bold fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
-                    href="#"
+                    to={`/search/${query2}/album`}
                 >
                     Albums
-                </a>
+                </Link>
             </div>
 
-            <div className="row mx-auto px-3 justify-content-evenly">
-                {result &&
-                    result.slice(0, 6).map((song, index) => (
+            <div className="d-flex mx-auto px-3 ">
+                {uniqueData &&
+                    uniqueData.map((song, index) => (
                         <div
-                            className="rounded col-2 p hvr-artist py-2 position-relative my-3"
+                            className="rounded p hvr-grey p-2 position-relative my-3"
                             key={index}
                         >
                             <Link
-                                to={`/artist/${song.album._id}`}
+                                to={`/album/${song.album._id}`}
                                 className="text-decoration-none"
                             >
-                                <div className="d-flex justify-content-center pb-4">
-                                    <img
-                                        src={song.album.image}
-                                        alt="hi"
-                                        className="rounded-circle shadow object-fit-cover"
-                                        height={"150px"}
-                                        width={"150px"}
-                                    />
+                                <div className="pb-2">
+                                    <img src={song?.album?.image} alt="album cover" className="rounded" height={185} width={195} />
+
                                 </div>
                                 <span className="text-white"> {song.album.name} </span> <br />
                                 <span className="text-secondary"> Album </span>
                             </Link>
-                            <div
+
+                             <div
                                 className="play"
                                 onClick={() => {
-                                    setId(song._id), setPlayId(song._id);
-                                }}
+                                    setCurrentPlaylist(uniqueData),
+                                      setCurrentSong(song),
+                                      setCurrentIndex(0);
+                                  }}
                             >
                                 {playId === song._id ? (
                                     <div

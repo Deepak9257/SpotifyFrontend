@@ -1,10 +1,20 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import PauseIcon from "../Icons/PauseIcon";
+import songContext from "../contexts/SongContext";
+import playlistContext from "../contexts/PlaylistContext";
 
 const ArtistSearch = () => {
+
+
+
+    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const { setCurrentPlaylist } = useContext(playlistContext);
+
+
+
     const [result, setResult] = useState([]);
 
     const [loading, setLoading] = useState(true);
@@ -36,9 +46,9 @@ const ArtistSearch = () => {
         let res = data.map((album) => {
             return album[name].name
         })
-       
+
         res = [... new Set(res)]
-       
+
         console.log(res)
         const uniqueData = res.map((artistName) => {
             return data.find((artist) => artist[name].name === artistName); // Return the full album object
@@ -86,7 +96,7 @@ const ArtistSearch = () => {
                 <div className="d-flex flex-wrap">
                     {uniqueArtist &&
                         uniqueArtist.map((song, index) => (
-                            <div className="d-flex " key={index}>
+                            <div className="d-flex p " key={index}>
 
                                 <div className="hvr-grey rounded p-2 ">
 
@@ -97,9 +107,23 @@ const ArtistSearch = () => {
                                     <div className="text-wrap w-175" >{song?.artist?.name}</div>
 
 
-                                     <div key={index} className="text-grey text-wrap w-175">Artist</div>
+                                    <div key={index} className="text-grey text-wrap w-175">Artist</div>
 
-                                  
+                                </div>
+
+                                <div className="play">
+
+                                    <div className="smallPlayIcon2"
+                                        onClick={() => {
+                                            setCurrentPlaylist(uniqueArtist),
+                                                setCurrentSong(song),
+                                                setCurrentIndex(0);
+                                        }}
+
+
+                                    >
+                                        <SmallPlayIcon />
+                                    </div>
 
                                 </div>
 

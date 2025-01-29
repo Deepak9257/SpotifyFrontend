@@ -413,6 +413,9 @@ td {
   transition: 0.1s ease-in;
 }
 
+
+
+
 .playlist-popover-content {
   position: absolute;
   display: none;
@@ -475,6 +478,11 @@ td {
 
 .top-result:hover {
   background-color: #292929;
+
+}
+
+.top-result:hover .top-play{
+  visibility: visible;
 }
 
 .song-div{
@@ -515,6 +523,81 @@ td {
 background-color: #3b3b3b;
 
 }
+.top-play{
+  width: 45px;
+  height: 45px;
+  background-color: #1ed760;
+  top: 75%;
+  left: 85%;
+  visibility: hidden;
+  transition: 0.2s all;
+}
+
+.top-play svg{
+  fill: black;
+  height: 24px;
+
+}
+
+.addIcon2{
+  visibility: hidden;
+  transition: 0.1 all;
+  position: absolute;
+  left: 75%;
+}
+
+.addIcon2:hover svg{
+  fill: white;
+  transform: scale(1.1);
+}
+
+.search-song-div{
+  position: relative;
+  
+}
+
+.search-play-icon {
+  position: absolute;
+  left: 3%;
+  visibility: hidden;
+ 
+}
+
+.search-song-play-icon{
+  position: absolute;
+  left: 2%;
+  visibility: hidden;
+  transition: 0.1s all;
+  
+}
+
+.song-bar:hover .song-index{
+  visibility: hidden;
+}
+
+
+.song-bar:hover .search-song-play-icon, .song-bar:hover .addIcon3{
+  visibility: visible;
+
+}
+
+.search-song-div:hover .addIcon2, .search-song-div:hover .search-play-icon{
+    visibility: visible;
+}
+
+.addIcon3{
+  position: absolute;
+  left: 92%;
+  visibility: hidden;
+  transition: 0.1s all;
+}
+
+.addIcon3:hover svg{
+  fill: white !important;
+  transform: scale(1.1);
+}
+
+
 
 
 

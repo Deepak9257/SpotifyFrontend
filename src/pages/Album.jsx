@@ -236,9 +236,7 @@ const Album = () => {
                               </span>
                             </span>
 
-                            <div className="playlist-popover-content text-white px-3 rounded shadow">
-                              Add to playlist
-                            </div>
+                           
                           </td>
                         </tr>
                       ))}
