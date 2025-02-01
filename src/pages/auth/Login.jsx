@@ -22,6 +22,7 @@ function Login() {
       email: uemail, password: upassword
     })
 
+    console.log(res.data)
 
   if (res.data) {
 

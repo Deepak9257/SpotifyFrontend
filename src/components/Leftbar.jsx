@@ -168,16 +168,16 @@ function Leftbar({ user }) {
                 <div className="p-2" style={{ backgroundColor: "#2c2c2c" }}>
                   <MusicIcon />
                 </div>
-                  <div
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      data-bs-custom-class="custom-tooltip"
-                      data-bs-title={`Play ${item.name}`}
-      
+                <div
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip"
+                  data-bs-title={`Play ${item.name}`}
+
 
                   className="position-absolute smallPlayIcon">
-                    <SmallPlayIcon/>
-                  </div>
+                  <SmallPlayIcon />
+                </div>
                 <div>
 
                   {item.name}
@@ -202,14 +202,14 @@ function Leftbar({ user }) {
                 >
                   <h4>Create your first playlist</h4>
                   <h5>It's easy, we'll help you</h5>
-                  <a
-                    href="#"
-                    className="text-decoration-none text-dark"
-                    data-bs-toggle="modal"
-                    data-bs-target="#LoginModal"
-                  >
+                  <div className="px-3 border">
+                    <a
+                      href="#"
+                      className="text-decoration-none text-dark"
+                      data-bs-toggle="modal"
+                      data-bs-target="#LoginModal"
+                    >
 
-                    <div className="px-3">
 
                       <button
                         type="button"
@@ -217,8 +217,9 @@ function Leftbar({ user }) {
                       >
                         Create Playlist
                       </button>
-                    </div>
-                  </a>
+                    </a>
+                  </div>
+
                 </div>
 
                 <div
@@ -289,14 +290,16 @@ function Leftbar({ user }) {
                 >
                   <h4>Create your first playlist</h4>
                   <h5>It's easy, we'll help you</h5>
-                  <a
-                    href="/playlist"
-                    className="text-decoration-none text-dark"
-                    data-bs-toggle="modal"
-                    data-bs-target="#CreatePlaylist"
-                  >
 
-                    <div className="px-3">
+                  <div className="px-3 border">
+
+                    <a
+                      href="/playlist"
+                      className="text-decoration-none text-dark"
+                      data-bs-toggle="modal"
+                      data-bs-target="#CreatePlaylist"
+                    >
+
 
                       <button
                         type="button"
@@ -305,8 +308,12 @@ function Leftbar({ user }) {
 
                         Create Playlist
                       </button>
-                    </div>
-                  </a>
+                    </a>
+
+                          
+               
+
+                  </div>
                 </div>
 
                 <div
