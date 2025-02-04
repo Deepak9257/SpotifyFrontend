@@ -15,7 +15,6 @@ function Leftbar({ user }) {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
 
-
   // popover state variables
   const [popover, setPopover] = useState(false);
   const targetRef = useRef(null);
@@ -27,7 +26,7 @@ function Leftbar({ user }) {
     });
     res = res.data;
     getAllPlaylist();
-    console.log(res.data)
+    console.log('playlist created successfully:',res.data)
   };
 
 
@@ -130,9 +129,6 @@ function Leftbar({ user }) {
     );
   }
 
-
-
-
   const user2 = user?._id ? user : null;
 
 
@@ -141,6 +137,7 @@ function Leftbar({ user }) {
 
   const handleClose = () => {
     setPopover(false);
+
 
   };
 
@@ -186,9 +183,9 @@ function Leftbar({ user }) {
                   <AddPlaylistIcon/>
                 </div>
 
-                <div>
+                <div onClick={createPlaylist}>
                   
-                  Create Playlist 
+                  Create Playlist
 
                 </div>
               </div>
@@ -242,7 +239,7 @@ function Leftbar({ user }) {
                 >
                   <h4>Create your first playlist</h4>
                   <h5>It's easy, we'll help you</h5>
-                  <div className="px-3 border">
+                  <div className="px-3">
                     <a
                       href="#"
                       className="text-decoration-none text-dark"
@@ -331,7 +328,7 @@ function Leftbar({ user }) {
                   <h4>Create your first playlist</h4>
                   <h5>It's easy, we'll help you</h5>
 
-                  <div className="px-3 border">
+                  <div className="px-3">
 
                     <a
                       href="/playlist"
