@@ -1,10 +1,12 @@
 import LibraryIcon from "../Icons/LibraryIcon";
 import PlusIcon from "../Icons/PlusIcon";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { NavLink } from "react-router-dom";
 import MusicIcon from "../Icons/MusicIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
+import Popover from "./Popover";
+import AddPlaylistIcon from "../Icons/AddPlaylistIcon";
 
 function Leftbar({ user }) {
 
@@ -13,13 +15,18 @@ function Leftbar({ user }) {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
 
+
+  // popover state variables
+  const [popover, setPopover] = useState(false);
+  const targetRef = useRef(null);
+
   const createPlaylist = async (e) => {
     e.preventDefault();
     var res = await axios.post("https://spotify-backend-blue.vercel.app/playlist/create", {
       name, image, status, userId: user?._id
     });
     res = res.data;
-    // window.location.reload();
+    getAllPlaylist();
     console.log(res.data)
   };
 
@@ -130,10 +137,16 @@ function Leftbar({ user }) {
 
 
 
-  // tooltip code
+  // popover code
 
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+  const handleClose = () => {
+    setPopover(false);
+
+  };
+
+  const togglePopover = () => {
+    setPopover(!popover)
+  }
 
 
 
@@ -149,13 +162,40 @@ function Leftbar({ user }) {
 
             <LibraryIcon /> Your library
           </span>
-          <span>
 
-            <a href="#" data-bs-toggle="modal" data-bs-target="#CreatePlaylist">
+          <span ref={targetRef} onClick={togglePopover} className="plusIcon rounded-circle p-2 d-flex align-items-center">
 
-              <PlusIcon />
-            </a>
+           <PlusIcon />
+
           </span>
+
+
+          {popover &&  <Popover
+              targetRef={targetRef}
+              onClose={handleClose}
+              setPopover={setPopover}
+              customPosition={{top:"125", left:"180"}}
+
+              position="left" 
+              style={{ backgroundColor: "#282828" , padding:"5px" }}
+            >
+
+              <div className=" text-white d-flex createPlaylist gap-2 align-items-center p-2">
+               
+                <div className="d-flex">
+                  <AddPlaylistIcon/>
+                </div>
+
+                <div>
+                  
+                  Create Playlist 
+
+                </div>
+              </div>
+
+            </Popover>}
+
+
         </div>
 
         {playlist && playlist.length > 0 ? (
@@ -310,8 +350,8 @@ function Leftbar({ user }) {
                       </button>
                     </a>
 
-                          
-               
+
+
 
                   </div>
                 </div>
