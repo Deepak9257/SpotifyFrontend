@@ -12,7 +12,7 @@ function Leftbar({ user }) {
 
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState();
   const [loading, setLoading] = useState(true);
 
   // popover state variables
