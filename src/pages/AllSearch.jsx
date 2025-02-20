@@ -22,6 +22,7 @@ const Search = () => {
     const location = useLocation()
     const query = location.pathname.split('/search/')[1]
     console.log(query)
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             getResult()
