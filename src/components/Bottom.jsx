@@ -19,7 +19,7 @@ function Bottom({user}) {
               <div className="col text-end p-2">
                 <button
                   type="button"
-                  class="btn btn-light rounded-pill signup-btn px-4 fw-bold"
+                  className="btn btn-light rounded-pill signup-btn px-4 fw-bold"
                 >
                   Sign up free
                 </button>

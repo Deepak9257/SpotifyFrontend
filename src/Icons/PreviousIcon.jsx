@@ -6,7 +6,7 @@ const PreviousBtn = () => {
         role="img"
         aria-hidden="true"
         viewBox="0 0 16 16"
-        class="Svg-sc-ytk21e-0 dYnaPI"
+        className="Svg-sc-ytk21e-0 dYnaPI"
         fill="#b3b3b3"
         height="18"
       >

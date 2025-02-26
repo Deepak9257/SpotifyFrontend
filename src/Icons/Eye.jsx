@@ -6,7 +6,7 @@ const Eye = () => {
         role="img"
         aria-hidden="true"
         viewBox="0 0 24 24"
-        class="Svg-sc-ytk21e-0 ZujEm"
+        className="Svg-sc-ytk21e-0 ZujEm"
         height="28"
         fill="#b3b3b3"
 

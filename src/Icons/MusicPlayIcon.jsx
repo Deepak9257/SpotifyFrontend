@@ -4,7 +4,7 @@ const MusicPlayIcon = () => {
       data-encore-id="icon"
       role="img"
       aria-hidden="true"
-      class="Svg-sc-ytk21e-0 bneLcE zOsKPnD_9x3KJqQCSmAq"
+      className="Svg-sc-ytk21e-0 bneLcE zOsKPnD_9x3KJqQCSmAq"
       viewBox="0 0 24 24"
       height="20"
       fill="black"

@@ -1,12 +1,65 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import VerifiedIcon from "../Icons/Verified";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import AddIcon from "../Icons/AddIcon";
 import songContext from "../contexts/SongContext";
 import playlistContext from "../contexts/PlaylistContext";
+import LoginBtnContext from "../contexts/RefContext";
+import { Popover } from "@base-ui-components/react/popover";
+import PopoverArrow from "../Icons/PopoverArrow";
+import MusicIcon from "../Icons/MusicIcon";
+import CheckIcon from "../Icons/CheckIcon";
+import PlusIcon from "../Icons/PlusIcon";
 
-const Artist = () => {
+const Artist = ({ userId }) => {
+
+    const [oneArtist, setOneArtist] = useState({})
+
+    //login button ref to position popover when logout
+    const loginBtnRef = useContext(LoginBtnContext)
+
+    // selected effect conditions on tr-border
+    const [selectedRow, setSelectedRow] = useState(null)
+
+    const handleClick = (index) => {
+        setSelectedRow(index)
+    }
+
+    // block scroll code
+
+    const [isOpen, setIsOpen] = useState(false)
+
+
+    const blockScroll = (open) => {
+        setIsOpen(open)
+        console.log('open :', open, isOpen)
+
+    }
+
+    // Effect to handle document scroll blocking
+    useEffect(() => {
+
+        const rytBar = document.getElementById('rytBar')
+
+        if (isOpen && rytBar) {
+            document.body.style.overflow = 'hidden';
+            document.getElementById('rytBar').style.overflowY = 'hidden';
+
+        }
+
+        return () => {
+            document.body.style.overflow = ''; // Reset on unmount
+            if (isOpen && rytBar) {
+                document.getElementById('rytBar').style.overflowY = '';
+
+            };
+        };
+    }, [isOpen]);
+
+
+
+
 
 
     const { setCurrentSong, setCurrentIndex } = useContext(songContext);
@@ -15,7 +68,7 @@ const Artist = () => {
     const [loading, setLoading] = useState(true)
     const [songs, setSongs] = useState([])
     const [songId, setSongId] = useState("");
-    const [playlistId, setPlaylistId] = useState("");
+    const [playlistId, setPlaylistId] = useState([]);
     const [artistID, setArtistID] = useState("");
     const [albumID, setAlbumID] = useState("");
 
@@ -43,7 +96,8 @@ const Artist = () => {
             userId: user?._id
         });
         res = res.data;
-        console.log(res.data);
+        console.log(res);
+
     };
 
 
@@ -100,6 +154,30 @@ const Artist = () => {
         console.log(res.data);
     };
 
+    // input check condition to display check icon svg
+    const [isChecked, setIsChecked] = useState({});
+
+    const handleChange = (e, index) => {
+
+        setIsChecked(prevStates => ({
+            ...prevStates,
+
+            [index]: !prevStates[index], // Toggle the checkbox state
+        }));
+
+        if (e.target.checked) {
+            setPlaylistId([...playlistId, e.target.value])
+            console.log('playlist saved', e.target.value)
+        } else {
+            setPlaylistId([...playlistId.filter((item) => item !== e.target.value)])
+        }
+
+    };
+
+    console.log('new playlist:', playlistId)
+
+
+
 
     if (loading) {
         return (
@@ -112,9 +190,7 @@ const Artist = () => {
             </>
         )
     }
-//tooltip code
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 
 
     return (
@@ -124,12 +200,14 @@ const Artist = () => {
 
                 {Artist &&
 
-                    <div className="mx-1 row justify-content-between gap-2 text-white p-3 rounded overflow-auto scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
+                    <div
+                        id="rytBar"
+                        className="mx-1 row justify-content-between gap-2 text-white p-3 rounded scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
 
                         <div class="artist-header rounded-top-3">
                             <img src={Artist.image} alt="" srcset="" className="object-fit-cover rounded-circle" />
 
-                            <div className="">
+                            <div >
                                 <div> <VerifiedIcon /> Verified Artist </div>
                                 <span className="fw-bold text ">{Artist.name}</span> <br />
                                 <span>42,405,290 monthly listeners                              </span>
@@ -138,27 +216,24 @@ const Artist = () => {
                             </div>
                         </div>
                         <div className="controls ">
-                            <div 
-                            
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip"
-                            data-bs-title={`Play ${Artist.name}`}
-            
-                            
-                            
-                            className="play-button" onClick={()=>{setCurrentPlaylist(songs), setCurrentSong(songs[0]), setCurrentIndex(0)}  }>
-                                <i 
-                               
-                                
-                                
-                                
-                                className="fas fa-play"></i>
-                            </div>
 
-                            <div className="other-controls d-flex gap-4">
-                                <div className="px-3 border rounded-pill py-1">Follow</div>
-                            </div>
+                            {userId ? <div
+
+
+
+
+                                className="play-button" onClick={() => { setCurrentPlaylist(songs), setCurrentSong(songs[0]), setCurrentIndex(0) }}>
+                                <i className="fas fa-play"></i>
+                            </div> : <div
+                                data-bs-toggle="modal"
+                                data-bs-target="#logoutModal"
+                                className="play-button"
+                                onClick={() => { setOneArtist(Artist); console.log('artist set successfully') }}
+                            >
+                                <i className="fas fa-play"></i>
+                            </div>}
+
+
 
                             <div> <i class="fas fa-ellipsis-h py-2"></i> </div>
 
@@ -181,23 +256,37 @@ const Artist = () => {
                                 <tbody>
                                     {songs &&
                                         songs.map((song, index) => (
-                                            <tr className="tr-border position-relative">
+                                            <tr
+                                                key={song._id}
+                                                onClick={() => { handleClick(index) }}
+
+                                                className={`tr-border position-relative ${selectedRow === index ? 'activeRow' : ''}`}>
                                                 <td class="track-number "><div className="number">{index + 1}</div></td>
 
                                                 <td className="popover-div" >
 
-                                                    <div className="smallplayIcon popover-container">
+                                                    {userId ? <div className="smallplayIcon popover-container">
 
                                                         <div className="popover-target" onClick={() => { { setCurrentIndex(index), setCurrentSong(song), setCurrentPlaylist(songs) } }} >
                                                             <SmallPlayIcon />
                                                         </div>
 
-                                                        <div className="popover px-3 shadow ">
-                                                            Play
+
+
+                                                    </div> : <div
+
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#logoutModal"
+                                                        className="smallplayIcon popover-container">
+
+                                                        <div className="popover-target" onClick={() => { setOneArtist(song) }} >
+                                                            <SmallPlayIcon />
                                                         </div>
 
-                                                    </div>
 
+
+                                                    </div>
+                                                    }
 
                                                 </td>
                                                 <td class="track-title">
@@ -215,22 +304,155 @@ const Artist = () => {
                                                 <td>{song.createdAt}</td>
                                                 <td className="position-relative">
                                                     {song.time}
-                                                    <span
-                                                        className="addIcon"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#AddToPlaylist"
-                                                        onClick={() => {
-                                                            setSongId(song._id);
-                                                            setAlbumID(song?.album?._id);
-                                                            setArtistID(song?.artist?._id);
-                                                        }}
-                                                    >
-                                                        <AddIcon />
-                                                    </span>
 
-                                                    <div className="playlist-popover-content text-white px-3 rounded shadow">
-                                                        Add to playlist
-                                                    </div>
+                                                    {userId ?
+                                                       
+
+                                                        <Popover.Root onOpenChange={blockScroll} >
+
+                                                            <Popover.Trigger
+                                                                onClick={() => {
+                                                                    setSongId(song._id);
+                                                                    setAlbumID(song?.album?._id);
+                                                                    setArtistID(song?.artist?._id);
+
+
+                                                                }}
+
+                                                                className="addIcon bg-transparent border-0">
+                                                                <span>
+                                                                    <AddIcon />
+                                                                </span>
+                                                            </Popover.Trigger>
+
+
+
+                                                            <Popover.Portal>
+                                                                <Popover.Positioner positionMethod="fixed" collisionBoundary={document.getElementById('rytBar')} sticky={true} align='start' side="top" className="z-9999">
+
+                                                                    <Popover.Popup className="playlist-popup">
+                                                                        <div className="p-3">
+
+
+                                                                            <form onSubmit={AddPlaylistSong}>
+                                                                                <div className="fs-small fw-bold mb-3" style={{ color: '#B3B3B3' }}>Add to playlist</div>
+
+                                                                                <div className="p-2 rounded hover-grey d-flex align-items-center  gap-2">
+                                                                                    <span><PlusIcon /></span> <span> New playlist</span>
+                                                                                </div>
+                                                                                <hr className="mt-0 m mx-2" />
+
+
+
+                                                                                <div
+                                                                                    className="mb-3  rounded  ">
+
+                                                                                    {playlist &&
+                                                                                        playlist.map((playlist, index) => {
+                                                                                            return (
+                                                                                                <>
+                                                                                                    <div key={index} className="col hover-grey rounded">
+                                                                                                        <label
+
+                                                                                                            htmlFor={index}
+                                                                                                            className="position-relative w-100 py-1 px-2 d-flex  align-items-center justify-content-between"
+
+                                                                                                        >
+                                                                                                            <div className="d-flex gap-2 align-items-center">
+                                                                                                                <div >
+                                                                                                                    {playlist.image ? <img src={playlist.image} alt="playlist image" width={16} height={16} /> : <div className="musicIcon small-Icon rounded"><MusicIcon /></div>}
+                                                                                                                </div>
+
+                                                                                                                <div className="text-select-none" >
+                                                                                                                    {playlist.name}
+                                                                                                                </div>
+                                                                                                            </div>
+
+
+                                                                                                            <div className="px-2 checkbox col-1">
+                                                                                                                <input onChange={(e) => { handleChange(e, index); }} type="checkbox" id={index} value={playlist._id} />
+                                                                                                                <div className={`d-flex align-items-center justify-content-center`}> {isChecked[index] ? <CheckIcon /> : ''}   </div>
+                                                                                                            </div>
+
+                                                                                                        </label>
+                                                                                                    </div>
+
+
+                                                                                                </>
+                                                                                            );
+                                                                                        })}
+
+
+                                                                                </div>
+
+                                                                                <div className="d-flex flex-row-reverse align-items-center gap-2">
+
+                                                                                    <Popover.Close className='btn btn-light rounded-pill nav-login-btn' type="submit"
+                                                                                        onClick={() => setIsChecked(false)}
+
+                                                                                    > Done
+                                                                                    </Popover.Close>
+
+                                                                                    <Popover.Close className='bg-transparent border-0 text-white nav-login-btn'
+                                                                                        onClick={() => setIsChecked(false)}
+
+                                                                                    > Cancel
+                                                                                    </Popover.Close>
+
+                                                                                </div>
+
+
+
+
+
+                                                                            </form>
+
+                                                                        </div>
+
+
+                                                                    </Popover.Popup>
+                                                                </Popover.Positioner>
+                                                            </Popover.Portal>
+                                                        </Popover.Root> :
+
+                                                        <Popover.Root>
+
+                                                            <Popover.Trigger className="addIcon bg-transparent border-0">
+                                                                <span>
+                                                                    <AddIcon />
+                                                                </span>
+                                                            </Popover.Trigger>
+
+
+
+                                                            <Popover.Portal>
+                                                                <Popover.Positioner className="z-9999" sideOffset={10} anchor={loginBtnRef}>
+                                                                    <Popover.Popup className="Popup3">
+                                                                        <Popover.Arrow className="Arrow">
+                                                                            <PopoverArrow />
+                                                                        </Popover.Arrow>
+
+                                                                        <Popover.Close className="bg-transparent fw-bold close-btn border-0 position-absolute">
+                                                                            &#10005;
+                                                                        </Popover.Close>
+
+                                                                        <Popover.Description className="p-1 m-0">
+                                                                            <span className="fw-bold">You’re logged out</span> <br />
+
+                                                                            Log in to add this to your playlist.
+                                                                        </Popover.Description>
+
+
+
+                                                                    </Popover.Popup>
+                                                                </Popover.Positioner>
+                                                            </Popover.Portal>
+                                                        </Popover.Root>
+
+
+                                                    }
+
+
 
                                                 </td>
                                             </tr>
@@ -248,7 +470,7 @@ const Artist = () => {
 
 
             {/* Playlist Model */}
-            {playlist && (
+            {/* {playlist && (
                 <div
                     className="modal fade"
                     id="AddToPlaylist"
@@ -297,7 +519,66 @@ const Artist = () => {
                         </div>
                     </div>
                 </div>
-            )}
+            )} */}
+
+            {/* modal on logout */}
+
+            {oneArtist && <div className="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog  modal-dialog-centered">
+
+                    <div className="modal-content">
+
+                        <div className="modal-body p-5 d-flex gap-5 ">
+
+                            <div className="col-5">
+                                <img src={oneArtist.image} alt="artist image" className="rounded" width={300} height={300} />
+                            </div>
+
+                            <div className="text-white text-center py-5 col ">
+                                <p className="fs-2 fw-bold"> Start listening with a free Spotify account</p>
+
+                                <a href="/signup"><div className="py-3 px-4 text-black fw-bold btn rounded-pill text-black nav-login-btn green">Sign up for free</div>
+                                </a>
+
+                                <div className="mt-5 fw-bold text-secondary">
+
+                                    <span className="me-2"> Already have an account?</span>
+
+                                    <span >
+
+                                        <a href="/login" className="wyt green-link">
+                                            Login
+                                        </a>
+                                    </span>
+                                </div>
+
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+
+                        <div className="text-center d-flex justify-content-center">
+                            <div data-bs-dismiss="modal" className="text-center p-0 close fs-5 fw-bold">
+                                Close
+                            </div>
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+
+                </div>
+            </div>}
 
         </>
     )

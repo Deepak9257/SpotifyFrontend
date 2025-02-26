@@ -11,6 +11,7 @@ import PopoverArrow from "../Icons/PopoverArrow";
 
 
 function Leftbar({ user }) {
+  
   const user2 = user?._id ? user : null;
 
   const [name, setName] = useState("");
@@ -21,10 +22,6 @@ function Leftbar({ user }) {
   // popover state variables
   const popoverAnchorRef = useRef(null);
   const popupTriggerRef = useRef(null)
-
-
-  const [popOpen, setPopOpen] = useState(false)
-
 
   const createPlaylist = async (e) => {
     e.preventDefault();
@@ -137,8 +134,8 @@ function Leftbar({ user }) {
               className="rounded d-flex justify-content-center text-success align-items-center my-3 p-2"
               style={{ backgroundColor: "#2c2c2c", height: "20vh" }}
             >
-              <div class="spinner-border spinner-border-sm" role="status">
-                <span class="visually-hidden">Loading...</span>
+              <div className="spinner-border spinner-border-sm" role="status">
+                <span className="visually-hidden">Loading...</span>
               </div>
             </div>
           </div>
@@ -208,11 +205,11 @@ function Leftbar({ user }) {
                 <PlusIcon />
               </Popover.Trigger>
 
-              <Popover.Portal>
-                <Popover.Positioner sideOffset={8} alignOffset={-100} side="bottom">
+              <Popover.Portal >
+                <Popover.Positioner  sideOffset={8} alignOffset={-100}  side="bottom" className="z-9999">
                   <Popover.Popup className="Popup2">
 
-                    <Popover.Description className="p-1 m-0 " >
+                    <Popover.Description className="p-1 m-0" >
                       <div
                         onClick={(e) => { if (user2) { createPlaylist(e) } else { handleClick() } }}
                         className="text-white createPlaylist d-flex align-items-center p-2 gap-2">
@@ -239,9 +236,11 @@ function Leftbar({ user }) {
             {playlist && playlist.length > 0
               ? (
                 playlist &&
-                playlist.map((item) => (
+                playlist.map((item, index) => (
 
-                  <NavLink to={`/playlist/${item._id}`} className={`text-decoration-none `}  >
+                  <NavLink
+                  key={index}
+                  to={`/playlist/${item._id}`} className={`text-decoration-none `}  >
 
 
                     <div className="d-flex position-relative rounded playlist-bar gap-2 align-items-center text-white rounded p-2">
@@ -266,6 +265,7 @@ function Leftbar({ user }) {
 
 
                 <div
+                key={index}
                   className="w-100"
                   style={{ backgroundColor: "#121212", height: "35vh" }}
                 >
@@ -312,7 +312,7 @@ function Leftbar({ user }) {
 
 
                         <Popover.Portal >
-                          <Popover.Positioner anchor={popoverAnchorRef} sideOffset={25} side="right">
+                          <Popover.Positioner className="z-9999" anchor={popoverAnchorRef} sideOffset={25} side="right">
                             <Popover.Popup className="Popup">
 
                               <Popover.Arrow className="Arrow">

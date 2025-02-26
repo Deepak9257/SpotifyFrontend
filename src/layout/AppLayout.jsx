@@ -12,9 +12,6 @@ import Bottom from "../components/Bottom";
 const AppLayout = () => {
 
 
-    
-
-
     const [user, setUser] = useState({});
 
     useEffect(() => {

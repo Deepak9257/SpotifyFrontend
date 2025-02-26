@@ -6,7 +6,7 @@ const SearchIcon = () => {
         role="img"
         aria-hidden="true"
         data-testid="search-icon"
-        class="Svg-sc-ytk21e-0 bHdpig M9l40ptEBXPm03dU3X1k"
+        className="Svg-sc-ytk21e-0 bHdpig M9l40ptEBXPm03dU3X1k"
         viewBox="0 0 24 24"
         fill="#b3b3b3"
       >

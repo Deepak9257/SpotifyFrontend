@@ -6,7 +6,7 @@ const CloseEye = () => {
         role="img"
         aria-hidden="true"
         viewBox="0 0 24 24"
-        class="Svg-sc-ytk21e-0 ZujEm"
+        className="Svg-sc-ytk21e-0 ZujEm"
         fill="#b3b3b3"
         height="28"
         xmlns="http://www.w3.org/2000/svg"

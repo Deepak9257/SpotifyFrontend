@@ -386,17 +386,18 @@ td {
   color: #b3b3b3;
 }
 
-.tr-border:hover .popover-div {
-  display: block;
 
-}
 
-.tr-border:hover .addIcon {
-  display: block;
-}
 
-.tr-border:hover .number {
-  display: none;
+.tr-border:hover {
+  .popover-div,
+  .addIcon {
+    display: block;
+  }
+
+  .number {
+    display: none;
+  }
 }
 
 .popover {

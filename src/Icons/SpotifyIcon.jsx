@@ -8,7 +8,7 @@ const SpotifyIcon = () => {
         aria-hidden="false"
         height="32"
         data-encore-id="logoSpotify"
-        class="Svg-sc-6c3c1v-0 dDJltW"
+        className="Svg-sc-6c3c1v-0 dDJltW"
         fill="white"
       >
         <path

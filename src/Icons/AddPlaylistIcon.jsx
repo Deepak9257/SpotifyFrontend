@@ -5,7 +5,7 @@ const AddPlaylistIcon = () => {
         data-encore-id="icon"
         role="img"
         aria-hidden="true"
-        class="Svg-sc-ytk21e-0 dYnaPI e-9541-icon"
+        className="Svg-sc-ytk21e-0 dYnaPI e-9541-icon"
         viewBox="0 0 16 16"
         fill="white"
         height={18}

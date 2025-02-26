@@ -6,12 +6,22 @@
   padding: 10px;
 }
 
+body::-webkit-scrollbar{
+  display: none;
+  
+}
+
+
 .bg-base {
   background-color: #1f1f1f;
 }
 
 .padding {
   padding: 0.7em;
+}
+
+.green{
+  background-color: #1ed760;
 }
 
 .nav-login-btn{
@@ -227,8 +237,141 @@
   background-color: #2c2c2c;
   border-radius: 4px;
   box-shadow: 0px 5px 13px rgba(0, 0, 0, 0.7);
+
+}
+
+.z-9999{
+  z-index: 9999 !important;
 }
 
 .pointer:hover{
   cursor: pointer;
 }
+
+
+.modal-content {
+  height: 418px;
+  background: linear-gradient( to bottom, #044b65, #3a4142 ) !important;
+  border: none;
+}
+
+.modal-body .nav-login-btn:hover{
+  background-color: #3be477;
+
+}
+
+.close{
+  color: #cac9c9;
+
+}
+
+.close-btn{
+  left: 250px;
+}
+
+.close:hover{
+  color: white;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.Popup3{
+  background-color: #69bfff;
+  border-radius: 7px;
+  padding: 1%;
+  width: 285px;
+}
+
+
+.activeRow {
+
+  background-color: #5a5a5a;
+
+ 
+  .popover-div,
+  .addIcon{
+    display: block;
+  }
+
+  .number{
+    display: none;
+  };
+
+  
+  
+}
+
+.activeRow:hover {
+  background-color: #5a5a5a !important;
+}
+
+.activeRow{
+  transition: 0.2s ease-in-out;
+}
+
+.playlist-popup{
+  background-color: #1f1f1f;
+    color: white;
+    border-radius: 10px;
+    width: 280px;
+    
+
+}
+
+.checkbox input{
+  position: absolute;
+  display: none;
+}
+
+
+.checkbox div{
+  border: 1px solid white;
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+  position: absolute;
+  top: 34%;
+  left: 88%;
+  padding: 0px;
+  margin: 0px;
+  
+  
+}
+
+.checkbox input:checked ~ div{
+
+  border: none ;
+
+}
+
+.hover-grey:hover{
+
+  background-color: #363636;
+
+}
+.fs-small{
+  font-size: x-small;
+}
+
+
+.text-select-none{
+  user-select: none;
+}
+
+.small-Icon svg{
+  height: 16px ;
+  width: 16px;
+  margin: 10px;
+  
+}
+
+
+@media (min-width: 576px) {
+  .modal-dialog {
+      max-width: 50rem;
+     
+      margin-right: auto;
+      margin-left: auto;
+  }
+}
+

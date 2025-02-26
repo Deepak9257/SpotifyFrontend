@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import HomeIcon from '../Icons/HomeIcon';
 import FileIcon from '../Icons/FileIcon';
 import SearchIcon from '../Icons/SearchIcon';
@@ -6,6 +6,7 @@ import SpotifyIcon from '../Icons/SpotifyIcon';
 import { useNavigate, Link, useLocation } from "react-router-dom"
 
 import HomeIcon2 from '../Icons/HomeIcon2';
+import LoginBtnContext from '../contexts/RefContext';
 
 
 
@@ -16,8 +17,9 @@ function Navbar({ user }) {
 
     const navigate = useNavigate()
     const location = useLocation();
-    const [searchValue, setSearchValue] = useState('');
+    // const [searchValue, setSearchValue] = useState('');
 
+    const loginBtnRef = useContext(LoginBtnContext)    
 
     const handleLogout = () => {
 
@@ -31,16 +33,16 @@ function Navbar({ user }) {
     }
 
     const url = location.pathname
-    console.log("url:",url )
+    // console.log("url:",url )
 
     const handleChange = (e) => {
 
         const category = url.split(`/`)[3] || ""
 
-        console.log("category:",category )
+        // console.log("category:",category )
 
         const value = e.target.value?.trim() || ""
-        console.log("value:",`/search/${value}`)
+        // console.log("value:",`/search/${value}`)
         
         if(value === ""){
         navigate(`/search`);
@@ -73,7 +75,7 @@ function Navbar({ user }) {
                     </div>
 
                     <div className="col-4 d-flex align-items-center gap-2 text-white ">
-                        <div className='home-icon p-2 d-flex align-items-center'>  <Link to={"/"}> {url === "/" ? <HomeIcon /> : <HomeIcon2 />} </Link> </div>
+                    <Link className='home-icon p-2 d-flex align-items-center' to={"/"}>   <div>  {url === "/" ? <HomeIcon /> : <HomeIcon2 />} </div> </Link> 
                         <div className="d-flex bg-base search-bar rounded-pill align-items-center py-1 justify-content-between container-fluid" >
                             <div className='col-10 d-flex align-items-center'>
                                 <div className='col-1 py-1 search-Icon'>  <SearchIcon /> </div>
@@ -104,7 +106,7 @@ function Navbar({ user }) {
                         </a>
 
                         <a href="/login" >
-                            <button type="button" className="btn btn-light rounded-pill w-50 padding nav-login-btn" >
+                            <button ref={loginBtnRef} type="button" className="btn btn-light rounded-pill w-50 padding nav-login-btn" >
                                 <span className='text-decoration-none text-black fw-bold'>
                                     Login
                                 </span>
@@ -140,7 +142,7 @@ function Navbar({ user }) {
                                     >
 
                                         {/* You can also use icon as follows: */}
-                                        <i class="fas fa-user fa-2x"></i>
+                                        <i className="fas fa-user fa-2x"></i>
                                     </a>
 
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">

@@ -5,7 +5,7 @@ const PauseIcon = () => {
       role="img"
       aria-hidden="true"
       viewBox="0 0 16 16"
-      class="Svg-sc-ytk21e-0 dYnaPI"
+      className="Svg-sc-ytk21e-0 dYnaPI"
       fill="black"
       width="20"
     >
