@@ -258,7 +258,7 @@ const Artist = ({ userId }) => {
                                         songs.map((song, index) => (
                                             <tr
                                                 key={song._id}
-                                                onClick={() => { handleClick(index) }}
+                                                onClick={() => {handleClick(index) }}
 
                                                 className={`tr-border position-relative ${selectedRow === index ? 'activeRow' : ''}`}>
                                                 <td class="track-number "><div className="number">{index + 1}</div></td>

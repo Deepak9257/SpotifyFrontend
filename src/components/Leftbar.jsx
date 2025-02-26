@@ -265,7 +265,7 @@ function Leftbar({ user }) {
 
 
                 <div
-                key={index}
+                
                   className="w-100"
                   style={{ backgroundColor: "#121212", height: "35vh" }}
                 >
