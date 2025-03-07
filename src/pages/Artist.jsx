@@ -194,7 +194,7 @@ const Artist = ({ userId }) => {
             getPlaylistSongs()
             setTimeout(() => {
                 setPopoupLoading(false);
-            }, 500);
+            }, 1000);
             // console.log('rendered getPlaylistSongs')
         } else {
             setPopoupLoading(true)
