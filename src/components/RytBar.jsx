@@ -100,7 +100,7 @@ function RytBar({ user }) {
     }
 
 
-
+console.log(album)
 
     if (loading) {
         return (
@@ -157,25 +157,27 @@ function RytBar({ user }) {
 
                     {/* artist section */}
 
-                    <div className="row mx-auto px-3 justify-content-evenly">
+                    <div className="row px-4 ">
                         {artist &&
                             artist.slice(0, 6).map((item, index) => (
                                 <div
-                                    className="rounded col-2 p hvr-artist py-2 position-relative my-3"
+                                    className="rounded div-size p hvr-artist py-2 position-relative my-3"
                                     key={index}
                                 >
                                     <Link
                                         to={`/artist/${item._id}`}
                                         className="text-decoration-none"
                                     >
-                                        <div className="d-flex justify-content-center pb-4">
-                                            <img
+                                        <div className="pb-4 d-flex justify-content-center">
+                                          <div>
+                                              <img
                                                 src={item.image}
-                                                alt="hi"
-                                                className="rounded-circle shadow object-fit-cover"
-                                                height={"150px"}
-                                                width={"150px"}
+                                                alt="artist image"
+                                                className="rounded-circle  object-fit-cover"
+                                                height={150}
+                                                width={150}
                                             />
+                                          </div>
                                         </div>
                                         <span className="text-white"> {item.name} </span> <br />
                                         <span className="text-secondary"> {item.category} </span>
@@ -236,29 +238,32 @@ function RytBar({ user }) {
                         </div>
                     </div>
 
-                    <div className="row mx-auto px-3 justify-content-evenly">
+                    <div className="row px-4">
                         {album &&
                             album.slice(0, 6).map((item, index) => (
+                               
                                 <div
-                                    className="rounded hvr-artist p col-2 py-2 my-3 position-relative"
+                                    className="rounded hvr-artist div-size p py-2 my-3 position-relative"
                                     key={index}
                                 >
                                     <Link
                                         to={`/album/${item._id}`}
                                         className="text-decoration-none"
                                     >
-                                        <div className="d-flex justify-content-center pb-4 ">
-                                            <img
+                                        <div className="d-flex justify-content-center pb-4">
+                                           <div>
+                                           <img
                                                 src={item.image}
-                                                alt="hi"
+                                                alt="album image"
                                                 className="rounded object-fit-cover"
-                                                height={"150px"}
-                                                width={"150px"}
+                                                height={150}
+                                                width={150}
                                             />
+                                           </div>
                                         </div>
-                                        <div className="text-white underline">
-                                            <span className="">{item.albumName} </span> <br />
-                                            <span>{item.artistName}</span>
+                                        <div className="text-white">
+                                            <span className="">{item.name} </span> <br />
+                                            
                                         </div>
                                     </Link>
                                     {!userId ? <div

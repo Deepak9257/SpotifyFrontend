@@ -26,8 +26,8 @@ function Navbar({ user }) {
         const confirm = window.confirm("Are you sure?");
         if (confirm) {
             localStorage.removeItem("token");
-            window.location.reload();
             navigate("/")
+            window.location.reload();
 
         }
     }

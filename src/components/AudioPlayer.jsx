@@ -27,7 +27,7 @@ const Player = () => {
       return;
     }
     setSongSrc(currentSong.songfile)
-    console.log('rendered')
+    // console.log('rendered')
 
   }, [currentSong])
 
@@ -71,7 +71,7 @@ const Player = () => {
   };
 
 
-  console.log("song url:", songSrc)
+  // console.log("song url:", songSrc)
 
 
 
@@ -88,7 +88,7 @@ const Player = () => {
 
         controls={true}
         src={songSrc}
-        onPlay={e => { console.log("Playing now:", currentSong.name) }}
+        
 
         onEnded={handleNext}
         onClickNext={handleNext}

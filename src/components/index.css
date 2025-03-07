@@ -118,6 +118,10 @@ body::-webkit-scrollbar{
 
 .reactPlayer {
   background-color: black !important;
+
+  margin: 0 !important;
+  padding-top: 5px !important;
+  padding-bottom: 0 !important
 }
 
 .playIcon {
@@ -132,8 +136,26 @@ body::-webkit-scrollbar{
   transition: 0.1s all !important;
 }
 
+.Toastify__toast {
+  padding: 0px !important;
+  min-height: 0 !important;
+  display: flex !important;
+  justify-content: center;
+  color: #121212 !important;
+}
+
+.custom-toast{
+  height: 2rem !important;
+  width: 15rem !important;
+  border-radius: 5px !important;
+}
+
 .playIcon:active {
   transform: scale(0.98) !important;
+}
+
+.div-size{
+  width: 17%;
 }
 
 .playIcon:hover {
@@ -314,8 +336,13 @@ body::-webkit-scrollbar{
     color: white;
     border-radius: 10px;
     width: 280px;
+ 
     
 
+}
+
+.popupLoading{
+  height: 180px;
 }
 
 .checkbox input{

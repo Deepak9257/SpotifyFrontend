@@ -30,7 +30,7 @@ function Leftbar({ user }) {
     });
     res = res.data;
     getAllPlaylist();
-    console.log('playlist created successfully:', res.data)
+    // console.log('playlist created successfully:', res.data)
   };
 
 
