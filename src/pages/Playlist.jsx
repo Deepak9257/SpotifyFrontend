@@ -93,7 +93,7 @@ const Playlist = () => {
                                     />
                                 </div>
                             ) : (
-                                <img src="/MusicIcon.svg" className="music-icon my-5" />
+                                <img src="/MusicIcon.svg"   className="music-icon my-5" />
                             )}
 
                             <span

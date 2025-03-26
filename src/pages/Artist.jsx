@@ -189,7 +189,6 @@ const Artist = ({ userId }) => {
 
     useEffect(() => {
 
-
         if (isOpen === true) {
             getPlaylistSongs()
             setTimeout(() => {
@@ -516,7 +515,7 @@ const Artist = ({ userId }) => {
                                                     </div>
                                                 </td>
                                                 <td> {song?.album?.name}</td>
-                                                <td>{song.createdAt}</td>
+                                                <td>{new Date(song.createdAt).toLocaleDateString()}</td>
                                                 <td className="position-relative">
                                                     {song.time}
 

@@ -1,10 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Leftbar from "../components/Leftbar";
 import Navbar from "../components/Navbar";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import Player from "../components/AudioPlayer";
-
-import songContext from "../contexts/SongContext";
 
 import axios from 'axios'
 import Bottom from "../components/Bottom";

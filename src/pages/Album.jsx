@@ -526,7 +526,6 @@ const Album = ({ userId }) => {
                                                             </Popover.Trigger>
 
 
-
                                                             <Popover.Portal>
                                                                 <Popover.Positioner positionMethod="fixed" collisionBoundary={document.getElementById('rytBar')} sticky={true} align='start' side="top" className="z-9999">
 

@@ -79,8 +79,6 @@ function App() {
 
               <LoginBtnContext.Provider value={loginBtnRef}>
 
-
-
                 <AppLayout />
 
               </LoginBtnContext.Provider>
