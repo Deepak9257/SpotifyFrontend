@@ -133,4 +133,4 @@ const ScrollBar = ({ children, height, customClassName }) => {
     </>
 }
 
-export default ScrollBar
+export default ScrollBar;

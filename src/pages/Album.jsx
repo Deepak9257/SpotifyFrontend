@@ -14,7 +14,7 @@ import PlusIcon from "../Icons/PlusIcon";
 import { toast, Zoom } from 'react-toastify';
 import PauseIcon from "../Icons/PauseIcon";
 import PlayIcon from "../Icons/PlayIcon";
-import ScrollBar from "../components/scrollBar";
+import ScrollBar from "../components/ScrollBar";
 
 const Album = ({ userId }) => {
 

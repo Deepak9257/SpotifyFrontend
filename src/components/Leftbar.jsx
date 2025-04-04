@@ -8,7 +8,7 @@ import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import AddPlaylistIcon from "../Icons/AddPlaylistIcon";
 import { Popover } from "@base-ui-components/react/popover"
 import PopoverArrow from "../Icons/PopoverArrow";
-import ScrollBar from "./scrollBar";
+import ScrollBar from "./ScrollBar";
 import { toast, Zoom } from 'react-toastify';
 import PlayIcon from "../Icons/PlayIcon";
 import playlistContext from "../contexts/PlaylistContext";

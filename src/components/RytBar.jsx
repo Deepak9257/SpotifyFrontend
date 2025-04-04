@@ -6,7 +6,7 @@ import songContext from "../contexts/SongContext";
 import playlistContext from "../contexts/PlaylistContext";
 import PauseIcon from "../Icons/PauseIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
-import ScrollBar from "./scrollBar";
+import ScrollBar from "./ScrollBar";
 
 function RytBar({ user }) {
 

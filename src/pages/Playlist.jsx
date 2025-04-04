@@ -5,9 +5,9 @@ import { useNavigate, useParams } from "react-router-dom"
 import EditIcon from "../Icons/EditIcon";
 import songContext from "../contexts/SongContext";
 import playlistContext from "../contexts/PlaylistContext";
-import ScrollBar from "../components/scrollBar";
 import PauseIcon from "../Icons/PauseIcon";
 import PlayIcon from "../Icons/PlayIcon";
+import ScrollBar from "../components/ScrollBar";
 
 
 
