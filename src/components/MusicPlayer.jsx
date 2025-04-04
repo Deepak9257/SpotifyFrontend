@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import songContext from "../contexts/SongContext";
 import AddIcon from "../Icons/AddIcon";
-import ShuffleOff from "../Icons/shuffleOff";
+import ShuffleOff from "../Icons/ShuffleOff";
 import PreviousBtn from "../Icons/PreviousIcon";
 import PlayIcon from "../Icons/PlayIcon";
 import NextIcon from "../Icons/NextIcon";
