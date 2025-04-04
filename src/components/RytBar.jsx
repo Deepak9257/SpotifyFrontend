@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import PlayIcon from "../Icons/PlayIcon";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import songContext from "../contexts/SongContext";
 import playlistContext from "../contexts/PlaylistContext";
 import PauseIcon from "../Icons/PauseIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
+import ScrollBar from "./scrollBar";
 
 function RytBar({ user }) {
 
@@ -14,66 +15,22 @@ function RytBar({ user }) {
 
     const [artist, setArtist] = useState([]);
     const [album, setAlbum] = useState([]);
-    const [id, setId] = useState("");
-    const [loading, setLoading] = useState(true)
-    const [playId, setPlayId] = useState(null)
+    const [artistId, setArtistId] = useState("");
+    const [albumId, setAlbumId] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [oneArtist, setOneArtist] = useState({});
 
-    const [oneArtist, setOneArtist] = useState({})
 
-
-    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const { currentSong, setCurrentSong, setCurrentIndex, isPlaying, setIsPlaying, playId, setPlayId } = useContext(songContext);
     const { setCurrentPlaylist, currentPlaylist } = useContext(playlistContext)
 
-    //Get All Artists
+
+    // get all artist and albums
+
     useEffect(() => {
         getArtists();
+        getAlbums()
     }, []);
-
-
-    useEffect(() => {
-        getArtistSongs();
-        getAlbumsSongs();
-        // console.log('rendered')
-
-    }, [id])
-
-    // console.log("id:", id)
-    // console.log("artist songs:", currentPlaylist)
-
-
-    const getArtistSongs = async () => {
-
-
-        if (!id) {
-            return;
-        }
-
-        var res = await axios.get("https://spotify-backend-blue.vercel.app/song/getAllByArtist/" + id)
-
-        var res = res.data
-        setCurrentPlaylist(res.data)
-        setCurrentSong(res.data[0])
-        setCurrentIndex(0)
-
-    }
-
-
-
-    const getAlbumsSongs = async () => {
-
-
-        if (!id) {
-            return;
-        }
-
-        var res = await axios.get("https://spotify-backend-blue.vercel.app/song/getAllByAlbum/" + id)
-
-        var res = res.data
-        setCurrentPlaylist(res.data)
-        setCurrentSong(res.data[0])
-        setCurrentIndex(0)
-
-    }
 
 
     const getArtists = async () => {
@@ -85,12 +42,6 @@ function RytBar({ user }) {
         setLoading(false)
     };
 
-    //Get All Albums
-
-    useEffect(() => {
-        getAlbums()
-    }, [])
-
     const getAlbums = async () => {
         var res = await axios.get("https://spotify-backend-blue.vercel.app/album/getAll")
         setAlbum(res.data.albumData)
@@ -99,15 +50,111 @@ function RytBar({ user }) {
 
     }
 
+    // get song by artist and album
 
-console.log(album)
+    useEffect(() => {
 
+        if (artistId) {
+            getArtistSongs();
+        }
+
+        if (albumId) {
+            getAlbumsSongs();
+        }
+
+    }, [artistId, albumId])
+
+
+    // funtion for get artist songs by ID //
+    const getArtistSongs = async () => {
+
+
+        if (!artistId) {
+            return;
+        }
+
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/song/getAllByArtist/" + artistId)
+
+        var res = res.data;
+        setCurrentPlaylist(res.data);
+        setCurrentSong(res.data[0]);
+        setCurrentIndex(0);
+
+
+    }
+
+    // funtion for get album songs by ID //
+
+    const getAlbumsSongs = async () => {
+
+
+        if (!albumId) {
+            return;
+        }
+
+        var res = await axios.get("https://spotify-backend-blue.vercel.app/song/getAllByAlbum/" + albumId)
+
+        var res = res.data;
+        setCurrentPlaylist(res.data);
+        setCurrentSong(res.data[0]);
+        setCurrentIndex(0);
+
+    }
+
+
+    // handle play pause from any song/album //
+
+    const handlePause = () => {
+        setIsPlaying(false)
+    }
+
+
+    const handlePlay = (id) => {
+
+        if (currentSong?.artist?._id === id || currentSong?.album?._id === id) {
+            setIsPlaying(true)
+        }
+    }
+
+    // play audio after currentSong changed 
+    // useEffect(() => {
+
+    //     if (currentSong._id) {
+    //         setIsPlaying(true);
+    //     }
+
+    // }, [currentSong])
+
+
+    useEffect(() => {
+
+        console.log('isplaying : ', isPlaying)
+
+    }, [isPlaying])
+
+    // handle artist ID change //
+
+    const handleArtistIdChange = (id) => {
+
+        if (currentSong?.artist?._id !== id) {
+            setArtistId(id);
+        }
+    }
+
+    //  handle album ID change //
+    const handleAlbumIdChange = (id) => {
+
+        if (currentSong?.album?._id !== id) {
+            setAlbumId(id);
+        }
+    }
+    // loading funciton //
     if (loading) {
         return (
             <>
 
 
-                <div className="w-100 text-white container-fluid">
+                <div className="w-100 text-white container-flutimeoutId">
                     <div
                         className="text-white rounded overflow-auto scroll"
                         style={{ backgroundColor: "#141414", height: "78vh" }}
@@ -128,177 +175,208 @@ console.log(album)
 
     return (
         <>
-            <div className="w-100 text-white container-fluid">
-                <div
-                  
-                    className="text-white rounded scroll "
+            <div className="text-white">
 
-                    style={{ backgroundColor: "#141414", height: "78vh" }}
-                >
-                    <div className="d-flex align-items-center px-4 pt-2">
-                        <div className="col text-white">
-                            <a
-                                className="fw-bold fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
-                                href="#"
-                            >
-                                Popular artists
-                            </a>
-                        </div>
+                <ScrollBar customClassName={'rounded'} height={'78vh'}>
 
-                        <div className="col text-end">
-                            <a
-                                className="link-offset-2 link-offset-3-hover text-white text-end link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
-                                href="#"
-                            >
-                                Show all
-                            </a>
-                        </div>
-                    </div>
+                    <div
 
-                    {/* artist section */}
+                        className="text-white rounded  "
 
-                    <div className="row px-4 ">
-                        {artist &&
-                            artist.slice(0, 6).map((item, index) => (
-                                <div
-                                    className="rounded div-size p hvr-artist py-2 position-relative my-3"
-                                    key={index}
+                        style={{ backgroundColor: "#141414" }}
+                    >
+                        <div className="d-flex align-items-center px-4 pt-2">
+                            <div className="col text-white">
+                                <a
+                                    className="fw-bold fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+                                    href="#"
                                 >
-                                    <Link
-                                        to={`/artist/${item._id}`}
-                                        className="text-decoration-none"
+                                    Popular artists
+                                </a>
+                            </div>
+
+                            <div className="col text-end">
+                                <a
+                                    className="link-offset-2 link-offset-3-hover text-white text-end link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+                                    href="#"
+                                >
+                                    Show all
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* artist section */}
+
+                        <div className="row px-4 ">
+                            {artist &&
+                                artist.slice(0, 6).map((artist, index) => (
+                                    <div
+                                        className="rounded user-select-none div-size p hvr-artist py-2 position-relative my-3"
+                                        key={index}
                                     >
-                                        <div className="pb-4 d-flex justify-content-center">
-                                          <div>
-                                              <img
-                                                src={item.image}
-                                                alt="artist image"
-                                                className="rounded-circle  object-fit-cover"
-                                                height={150}
-                                                width={150}
-                                            />
-                                          </div>
-                                        </div>
-                                        <span className="text-white"> {item.name} </span> <br />
-                                        <span className="text-secondary"> {item.category} </span>
-                                    </Link>
-
-                                    {!userId ? <div
-                                        className="play"
-
-                                        onClick={() => { setOneArtist(item);  }}
-
-                                    >
-                                        <div
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#logoutModal"
-                                            className="pointer smallPlayIcon2"
-
+                                        <Link
+                                            to={`/artist/${artist._id}`}
+                                            className="text-decoration-none"
                                         >
-                                            <SmallPlayIcon />
-                                        </div>
+                                            <div className="pb-4 d-flex justify-content-center">
+                                                <div>
+                                                    <img
+                                                        src={artist.image}
+                                                        alt="artist image"
+                                                        className="rounded-circle  object-fit-cover"
+                                                        height={150}
+                                                        width={150}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <span className="text-white"> {artist.name} </span> <br />
+                                            <span className="text-secondary"> {artist.category} </span>
+                                        </Link>
 
-                                    </div> :
-                                        <div
-                                            className="play"
+                                        {!userId
+                                            //display when logout
 
-                                            onClick={() => { setId(item._id), setPlayId(item._id); }}
-                                        >
-                                            <div
-                                                className="pointer smallPlayIcon2"
+                                            ? <div
+                                                className="play"
+                                                onClick={() => { setOneArtist(artist); }}
 
                                             >
-                                                <SmallPlayIcon />
+                                                <div
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#logoutModal"
+                                                    className="pointer smallPlayIcon2"
+
+                                                >
+                                                    <SmallPlayIcon />
+                                                </div>
+
                                             </div>
-
-                                        </div>}
-                                </div>
-                            ))}
-                    </div>
-
-                    {/* album section */}
-
-                    <div className="d-flex align-items-center px-2">
-                        <div className="col text-white">
-                            <a
-                                className="fw-bold fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
-                                href="#"
-                            >
-                                Popular albums
-                            </a>
-                        </div>
-
-                        <div className="col text-end">
-                            <a
-                                className="link-offset-2 link-offset-3-hover text-white text-end link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
-                                href="#"
-                            >
-                                Show all
-                            </a>
-                        </div>
-                    </div>
-
-                    <div className="row px-4">
-                        {album &&
-                            album.slice(0, 6).map((item, index) => (
-                               
-                                <div
-                                    className="rounded hvr-artist div-size p py-2 my-3 position-relative"
-                                    key={index}
-                                >
-                                    <Link
-                                        to={`/album/${item._id}`}
-                                        className="text-decoration-none"
-                                    >
-                                        <div className="d-flex justify-content-center pb-4">
-                                           <div>
-                                           <img
-                                                src={item.image}
-                                                alt="album image"
-                                                className="rounded object-fit-cover"
-                                                height={150}
-                                                width={150}
-                                            />
-                                           </div>
-                                        </div>
-                                        <div className="text-white">
-                                            <span className="">{item.name} </span> <br />
-                                            
-                                        </div>
-                                    </Link>
-                                    {!userId ? <div
-                                        className="play"
-
-                                        onClick={() => { setOneArtist(item);  }}
-
-                                    >
-                                        <div
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#logoutModal"
-                                            className="pointer smallPlayIcon2"
-
-                                        >
-                                            <SmallPlayIcon />
-                                        </div>
-
-                                    </div> :
-                                        <div
-                                            className="play "
-
-                                            onClick={() => { setId(item._id), setPlayId(item._id); }}
-                                        >
+                                            //display when logined
+                                            :
                                             <div
-                                                className="pointer smallPlayIcon2"
+                                                className={`play ${playId === artist._id && currentSong?.artist?._id === artist._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
+
+                                                onClick={() => { handleArtistIdChange(artist._id), setPlayId(artist._id); }}
+                                            >
+                                                {playId === artist._id && currentSong?.artist?._id === artist._id && isPlaying ?
+                                                    <div
+                                                        className="pointer  smallPlayIcon2"
+                                                        onClick={handlePause}
+                                                    >
+                                                        <PauseIcon height={18} width={18} />
+                                                    </div>
+                                                    :
+                                                    <div className="pointer smallPlayIcon2 "
+                                                        onClick={() => handlePlay(artist._id)}
+                                                    >
+                                                        <PlayIcon height={18} width={18} />
+                                                    </div>
+
+                                                }
+
+
+
+                                            </div>}
+                                    </div>
+                                ))}
+                        </div>
+
+                        {/* album section */}
+
+                        <div className="d-flex align-items-center px-4 mt-2">
+                            <div className="col text-white">
+                                <a
+                                    className="fw-bold fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+                                    href="#"
+                                >
+                                    Popular albums
+                                </a>
+                            </div>
+
+                            <div className="col text-end">
+                                <a
+                                    className="link-offset-2 link-offset-3-hover text-white text-end link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+                                    href="#"
+                                >
+                                    Show all
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="d-flex px-4">
+                            {album &&
+                                album.slice(0, 6).map((item, index) => (
+
+                                    <div
+                                        className=" user-select-none rounded hvr-artist div-size p py-2 my-3 position-relative"
+                                        key={index}
+                                    >
+                                        <Link
+                                            to={`/album/${item._id}`}
+                                            className="text-decoration-none"
+                                        >
+                                            <div className="d-flex justify-content-center pb-4">
+                                                <div>
+                                                    <img
+                                                        src={item.image}
+                                                        alt="album image"
+                                                        className="rounded object-fit-cover"
+                                                        height={150}
+                                                        width={150}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="text-white">
+                                                <span className="">{item.name} </span> <br />
+
+                                            </div>
+                                        </Link>
+                                        {!userId
+                                            // display when logout
+                                            ? <div
+                                                className="play"
+
+                                                onClick={() => { setOneArtist(item); }}
 
                                             >
-                                                <SmallPlayIcon />
+                                                <div
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#logoutModal"
+                                                    className="pointer smallPlayIcon2"
+
+                                                >
+                                                    <SmallPlayIcon />
+                                                </div>
+
                                             </div>
 
-                                        </div>}
-                                </div>
-                            ))}
+                                            // display when login
+                                            : <div
+                                                className={`play ${playId === item._id && currentSong?.album?._id === item._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
+
+
+                                                onClick={() => { handleAlbumIdChange(item._id), setPlayId(item._id); }}
+                                            >
+                                                {playId === item._id && currentSong?.album?._id === item._id && isPlaying ?
+                                                    <div
+                                                        className="pointer smallPlayIcon2"
+                                                        onClick={handlePause}
+                                                    >
+                                                        <PauseIcon height={18} width={18} />
+                                                    </div>
+                                                    :
+                                                    <div className="pointer smallPlayIcon2"
+                                                        onClick={() => handlePlay(item._id)}
+                                                    >
+                                                        <PlayIcon height={18} width={18} />
+                                                    </div>}
+                                            </div>}
+                                    </div>
+                                ))}
+                        </div>
                     </div>
-                </div>
+                </ScrollBar>
+
             </div>
 
 

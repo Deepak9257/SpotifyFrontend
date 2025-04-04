@@ -71,7 +71,7 @@ const SongSearch = () => {
 
     return (
         <>
-            <div className="px-4">
+            <div className="px-4 border">
                 <div className="search-title-bar justify-content-between">
                     <div className="d-flex">
                         <div className="px-4">#</div>

@@ -1,16 +1,19 @@
-const PlayIcon = () => {
+const PlayIcon = ({ height, width, fill }) => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="40"
-      height="40"
-      fill="black"
-      className="bi bi-play-circle"
+      data-encore-id="icon"
+      role="img"
+      aria-hidden="true"
+      className="e-9640-icon"
       viewBox="0 0 16 16"
+      height={height ? height : 16}
+      width={width ? width : 16}
+      fill={fill ? fill : 'white'}
     >
-      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+      <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z"></path>
+
     </svg>
-  );
-};
+  )
+}
 
 export default PlayIcon;

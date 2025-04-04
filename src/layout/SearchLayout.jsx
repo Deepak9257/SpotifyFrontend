@@ -9,11 +9,13 @@ const SearchLayout = () => {
     return (<>
 
 
-        <div className="mx-1 rounded  justify-content-between gap-2 text-white rounded-bottom scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
+        <div className="rounded gap-2 text-white rounded-bottom scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
 
             <SearchNav />
 
-            <Outlet />
+           
+           <Outlet />
+           
 
         </div>
 

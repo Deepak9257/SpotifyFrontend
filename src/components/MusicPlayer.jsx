@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import songContext from "../contexts/SongContext";
 import AddIcon from "../Icons/AddIcon";
 import ShuffleOff from "../Icons/shuffleOff";
-import PrevIcon from "../Icons/PrevIcon";
+import PreviousBtn from "../Icons/PreviousIcon";
 import PlayIcon from "../Icons/PlayIcon";
 import NextIcon from "../Icons/NextIcon";
 import RepeatIcon from "../Icons/RepeatIcon";
@@ -33,12 +33,11 @@ const MyMusicPlayer = () => {
         setIsPlaying
     } = useContext(songContext);
 
-    console.log(isPlaying)
+
 
     const { currentPlaylist } = useContext(playlistContext)
 
 
-    // const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(30);
@@ -49,7 +48,8 @@ const MyMusicPlayer = () => {
     const [prevVolume, setPrevVolume] = useState(30);
     const [repeatAll, setRepeatAll] = useState(false);
     const [bgColor, setBgColor] = useState('hsl(0,0%,0%)');
-    const [isNextClicked, setIsNextClicked] = useState(false)
+    const [isNextClicked, setIsNextClicked] = useState(false);
+    const [lastSongChange, setLastSongChange] = useState(false);
 
     // use Ref hooks //
 
@@ -118,8 +118,7 @@ const MyMusicPlayer = () => {
             l: l
         };
     };
-
-
+    // extract dominant color function from song image//
     useEffect(() => {
         // Initialize FastAverageColor
         const fac = new FastAverageColor();
@@ -136,7 +135,7 @@ const MyMusicPlayer = () => {
                         const colorHSL = HEXtoHSL(colorHex);
 
                         if (colorHSL) {
-                            console.log('Extracted HSL color:', colorHSL);
+                            // console.log('Extracted HSL color:', colorHSL);
                             // You can now use colorHSL to set the background or for any other use case
                             setBgColor(colorHSL);
                         } else {
@@ -159,7 +158,9 @@ const MyMusicPlayer = () => {
             }
         }
 
-    }, [fullMode, currentSong.image]);
+    }, [fullMode, currentSong]);
+
+    // toggle fullscreen 
 
     const toggleFullscreen = () => {
 
@@ -182,7 +183,7 @@ const MyMusicPlayer = () => {
         }
     }
 
-    // set fullmode state on fullscreen change event //
+    // set fullmode state on fullscreen change by listening fullscreen change event //
 
     useEffect(() => {
 
@@ -308,12 +309,11 @@ const MyMusicPlayer = () => {
         return `${minutes}:${formattedSeconds}`
     }
 
-    // changing audio source when current song changes
+    // change audio source when current song changes
 
     useEffect(() => {
         if (audioRef.current && currentSong.songfile) {
             audioRef.current.src = currentSong.songfile;
-
 
         }
     }, [currentSong]);
@@ -322,10 +322,10 @@ const MyMusicPlayer = () => {
     const play = () => {
 
         if (audioRef.current) {
-            // console.log('play', currentSong.name)
+
             audioRef.current.play();   // Play the current song
-            setIsPlaying(true)
-            // console.log(audioRef)
+            setIsPlaying(true);
+
         }
     };
 
@@ -333,7 +333,7 @@ const MyMusicPlayer = () => {
     const pause = () => {
         if (audioRef.current) {
             audioRef.current.pause();
-            setIsPlaying(false)
+            setIsPlaying(false);
         }
     }
 
@@ -354,7 +354,10 @@ const MyMusicPlayer = () => {
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
+
             window.removeEventListener('keydown', handleKeyDown);
+
+
         }
     }, [isPlaying])
 
@@ -369,15 +372,32 @@ const MyMusicPlayer = () => {
         }
     }
 
+    // handle play/pause from anywhere within the app //
+
     useEffect(() => {
 
         if (isPlaying) {
-            play();
+            audioRef.current.play();
         } else {
-            pause();
+            audioRef.current.pause();
         }
 
-    }, [currentSong, isPlaying]);
+    }, [isPlaying]);
+
+    // change isPlaying state on currentSong changes
+    useEffect(() => {
+        if (currentSong._id) {
+            
+            if(lastSongChange){
+                setLastSongChange(false);
+                setIsPlaying(false);
+                return;
+            }
+
+            setIsPlaying(true);
+
+        };
+    }, [currentSong])   
 
 
     // Function to handle next song next logic//
@@ -393,11 +413,11 @@ const MyMusicPlayer = () => {
         const lastSong = currentPlaylist.length > 0 ? currentPlaylist[currentPlaylist.length - 1] : shuffledSongs[shuffledSongs.length - 1]
 
         if (!isNextClicked && !repeatAll && currentSong === lastSong) {
+            setLastSongChange(true);
             setCurrentSong(currentPlaylist.length > 0 ? currentPlaylist[0] : shuffledSongs[0]);
             setCurrentIndex(0);
             pause();
             handleInput();
-            setIsNextClicked(false);
             console.log('last song rendered')
             return;
         }
@@ -501,24 +521,17 @@ const MyMusicPlayer = () => {
             setVolume(0);
 
         } else {
-            if (audioRef.current.volume === 0) {
+            if (prevVolume == 0 && volume == 0) {
                 setVolume(30);
-
 
             } else {
                 setVolume(prevVolume)
-
 
             }
 
         }
 
-
-
     }, [isMute])
-
-    // console.log('volume :', volume, 'prev volume :', prevVolume)
-    // console.log('mute :',isMute)
 
     // set audio current volume when volume state changes //
 
@@ -555,7 +568,6 @@ const MyMusicPlayer = () => {
             setVolume(e.target.value);
 
             // setPrevVolume(e.target.volume);
-
             // console.log(audioRef.current.volume)
         }
     }
@@ -574,8 +586,6 @@ const MyMusicPlayer = () => {
 
                 [songs[i], songs[randomIndex]] = [songs[randomIndex], songs[i]];
             }
-
-
             return setShuffledSongs(songs);
         }
 
@@ -583,25 +593,9 @@ const MyMusicPlayer = () => {
 
 
 
-    // repeat songs logic //
+    // repeat song logic //
 
     const handleRepeat = () => {
-
-        // if (currentSong?._id) {
-
-        //     setRepeatAll(true);
-
-        //     if (repeatAll) {
-        //         setRepeatAll(false);
-        //         setIsRepeat(true);
-        //     }
-
-        //     if (isRepeat) {
-        //         setRepeatAll(false);
-        //         setIsRepeat(false);
-        //     }
-
-        // }
 
         if (currentSong?._id) {
 
@@ -678,16 +672,16 @@ const MyMusicPlayer = () => {
             if (fullscreenModePlayer.current) {
 
                 gsap.set('.fullscreen-bg', {
-                    opacity:1,
+                    opacity: 1,
                 });
 
                 gsap.killTweensOf('.fullscreen-bg');
 
-               gsap.to('.fullscreen-bg',{
-                opacity:0,
-                duration:3,
-                
-               });
+                gsap.to('.fullscreen-bg', {
+                    opacity: 0,
+                    duration: 3,
+
+                });
             }
         }
     }, [currentSong, bgColor]);
@@ -748,7 +742,6 @@ const MyMusicPlayer = () => {
 
     }, [fullMode])
 
-    // console.log("bgColor : ",bgColor)
 
     // function for handle next button //
     const handleNext = () => {
@@ -770,7 +763,7 @@ const MyMusicPlayer = () => {
         {/* audio element  */}
         <audio
             ref={audioRef}
-            // autoPlay={isPlaying}
+            autoPlay={isPlaying}
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
             onEnded={next}
@@ -786,43 +779,43 @@ const MyMusicPlayer = () => {
             // fullscreen mode player
             <div id="music-player"
                 style={{
-                    
+
                     backgroundImage: `linear-gradient(
                         180deg,
                         hsl(0deg 0% 7%) 0%,
-                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 25}%) 0%,
-                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 24}%) 1%,
-                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 23}%) 2%,
-                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 23}%) 5%,
-                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 22}%) 8%,
-                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 21}%) 13%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 20}%) 18%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 18}%) 23%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 16}%) 30%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 15}%) 36%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 14}%) 43%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 13}%) 51%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 13}% ${bgColor.l - 12}%) 58%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 12}% ${bgColor.l - 10}%) 65%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 11}% ${bgColor.l - 8}%) 71%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 10}% ${bgColor.l - 7}%) 77%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 9}% ${bgColor.l - 7}%) 83%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 8}% ${bgColor.l - 5}%) 87%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 7}% ${bgColor.l - 3}%) 91%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 6}% ${bgColor.l - 2}%) 95%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 5}% ${bgColor.l - 1}%) 97%,
-                        hsl(${bgColor.h + 1}deg ${bgColor.s - 4}% ${bgColor.l - 1}%) 99%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 15}%) 0%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 14}%) 1%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 13}%) 2%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 12}%) 5%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 11}%) 8%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 10}%) 13%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 9}%) 18%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 8}%) 23%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 7}%) 30%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 6}%) 36%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 5}%) 43%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 4}%) 51%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 13}% ${bgColor.l - 3}%) 58%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 12}% ${bgColor.l - 2}%) 65%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 11}% ${bgColor.l - 2}%) 71%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 10}% ${bgColor.l - 1}%) 77%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 9}% ${bgColor.l - 1}%) 83%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 8}% ${bgColor.l - 1}%) 87%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 7}% ${bgColor.l - 1}%) 91%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 6}% ${bgColor.l}%) 95%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 5}% ${bgColor.l}%) 97%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 4}% ${bgColor.l}%) 99%,
                         hsl(${bgColor.h + 1}deg ${bgColor.s - 3}% ${bgColor.l}%) 100%,
                         hsl(${bgColor.h + 1}deg ${bgColor.s}% ${bgColor.l}%) 100%
                       )`,
 
-                   
+
 
                 }}
                 ref={fullscreenModePlayer}
                 className={` ${fullMode ? 'fullmode pb-5' : 'bg-black'}  playerDiv d-flex align-items-center flex-column-reverse  px-2  text-white`}>
 
-                    <div className="fullscreen-bg"></div>
+                <div className="fullscreen-bg"></div>
 
                 <div className={`${fullMode ? 'fullmode-music-player' : ''}    px-2    w-100`}>
 
@@ -900,7 +893,7 @@ const MyMusicPlayer = () => {
 
                                     </div>
 
-                                    <div onClick={previous} className={`${currentSong?._id ? 'pointer pressed ' : 'not-allowed'} d-flex`} > <PrevIcon fill={"#b3b3b3"} /></div>
+                                    <div onClick={previous} className={`${currentSong?._id ? 'pointer pressed ' : 'not-allowed'} d-flex`} > <PreviousBtn fill={"#b3b3b3"} /></div>
 
                                     <div className={`${currentSong?._id ? 'pointer bg-white toggle-pressed' : 'not-allowed bg-grey'} rounded-circle d-flex p-3`} onClick={handlePlayPause} >
 
@@ -914,7 +907,7 @@ const MyMusicPlayer = () => {
 
                                     <div onClick={handleRepeat} className={`d-flex repeat ${currentSong?._id ? 'pointer' : 'not-allowed'} ${!isRepeat && !repeatAll && 'pressed'}`}>
 
-                                        {isRepeat ? <RepeatOne fill={"#1ed760"} /> : repeatAll ? <RepeatIcon fill={'green'} /> : <RepeatIcon />}
+                                        {isRepeat ? <RepeatOne fill={"#1ed760"} /> : repeatAll ? <RepeatIcon fill={'#1ed760'} /> : <RepeatIcon />}
 
                                     </div>
                                 </div>
@@ -1011,7 +1004,7 @@ const MyMusicPlayer = () => {
                                 <ShuffleOff fill={shuffledSongs.length > 0 ? "#1ed760" : "#b3b3b3"} />
 
                             </div>
-                            <div onClick={previous} className={`${currentSong?._id ? 'pointer pressed ' : 'not-allowed'} d-flex`} ><PrevIcon fill={"#b3b3b3"} /></div>
+                            <div onClick={previous} className={`${currentSong?._id ? 'pointer pressed ' : 'not-allowed'} d-flex`} ><PreviousBtn fill={"#b3b3b3"} /></div>
 
                             <div className={`${currentSong?._id ? 'pointer bg-white toggle-pressed' : 'not-allowed bg-grey'} rounded-circle d-flex p-2`} onClick={handlePlayPause} >
 
@@ -1025,7 +1018,7 @@ const MyMusicPlayer = () => {
 
                             <div onClick={handleRepeat} className={`d-flex repeat ${currentSong?._id ? 'pointer' : 'not-allowed'} ${!isRepeat && !repeatAll && 'pressed'}`}>
 
-                                {isRepeat ? <RepeatOne fill={"#1ed760"} /> : repeatAll ? <RepeatIcon fill={'green'} /> : <RepeatIcon />}
+                                {isRepeat ? <RepeatOne fill={"#1ed760"} /> : repeatAll ? <RepeatIcon fill={'#1ed760'} /> : <RepeatIcon />}
 
                             </div>
                         </div>
@@ -1048,7 +1041,6 @@ const MyMusicPlayer = () => {
                                 <span ref={bufferedRef} className="buffered-range d-block rounded h-100"></span>
                             </div>
 
-
                             <div className="user-select-none fs-small text-secondary">{formatDuration(isNaN(duration) ? 0 : duration)}</div>
 
                         </div>
@@ -1056,7 +1048,9 @@ const MyMusicPlayer = () => {
 
                     <div className="other-controls col d-flex align-items-center justify-content-center gap-3">
 
-                        <div onClick={() => setSongContainer(!songContainer)} className="pressed d-flex"> {!fullMode && <NowPlayingIcon fill={"#b3b3b3"} />}</div>
+                        <div onClick={() => setSongContainer(!songContainer)} className={`d-flex ${songContainer ?'scale-lg' :'pressed '}`}>
+                            {!fullMode && <NowPlayingIcon fill={`${songContainer ? '#1ed760' : '#b3b3b3'}`} />}
+                        </div>
 
 
                         <div className="volume-bar d-flex align-items-center justify-content-center gap-2">

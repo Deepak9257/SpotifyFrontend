@@ -3,23 +3,28 @@ import { createContext } from "react";
 const songContext = createContext({
     // current song state
     currentSong: null,
-    setCurrentSong: () => { },
-    // current song index state
+    setCurrentSong: (currentSong) => {},
 
+    // current song index state
     currentIndex: null,
-    setCurrentIndex: () => { },
+    setCurrentIndex: () => {},
 
     // state for display song container//
     songContainer: false,
-    setSongContainer: () => { },
+    setSongContainer: () => {},
 
     //state for display full screen mode //
     fullMode: false,
-    setFullMode: () => { },
+    setFullMode: () => {},
 
     // global state for play/pause //
     isPlaying: false,
-    setIsPlaying: () => { }
+    setIsPlaying: (isplaying) => {},
+
+    // global state for playing Id//
+    playId: null,
+    setPlayId: () => {},
+
 
 })
 

@@ -90,8 +90,6 @@ const Search = () => {
     return (<>
 
 
-
-
         <div className="px-4">
 
 

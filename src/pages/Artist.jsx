@@ -12,6 +12,9 @@ import MusicIcon from "../Icons/MusicIcon";
 import CheckIcon from "../Icons/CheckIcon";
 import PlusIcon from "../Icons/PlusIcon";
 import { toast, Zoom } from 'react-toastify';
+import PauseIcon from "../Icons/PauseIcon";
+import PlayIcon from "../Icons/PlayIcon";
+import ScrollBar from "../components/scrollBar";
 
 const Artist = ({ userId }) => {
 
@@ -96,7 +99,7 @@ const Artist = ({ userId }) => {
     }, [isOpen]);
 
 
-    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const { currentSong, setCurrentSong, setCurrentIndex, playId, setPlayId, isPlaying, setIsPlaying } = useContext(songContext);
     const { setCurrentPlaylist } = useContext(playlistContext);
 
     const [loading, setLoading] = useState(true)
@@ -120,15 +123,12 @@ const Artist = ({ userId }) => {
 
 
     const [Artist, setArtist] = useState({});
+
     useEffect(() => {
         getArtist()
         getSong()
 
     }, []);
-
-
-    
-
 
 
     const getSong = async () => {
@@ -210,19 +210,15 @@ const Artist = ({ userId }) => {
         var res = await axios.get(`https://spotify-backend-blue.vercel.app/playlistSong/getSongsByUserId/${user?._id}`)
 
         const userPlaylists = res.data.data
-        // console.log(userPlaylists)
 
         const newPlaylist = userPlaylists.filter((playlist) => (playlist.song.includes(songId)))
 
-        // console.log('playlist with songs:', newPlaylist)
         setPlaylistWithSong(newPlaylist)
 
 
     };
 
     // input check condition to display check icon svg and add or remove the song from playlist
-
-
 
     const handleChange = (e, playlistid) => {
 
@@ -251,8 +247,6 @@ const Artist = ({ userId }) => {
 
     };
 
-    // console.log('unchecked playlists:', uncheckedPlaylist)
-    // console.log('checked playlists:', playlistId)
 
     // condition for keep playlists with song checked   
     const keepPlaylistCheck = (playlistId) => {
@@ -279,86 +273,22 @@ const Artist = ({ userId }) => {
     const AddPlaylistSong = async (e) => {
         e.preventDefault();
 
-       if(playlistId.length>0){
-        var res = await axios.post("https://spotify-backend-blue.vercel.app/playlistSong/create", {
-            song: songId,
-            playlistId,
-            artist: artistID,
-            album: albumID,
-            userId: user?._id
-        });
-        res = res.data;
-
-        // to display playlist name
-        playlistId.map((id)=>{
-
-               const savedPlaylist = playlist.find((playlist)=>playlist._id===id)
-               if(savedPlaylist){
-                return toast(`Added to ${savedPlaylist.name}.`,{
-                    position: "bottom-center",
-                    autoClose:3000,
-                    hideProgressBar: true,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    closeButton:false,
-                    transition: Zoom,
-                    className:"custom-toast",
-                })
-               }  else{
-                toast(`something went wrong`,{
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    closeButton:false,
-                    transition: Zoom,
-                    className:"custom-toast"
-                })
-            }
-            
-        })
-
-       
-        
-
-       } 
-
-        // logic for remove the playlist song
-        if(uncheckedPlaylist.length>0){
-            var deleteRes = await axios.delete("https://spotify-backend-blue.vercel.app/playlistSong/deletPlaylistSong", {
-                data: {
-                    playlistId: uncheckedPlaylist,
-                    song: songId
-                }
-    
+        if (playlistId.length > 0) {
+            var res = await axios.post("https://spotify-backend-blue.vercel.app/playlistSong/create", {
+                song: songId,
+                playlistId,
+                artist: artistID,
+                album: albumID,
+                userId: user?._id
             });
-    
-            uncheckedPlaylist.map((id)=>{
+            res = res.data;
 
-                const savedPlaylist = playlist.find((playlist)=>playlist._id===id)
-                if(savedPlaylist){
-                 return toast(`Removed from ${savedPlaylist.name}.`,{
-                     position: "bottom-center",
-                     autoclose:3000,
-                     hideProgressBar: true,
-                     closeOnClick: false,
-                     pauseOnHover: true,
-                     draggable: true,
-                     progress: undefined,
-                     theme: "light",
-                     closeButton:false,
-                     transition: Zoom,
-                     className:"custom-toast",
-                 })
-                } else{
-                    toast(`something went wrong`,{
+            // to display playlist name
+            playlistId.map((id) => {
+
+                const savedPlaylist = playlist.find((playlist) => playlist._id === id)
+                if (savedPlaylist) {
+                    return toast(`Added to ${savedPlaylist.name}.`, {
                         position: "bottom-center",
                         autoClose: 3000,
                         hideProgressBar: true,
@@ -367,14 +297,78 @@ const Artist = ({ userId }) => {
                         draggable: true,
                         progress: undefined,
                         theme: "light",
-                        closeButton:false,
+                        closeButton: false,
                         transition: Zoom,
-                        className:"custom-toast",
+                        className: "custom-toast",
+                    })
+                } else {
+                    toast(`something went wrong`, {
+                        position: "bottom-center",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        closeButton: false,
+                        transition: Zoom,
+                        className: "custom-toast"
                     })
                 }
-             
-         })
-    
+
+            })
+
+
+
+
+        }
+
+        // logic for remove the playlist song
+        if (uncheckedPlaylist.length > 0) {
+            var deleteRes = await axios.delete("https://spotify-backend-blue.vercel.app/playlistSong/deletPlaylistSong", {
+                data: {
+                    playlistId: uncheckedPlaylist,
+                    song: songId
+                }
+
+            });
+
+            uncheckedPlaylist.map((id) => {
+
+                const savedPlaylist = playlist.find((playlist) => playlist._id === id)
+                if (savedPlaylist) {
+                    return toast(`Removed from ${savedPlaylist.name}.`, {
+                        position: "bottom-center",
+                        autoclose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        closeButton: false,
+                        transition: Zoom,
+                        className: "custom-toast",
+                    })
+                } else {
+                    toast(`something went wrong`, {
+                        position: "bottom-center",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        closeButton: false,
+                        transition: Zoom,
+                        className: "custom-toast",
+                    })
+                }
+
+            })
+
         }
     };
 
@@ -389,10 +383,36 @@ const Artist = ({ userId }) => {
 
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         handleCancel()
-    },[isOpen])
+    }, [isOpen])
 
+
+    // handle play pause from any song/album //
+
+    const handlePause = () => {
+        setIsPlaying(false)
+    }
+
+    // handle play function /
+    const handlePlay = (id) => {
+
+        if (currentSong?.artist?._id === id) {
+            setIsPlaying(true)
+        }
+    }
+
+    // handle song change //
+    const handleSongChange = (artistId) => {
+
+        if (currentSong?.artist?._id === artistId) {
+            return null;
+        } else {
+            setCurrentPlaylist(songs);
+            setCurrentSong(songs[0]);
+            setCurrentIndex(0);
+        }
+    }
 
 
     if (loading) {
@@ -411,307 +431,337 @@ const Artist = ({ userId }) => {
 
     return (
         <>
-            <div className="w-100 float-center text-white container-fluid" >
-
+            <div className="w-100 text-white" >
 
                 {Artist &&
+                    <ScrollBar customClassName={'rounded'} height={'78vh'}>
 
-                    <div
-                        id="rytBar"
-                        className="mx-1 row justify-content-between gap-2 text-white p-3 rounded scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
+                        <div
+                            id="rytBar"
+                            className="gap-2 text-white rounded" style={{ backgroundColor: "#121212" }}>
 
-                        <div className="artist-header rounded-top-3">
-                            <img src={Artist.image} alt="artist pic" className="object-fit-cover rounded-circle" />
+                            <div className="artist-header rounded-top-3">
+                                <img src={Artist.image} alt="artist pic" className="object-fit-cover rounded-circle" />
 
-                            <div >
-                                <div> <VerifiedIcon /> Verified Artist </div>
-                                <span className="fw-bold text ">{Artist.name}</span> <br />
-                                <span>42,405,290 monthly listeners</span>
+                                <div >
+                                    <div> <VerifiedIcon /> Verified Artist </div>
+                                    <span className="fw-bold text ">{Artist.name}</span> <br />
+                                    <span>42,405,290 monthly listeners</span>
 
+
+                                </div>
+                            </div>
+                            <div className="controls position-relative">
+
+                                {userId
+                                    // display when logined
+                                    ? <div
+                                        className={`play-button ${playId === Artist._id && currentSong?.artist?._id === Artist._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
+
+                                        onClick={() => { handleSongChange(Artist._id), setPlayId(Artist._id); }}
+                                    >
+                                        {playId === Artist._id && currentSong?.artist?._id === Artist._id && isPlaying ?
+                                            <div
+                                                className="pointer smallPlayIcon2 h-100 w-100"
+                                                onClick={handlePause}
+                                            >
+                                                <PauseIcon height={18} width={18} fill={"black"} />
+                                                
+                                            </div>
+
+                                            : <div className="pointer smallPlayIcon2 h-100 w-100"
+                                                onClick={() => handlePlay(Artist._id)}
+                                            >
+                                                <PlayIcon height={18} width={18} fill={"black"} />
+                                            </div>
+
+                                        }
+
+
+
+                                    </div>
+                                    // display when logout
+                                    : <div
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#logoutModal"
+                                        className="play-button"
+                                        onClick={() => { setOneArtist(Artist); console.log('artist set successfully') }}
+                                    >
+                                        <i className="fas fa-play"></i>
+                                    </div>}
+
+
+
+                                <div> <i className="fas fa-ellipsis-h py-2"></i> </div>
 
                             </div>
-                        </div>
-                        <div className="controls ">
 
-                            {userId ? <div
-
-                                className="play-button" onClick={() => { setCurrentPlaylist(songs), setCurrentSong(songs[0]), setCurrentIndex(0) }}>
-                                <i className="fas fa-play"></i>
-                            </div> : <div
-                                data-bs-toggle="modal"
-                                data-bs-target="#logoutModal"
-                                className="play-button"
-                                onClick={() => { setOneArtist(Artist); console.log('artist set successfully') }}
-                            >
-                                <i className="fas fa-play"></i>
-                            </div>}
-
-
-
-                            <div> <i className="fas fa-ellipsis-h py-2"></i> </div>
-
-                        </div>
-                        <div>  <span className="fs-2 fw-bold">Popular</span> </div>
-
-                        <div className="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th className="track-number">#</th>
-                                        <th>Title</th>
-                                        <th>Album</th>
-                                        <th>Date added</th>
-                                        <th>
-                                            <i className="far fa-clock"></i>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody ref={trBorderRef}>
-                                    {songs &&
-                                        songs.map((song, index) => (
-                                            <tr
-                                                key={song._id}
-                                                onClick={() => { handleClick(index) }}
+                            <div className="table-container">
+                                <div className="">  <span className="fs-2 fw-bold">Popular</span> </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th className="track-number">#</th>
+                                            <th>Title</th>
+                                            <th>Album</th>
+                                            <th>Date added</th>
+                                            <th>
+                                                <i className="far fa-clock"></i>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ref={trBorderRef}>
+                                        {songs &&
+                                            songs.map((song, index) => (
+                                                <tr
+                                                    key={song._id}
+                                                    onClick={() => { handleClick(index) }}
 
 
-                                                className={`tr-border position-relative ${selectedRow === index ? 'activeRow' : ''}`}>
+                                                    className={`tr-border position-relative ${selectedRow === index ? 'activeRow' : ''}`}>
 
-                                                <td className="track-number "><div className="number">{index + 1}</div></td>
+                                                    <td className="track-number "><div className="number">{index + 1}</div></td>
 
-                                                <td className="popover-div" >
+                                                    <td className="popover-div" >
 
-                                                    {userId ? <div className="smallplayIcon popover-container">
+                                                        {userId ? <div className="smallplayIcon popover-container">
 
-                                                        <div className="popover-target" onClick={() => { { setCurrentIndex(index), setCurrentSong(song), setCurrentPlaylist(songs) } }} >
-                                                            <SmallPlayIcon />
+                                                            <div className="popover-target" onClick={() => { { setCurrentIndex(index), setCurrentSong(song), setCurrentPlaylist(songs) } }} >
+                                                                <SmallPlayIcon />
+                                                            </div>
+
+
+                                                        </div> : <div
+
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#logoutModal"
+                                                            className="smallplayIcon popover-container">
+
+                                                            <div className="popover-target" onClick={() => { setOneArtist(song) }} >
+                                                                <SmallPlayIcon />
+                                                            </div>
+
+
+
                                                         </div>
+                                                        }
 
+                                                    </td>
+                                                    <td className="track-title">
+                                                        <img
+                                                            src={song.image}
+                                                            alt="Album cover for Slumber Rain"
 
-                                                    </div> : <div
-
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#logoutModal"
-                                                        className="smallplayIcon popover-container">
-
-                                                        <div className="popover-target" onClick={() => { setOneArtist(song) }} >
-                                                            <SmallPlayIcon />
+                                                        />
+                                                        <div>
+                                                            <div>{song.name}</div>
+                                                            <div>{song?.artist?.name}</div>
                                                         </div>
+                                                    </td>
+                                                    <td> {song?.album?.name}</td>
+                                                    <td>{new Date(song.createdAt).toLocaleDateString()}</td>
+                                                    <td className="position-relative">
+                                                        {song.time}
+
+                                                        {userId ?
+
+                                                            <Popover.Root onOpenChange={blockScroll} >
+
+                                                                <Popover.Trigger
+                                                                    onClick={() => {
+                                                                        setSongId(song._id);
+                                                                        setAlbumID(song?.album?._id);
+                                                                        setArtistID(song?.artist?._id);
+                                                                    }}
+
+                                                                    className="addIcon bg-transparent border-0">
+                                                                    <span>
+                                                                        <AddIcon />
+                                                                    </span>
+                                                                </Popover.Trigger>
 
 
 
-                                                    </div>
-                                                    }
+                                                                <Popover.Portal>
+                                                                    <Popover.Positioner positionMethod="fixed" collisionBoundary={document.getElementById('rytBar')} sticky={true} align='start' side="top" className="z-9999">
 
-                                                </td>
-                                                <td className="track-title">
-                                                    <img
-                                                        src={song.image}
-                                                        alt="Album cover for Slumber Rain"
-
-                                                    />
-                                                    <div>
-                                                        <div>{song.name}</div>
-                                                        <div>{song?.artist?.name}</div>
-                                                    </div>
-                                                </td>
-                                                <td> {song?.album?.name}</td>
-                                                <td>{new Date(song.createdAt).toLocaleDateString()}</td>
-                                                <td className="position-relative">
-                                                    {song.time}
-
-                                                    {userId ?
-
-                                                        <Popover.Root onOpenChange={blockScroll} >
-
-                                                            <Popover.Trigger
-                                                                onClick={() => {
-                                                                    setSongId(song._id);
-                                                                    setAlbumID(song?.album?._id);
-                                                                    setArtistID(song?.artist?._id);
-                                                                }}
-
-                                                                className="addIcon bg-transparent border-0">
-                                                                <span>
-                                                                    <AddIcon />
-                                                                </span>
-                                                            </Popover.Trigger>
+                                                                        <Popover.Popup className="playlist-popup ">
+                                                                            <div className="p-3">
 
 
-
-                                                            <Popover.Portal>
-                                                                <Popover.Positioner positionMethod="fixed" collisionBoundary={document.getElementById('rytBar')} sticky={true} align='start' side="top" className="z-9999">
-
-                                                                    <Popover.Popup className="playlist-popup ">
-                                                                        <div className="p-3">
-
-
-                                                                            {popupLoading ? <form  >
-                                                                                <div className="fs-small fw-bold mb-3" style={{ color: '#B3B3B3' }}>Add to playlist</div>
-
-                                                                                <div className="popupLoading">
-
-
-                                                                                    <p className="placeholder-glow ">
-                                                                                        <span className="placeholder col-1 me-4"></span>
-                                                                                        <span className="placeholder col-9"></span>
-                                                                                    </p>
-
-                                                                                    <p className="placeholder-glow ">
-                                                                                        <span className="placeholder col-1 me-4"></span>
-                                                                                        <span className="placeholder col-9"></span>
-                                                                                    </p>
-
-                                                                                    <p className="placeholder-glow ">
-                                                                                        <span className="placeholder col-1 me-4"></span>
-                                                                                        <span className="placeholder col-9"></span>
-                                                                                    </p>
-
-                                                                                    <p className="placeholder-glow ">
-                                                                                        <span className="placeholder col-1 me-4"></span>
-                                                                                        <span className="placeholder col-9"></span>
-                                                                                    </p>
-
-                                                                                </div>
-
-
-
-                                                                                <div className="d-flex flex-row-reverse align-items-center gap-2">
-
-                                                                                    <Popover.Close className='btn btn-light rounded-pill nav-login-btn'> Done</Popover.Close>
-                                                                                    <Popover.Close className='bg-transparent border-0 text-white nav-login-btn'> Cancel</Popover.Close>
-
-                                                                                </div>
-                                                                            </form> :
-
-                                                                                <form onSubmit={AddPlaylistSong}  >
+                                                                                {popupLoading ? <form >
                                                                                     <div className="fs-small fw-bold mb-3" style={{ color: '#B3B3B3' }}>Add to playlist</div>
 
-                                                                                    <div className="p-2 rounded hover-grey d-flex align-items-center  gap-2">
-                                                                                        <span><PlusIcon /></span> <span> New playlist</span>
-                                                                                    </div>
-
-                                                                                    <hr className="mt-0 m mx-2" />
+                                                                                    <div className="popupLoading">
 
 
-                                                                                    <div className="mb-3  rounded  ">
-                                                                                        {playlist &&
-                                                                                            playlist.map((playlist, index) => {
-                                                                                                return (
+                                                                                        <p className="placeholder-glow ">
+                                                                                            <span className="placeholder col-1 me-4"></span>
+                                                                                            <span className="placeholder col-9"></span>
+                                                                                        </p>
 
-                                                                                                    <div key={index} className="col hover-grey rounded">
-                                                                                                        <label
+                                                                                        <p className="placeholder-glow ">
+                                                                                            <span className="placeholder col-1 me-4"></span>
+                                                                                            <span className="placeholder col-9"></span>
+                                                                                        </p>
 
-                                                                                                            htmlFor={playlist._id}
-                                                                                                            className="position-relative w-100 py-1 px-2 d-flex  align-items-center justify-content-between"
+                                                                                        <p className="placeholder-glow ">
+                                                                                            <span className="placeholder col-1 me-4"></span>
+                                                                                            <span className="placeholder col-9"></span>
+                                                                                        </p>
 
-                                                                                                        >
-                                                                                                            <div className="d-flex gap-2 align-items-center">
-                                                                                                                <div >
-                                                                                                                    {playlist.image ? <img src={playlist.image} alt="playlist image" width={16} height={16} /> : <div className="musicIcon small-Icon rounded"><MusicIcon /></div>}
-                                                                                                                </div>
-
-                                                                                                                <div className="text-select-none" >
-                                                                                                                    {playlist.name}
-                                                                                                                </div>
-                                                                                                            </div>
-
-                                                                                                            <div className="px-2 checkbox col-1">
-                                                                                                                <input type="checkbox" id={playlist._id} onChange={(e) => { handleChange(e, playlist._id) }} checked={isChecked[playlist._id] || false} value={playlist._id} />
-                                                                                                                <div className={`d-flex align-items-center justify-content-center`}>  {isChecked[playlist._id] ? <CheckIcon /> : ''} </div>
-                                                                                                            </div>
-
-                                                                                                        </label>
-                                                                                                    </div>
-
-
-
-                                                                                                );
-                                                                                            })}
-
-
-
+                                                                                        <p className="placeholder-glow ">
+                                                                                            <span className="placeholder col-1 me-4"></span>
+                                                                                            <span className="placeholder col-9"></span>
+                                                                                        </p>
 
                                                                                     </div>
+
+
 
                                                                                     <div className="d-flex flex-row-reverse align-items-center gap-2">
 
-                                                                                        <Popover.Close className='btn btn-light rounded-pill nav-login-btn'
-                                                                                            type="submit"
-
-
-                                                                                        > Done
-                                                                                        </Popover.Close>
-
-                                                                                        <Popover.Close
-
-                                                                                            className='bg-transparent border-0 text-white nav-login-btn'
-
-                                                                                            onClick={handleCancel}
-                                                                                        > Cancel
-                                                                                        </Popover.Close>
+                                                                                        <Popover.Close className='btn btn-light rounded-pill nav-login-btn'> Done</Popover.Close>
+                                                                                        <Popover.Close className='bg-transparent border-0 text-white nav-login-btn'> Cancel</Popover.Close>
 
                                                                                     </div>
+                                                                                </form> :
+
+                                                                                    <form onSubmit={AddPlaylistSong}  >
+                                                                                        <div className="fs-small fw-bold mb-3" style={{ color: '#B3B3B3' }}>Add to playlist</div>
+
+                                                                                        <div className="p-2 rounded hover-grey d-flex align-items-center  gap-2">
+                                                                                            <span><PlusIcon /></span> <span> New playlist</span>
+                                                                                        </div>
+
+                                                                                        <hr className="mt-0 m mx-2" />
+
+                                                                                        <ScrollBar height={'35vh'}>
+
+                                                                                            <div className="mb-3  rounded ">
+                                                                                                {playlist &&
+                                                                                                    playlist.map((playlist, index) => {
+                                                                                                        return (
+
+                                                                                                            <div key={index} className="col hover-grey rounded">
+                                                                                                                <label
+
+                                                                                                                    htmlFor={playlist._id}
+                                                                                                                    className="position-relative w-100 py-1 px-2 d-flex  align-items-center justify-content-between"
+
+                                                                                                                >
+                                                                                                                    <div className="d-flex gap-2 align-items-center">
+                                                                                                                        <div >
+                                                                                                                            {playlist.image ? <img src={playlist.image} alt="playlist image" width={16} height={16} /> : <div className="musicIcon small-Icon rounded"><MusicIcon /></div>}
+                                                                                                                        </div>
+
+                                                                                                                        <div className="text-select-none" >
+                                                                                                                            {playlist.name}
+                                                                                                                        </div>
+                                                                                                                    </div>
+
+                                                                                                                    <div className="px-2 checkbox col-1">
+                                                                                                                        <input type="checkbox" id={playlist._id} onChange={(e) => { handleChange(e, playlist._id) }} checked={isChecked[playlist._id] || false} value={playlist._id} />
+                                                                                                                        <div className={`d-flex align-items-center justify-content-center`}>  {isChecked[playlist._id] ? <CheckIcon /> : ''} </div>
+                                                                                                                    </div>
+
+                                                                                                                </label>
+                                                                                                            </div>
+
+
+
+                                                                                                        );
+                                                                                                    })}
+
+
+
+
+                                                                                            </div>
+
+                                                                                        </ScrollBar>
+
+
+                                                                                        <div className="d-flex flex-row-reverse align-items-center gap-2">
+
+                                                                                            <Popover.Close className='btn btn-light rounded-pill nav-login-btn'
+                                                                                                type="submit"
+
+
+                                                                                            > Done
+                                                                                            </Popover.Close>
+
+                                                                                            <Popover.Close
+
+                                                                                                className='bg-transparent border-0 text-white nav-login-btn'
+
+                                                                                                onClick={handleCancel}
+                                                                                            > Cancel
+                                                                                            </Popover.Close>
+
+                                                                                        </div>
 
 
 
 
 
-                                                                                </form>}
+                                                                                    </form>}
 
-                                                                        </div>
-
-
-                                                                    </Popover.Popup>
-                                                                </Popover.Positioner>
-                                                            </Popover.Portal>
-                                                        </Popover.Root> :
-
-                                                        <Popover.Root>
-
-                                                            <Popover.Trigger className="addIcon bg-transparent border-0">
-                                                                <span>
-                                                                    <AddIcon />
-                                                                </span>
-                                                            </Popover.Trigger>
+                                                                            </div>
 
 
+                                                                        </Popover.Popup>
+                                                                    </Popover.Positioner>
+                                                                </Popover.Portal>
+                                                            </Popover.Root> :
 
-                                                            <Popover.Portal>
-                                                                <Popover.Positioner className="z-9999" sideOffset={10} anchor={loginBtnRef}>
-                                                                    <Popover.Popup className="Popup3">
-                                                                        <Popover.Arrow className="Arrow">
-                                                                            <PopoverArrow />
-                                                                        </Popover.Arrow>
+                                                            <Popover.Root>
 
-                                                                        <Popover.Close className="bg-transparent fw-bold close-btn border-0 position-absolute">
-                                                                            &#10005;
-                                                                        </Popover.Close>
-
-                                                                        <Popover.Description className="p-1 m-0">
-                                                                            <span className="fw-bold">You’re logged out</span> <br />
-
-                                                                            Log in to add this to your playlist.
-                                                                        </Popover.Description>
-
-                                                                    </Popover.Popup>
-                                                                </Popover.Positioner>
-                                                            </Popover.Portal>
-                                                        </Popover.Root>
-
-
-                                                    }
+                                                                <Popover.Trigger className="addIcon bg-transparent border-0">
+                                                                    <span>
+                                                                        <AddIcon />
+                                                                    </span>
+                                                                </Popover.Trigger>
 
 
 
-                                                </td>
-                                            </tr>
-                                        ))}
-                                </tbody>
-                                
-                            </table>
+                                                                <Popover.Portal>
+                                                                    <Popover.Positioner className="z-9999" sideOffset={10} anchor={loginBtnRef}>
+                                                                        <Popover.Popup className="Popup3">
+                                                                            <Popover.Arrow className="Arrow">
+                                                                                <PopoverArrow />
+                                                                            </Popover.Arrow>
+
+                                                                            <Popover.Close className="bg-transparent fw-bold close-btn border-0 position-absolute">
+                                                                                &#10005;
+                                                                            </Popover.Close>
+
+                                                                            <Popover.Description className="p-1 m-0">
+                                                                                <span className="fw-bold">You’re logged out</span> <br />
+
+                                                                                Log in to add this to your playlist.
+                                                                            </Popover.Description>
+
+                                                                        </Popover.Popup>
+                                                                    </Popover.Positioner>
+                                                                </Popover.Portal>
+                                                            </Popover.Root>
+
+
+                                                        }
+
+
+
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                    </tbody>
+
+                                </table>
+                            </div>
+
                         </div>
+                    </ScrollBar>
 
-                    </div>
                 }
 
 

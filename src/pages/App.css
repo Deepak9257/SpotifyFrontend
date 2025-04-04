@@ -27,42 +27,38 @@
   transform: scale(1.05);
 }
 
-.search-bar{
+.search-bar {
   transition: 0.1s ease-in-out;
   cursor: pointer;
 }
 
-.search-bar:hover{
+.search-bar:hover {
   background: #2a2a2a;
 }
 
-
-.search-bar:hover .search-Icon svg{
+.search-bar:hover .search-Icon svg {
   fill: white;
 }
 
 .search-bar:focus-within {
-  outline: 2.5px solid #ffff; 
-  outline-offset: -2px ;
+  outline: 2.5px solid #ffff;
+  outline-offset: -2px;
   background: #2a2a2a;
 }
 
-
 .search-bar:focus-within .search-Icon svg {
-  fill:white
+  fill: white;
 }
 .search-input {
   outline: none;
   background: none;
   caret-color: white;
   color: white;
- 
 }
 
 .home-icon:active {
   transform: scale(0.98);
 }
-
 
 .login-btn:hover {
   transform: scale(1.03, 1.08);
@@ -113,49 +109,59 @@
 }
 
 .play {
-  color: #1ed760 !important;
+  background-color: #1ed760;
   position: absolute;
   top: 50%;
   left: 68%;
-  display: none;
-  background-color: black;
+  opacity: 0;
   border-radius: 50%;
-  transition: 0.1s all;
-}
-
-.play div{
-  background-color: #1ed760;
-  padding: 10px;
-  border-radius: 50%;
+  height: 2.5em;
+  width: 2.5em;
+  transition: all 0.25s ease-in-out;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.1s all;
-
+  transform: translateY(25%);
+  
 }
 
-.play div:hover {
+.play:hover{
   background-color: #3be477 !important;
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
-.play div:active{
+.smallPlayIcon2{
+  height: 2.5em;
+  width: 2.5em;
+  /* border: 1px solid white; */
+  border-radius:50% ; 
+  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.play:active {
   background-color: #148f3f !important;
-  transform: scale(0.99);
+  transform: scale(0.90) !important;
 }
 
-.play .smallPlayIcon2 svg{
+.play .smallPlayIcon2 svg {
   fill: black;
-
 }
-
 
 .hyt {
   height: 18%;
 }
 
 .p:hover .play {
-  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.translate-0{
+  transform: translate(0);
 }
 
 .p {
@@ -289,8 +295,7 @@
   color: black;
 }
 
-
-.play-button{
+.play-button {
   transition: 0.05s all;
 }
 .play-button:hover {
@@ -298,7 +303,7 @@
   transform: scale(1.05);
 }
 
-.play-button:active{
+.play-button:active {
   background-color: #148f3f !important;
   transform: scale(0.99);
 }
@@ -309,7 +314,7 @@
   cursor: pointer;
 }
 .table-container {
-  padding: 0 20px;
+  padding: 10px 20px;
 }
 table {
   width: 100%;
@@ -320,7 +325,6 @@ th,
 td {
   padding: 10px;
   text-align: left;
-  
 }
 th {
   font-size: 14px;
@@ -329,7 +333,7 @@ th {
 td {
   font-size: 16px;
 }
-.table-container tr:hover {
+tbody tr:hover {
   background-color: #282828;
 }
 
@@ -381,13 +385,10 @@ td {
   left: -5px;
 }
 
-.search-title-bar div{
+.search-title-bar div {
   font-size: 14px;
   color: #b3b3b3;
 }
-
-
-
 
 .tr-border:hover {
   .popover-div,
@@ -411,8 +412,6 @@ td {
   z-index: 1000;
 }
 
-
-
 .addIcon {
   position: absolute;
   top: 30%;
@@ -421,9 +420,6 @@ td {
   display: none;
   transition: 0.1s ease-in;
 }
-
-
-
 
 .playlist-popover-content {
   position: absolute;
@@ -434,7 +430,7 @@ td {
   box-shadow: inset;
 }
 
-.addIcon:active{
+.addIcon:active {
   transform: scale(0.98);
 }
 
@@ -472,67 +468,60 @@ td {
   background: linear-gradient(rgb(39, 37, 37) 50%, rgb(0, 0, 0) 100%);
 }
 
-
 .custom-tooltip {
   --bs-tooltip-bg: #2a2a2a;
   --bs-tooltip-color: var(--bs-white);
-    font-weight: bolder;
-  
+  font-weight: bolder;
 }
 
-.top-result{
+.top-result {
   background-color: #181818;
   transition: 0.2s ease-in-out;
 }
 
 .top-result:hover {
   background-color: #292929;
-
 }
 
-.top-result:hover .top-play{
+.top-result:hover .top-play {
   visibility: visible;
 }
 
-.song-div{
+.song-div {
   transition: 0.2s ease-in-out;
 }
 .song-div:hover {
   background-color: #292929;
-
 }
 
-.btn-div div button{
-  background-color: #2a2a2a ;
+.btn-div div button {
+  background-color: #2a2a2a;
   border: none;
   padding: 15px;
   transition: 0.2s ease-in;
 }
 
-.btn-div div button:hover{
-  background-color: #3b3b3b; ;
-
+.btn-div div button:hover {
+  background-color: #3b3b3b;
 }
 
-.no-search{
+.no-search {
   margin-top: 20%;
   background-color: #121212;
-
 }
 
-.searchNav button{
+.searchNav button {
   color: black !important;
   background-color: white !important;
 }
 
-.song-bar{
+.song-bar {
   transition: 0.1s all;
 }
-.song-bar:hover{
-background-color: #3b3b3b;
-
+.song-bar:hover {
+  background-color: #3b3b3b;
 }
-.top-play{
+.top-play {
   width: 45px;
   height: 45px;
   background-color: #1ed760;
@@ -542,72 +531,67 @@ background-color: #3b3b3b;
   transition: 0.2s all;
 }
 
-.top-play svg{
+.top-play svg {
   fill: black;
   height: 24px;
-
 }
 
-.addIcon2{
+.addIcon2 {
   visibility: hidden;
   transition: 0.1 all;
   position: absolute;
   left: 75%;
 }
 
-.addIcon2:hover svg{
+.addIcon2:hover svg {
   fill: white;
   transform: scale(1.1);
 }
 
-.search-song-div{
+.search-song-div {
   position: relative;
-  
 }
 
 .search-play-icon {
   position: absolute;
   left: 3%;
   visibility: hidden;
- 
 }
 
-.search-song-play-icon{
+.search-song-play-icon {
   position: absolute;
   left: 2%;
   visibility: hidden;
   transition: 0.1s all;
-  
 }
 
-.song-bar:hover .song-index{
+.song-bar:hover .song-index {
   visibility: hidden;
 }
 
-
-.song-bar:hover .search-song-play-icon, .song-bar:hover .addIcon3{
+.song-bar:hover .search-song-play-icon,
+.song-bar:hover .addIcon3 {
   visibility: visible;
-
 }
 
-.search-song-div:hover .addIcon2, .search-song-div:hover .search-play-icon{
-    visibility: visible;
+.search-song-div:hover .addIcon2,
+.search-song-div:hover .search-play-icon {
+  visibility: visible;
 }
 
-.addIcon3{
+.addIcon3 {
   position: absolute;
   left: 92%;
   visibility: hidden;
   transition: 0.1s all;
 }
 
-.addIcon3:hover svg{
+.addIcon3:hover svg {
   fill: white !important;
   transform: scale(1.1);
 }
 
-
-.Popup{
+.Popup {
   background-color: #69bfff;
   border-radius: 7px;
   padding: 5%;
@@ -617,27 +601,26 @@ background-color: #3b3b3b;
 .Arrow {
   display: flex;
 
-  &[data-side='top'] {
+  &[data-side="top"] {
     bottom: -8px;
     rotate: 180deg;
   }
 
-  &[data-side='bottom'] {
+  &[data-side="bottom"] {
     top: -8px;
     rotate: 0deg;
   }
 
-  &[data-side='left'] {
+  &[data-side="left"] {
     right: -13px;
     rotate: 90deg;
   }
 
-  &[data-side='right'] {
+  &[data-side="right"] {
     left: -13px;
     rotate: -90deg;
   }
 }
-
 
 .arrow::before {
   content: "";
@@ -649,7 +632,6 @@ background-color: #3b3b3b;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
 }
-
 
 @media only screen and (max-width: 426px) {
   .login .div {

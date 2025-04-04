@@ -61,8 +61,11 @@ function App() {
   const [currentSong, setCurrentSong] = useState({})
   const [currentIndex, setCurrentIndex] = useState({})
   const [currentPlaylist, setCurrentPlaylist] = useState([])
-  // console.log('current song=', currentSong)
-  // console.log('current playlist=', currentPlaylist)
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [songContainer, setSongContainer] = useState(true)
+  const [fullMode, setFullMode] = useState(false);
+  const [playId, setPlayId] = useState("");
+  const [playlistId, setPlaylistId] = useState("");
 
   const loginBtnRef = useRef(null)
 
@@ -73,9 +76,25 @@ function App() {
 
         <Routes>
 
-          <Route element={<songContext.Provider value={{ currentSong, setCurrentSong, currentIndex, setCurrentIndex }}>
+          <Route element={
+            
+            <songContext.Provider value={{
+            currentSong,
+            setCurrentSong,
+            currentIndex,
+            setCurrentIndex,
+            songContainer,
+            setSongContainer,
+            fullMode,
+            setFullMode,
+            isPlaying,
+            setIsPlaying,
+            playId,
+            setPlayId
 
-            <playlistContext.Provider value={{ currentPlaylist, setCurrentPlaylist }}>
+          }} >
+
+            <playlistContext.Provider value={{ currentPlaylist, setCurrentPlaylist, playlistId, setPlaylistId }}>
 
               <LoginBtnContext.Provider value={loginBtnRef}>
 
@@ -91,6 +110,7 @@ function App() {
             <Route path="/album/:id" element={<Album userId={userId} />} />
             <Route path="/playlist/:id" element={<Playlist />} />
             <Route path="/pricing" element={<Pricing />} />
+            
             <Route element={<SearchLayout />} >
 
               <Route path="/search" element={<Browse />} />

@@ -6,6 +6,12 @@
   padding: 10px;
 }
 
+*{
+  
+  user-select: none;
+
+}
+
 body::-webkit-scrollbar{
   display: none;
   
@@ -24,6 +30,9 @@ body::-webkit-scrollbar{
   background-color: #1ed760;
 }
 
+.text-green{
+  color: #1ed760;
+}
 .nav-login-btn{
   transition: 0.1s ease-in-out;
 }
@@ -57,13 +66,67 @@ body::-webkit-scrollbar{
   overflow-y: auto;
   overflow-x: hidden;
   transition: 0.2s ease-in-out;
-  position: relative;
+
 } 
 
 .scroll::-webkit-scrollbar {
   width: 12px !important;
-
+  border: 1px solid white;
+  display: none;
  
+}
+
+/* custom scrollbar styling  (start)*/
+
+.scrollbar-container{
+  position: relative;
+  overflow: hidden;
+  /* border: 1px solid white; */
+}
+
+.scrollbar-container:hover  .scrollbar-track{
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.scrollbar-track{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 100%;
+  opacity: 0;
+}
+
+.scrollbar-thumb {
+  width: 100%;
+  background-color: #7c7c7c;
+  position: absolute;
+  top: 0%;
+ 
+}
+
+.scrollbar-thumb:hover{
+  background-color: #9f9f9f;
+}
+
+.scrollbar-thumb:active{
+  background-color: #d1cccc;
+}
+
+.scrollbar-thumb:active ~ .scrollbar-track{
+  opacity: 1;
+}
+
+
+/* custom scrollbar styling (end) */
+
+
+.outlet{
+  width: 1043px;
+}
+.leftbar-container{
+  width: 329px;
 }
 
 .w-175{
@@ -87,14 +150,15 @@ body::-webkit-scrollbar{
 
 .scroll::-webkit-scrollbar-thumb {
   background-color: #5a5a5a;
-  visibility: hidden;
+  /* display: none; */
   transition: 0.1s all;
+  border: 1px solid white;
  
 }
 
-.scroll:hover::-webkit-scrollbar-thumb {
+/* .scroll:hover::-webkit-scrollbar-thumb {
   visibility: visible;
-}
+} */
 
 .bottom-bg {
   background: linear-gradient(
@@ -200,11 +264,18 @@ body::-webkit-scrollbar{
 }
 
 .smallPlayIcon {
+  position: absolute;
   visibility: hidden;
-  left: 2%;
-  padding: 3% 3.8%;
+  top: 0;
+  left: 0%;
   background-color: transparent;
   transition: ease-in;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -271,13 +342,13 @@ body::-webkit-scrollbar{
 }
 
 
-.modal-content {
+.custom-modal-content {
   height: 418px;
   background: linear-gradient( to bottom, #044b65, #3a4142 ) !important;
   border: none;
 }
 
-.modal-body .nav-login-btn:hover{
+.custom-modal-body .nav-login-btn:hover{
   background-color: #3be477;
 
 }
@@ -336,8 +407,7 @@ body::-webkit-scrollbar{
     color: white;
     border-radius: 10px;
     width: 280px;
- 
-    
+
 
 }
 
@@ -392,11 +462,286 @@ body::-webkit-scrollbar{
   
 }
 
+/* music player styling */
+
+.play-btn:active {
+  transform: scale(0.98);
+}
+
+.popover-container {
+  position: absolute;
+}
+
+.playerDiv {
+  height: 75px;
+}
+
+.fs-small {
+  font-size: 0.8rem;
+}
+
+.seekbar {
+  height: 4px;
+  position: relative;
+  border: none;
+  background-color: #4d4d4d;
+  /* visibility: hidden; */
+}
+
+.seekbar:hover input[type="range"] {
+  visibility: visible;
+}
+
+.seekbar input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  visibility: hidden;
+  border-radius: 5px;
+  position: absolute;
+  cursor: pointer;
+  background-color: #4d4d4d;
+  z-index: 10;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0px 0px 20px 2px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+
+.user-select-none {
+  user-select: none;
+}
+
+.other-controls svg {
+  cursor: pointer;
+}
+
+.not-allowed {
+  cursor: not-allowed;
+}
+
+#filledBar {
+  transition: all 0.2s ease-in-out !important;
+}
+
+.bg-grey {
+  background-color: #656565;
+}
+
+.pressed,
+.repeat {
+  transition: all 0.2s;
+}
+
+.pressed:hover svg {
+  fill: white;
+  transform: scale(1.04);
+}
+
+.repeat:hover svg {
+  transform: scale(1.04);
+}
+
+.toggle-pressed {
+  transition: all 0.2s;
+}
+
+.toggle-pressed:hover{
+  transform: scale(1.04);
+}
+
+.toggle-pressed:active {
+  transform: scale(0.95);
+  background-color: #e7e1e1df !important;
+}
+
+.pressed:active svg,
+.repeat:active svg {
+  transform: scale(0.98);
+  fill: #656565 !important;
+}
+
+/* volume bar styling */
+.volume-input-div {
+  height: 4px;
+  width: 79px;
+  position: relative;
+  background-color: #4d4d4d;
+  border-radius: 4px;
+}
+.volume-seek-bar {
+  height: 4px;
+  width: 79px;
+}
+
+.volume-input-div:hover input[type="range"] {
+  visibility: visible;
+}
+
+.volume-seek-bar input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: none;
+  height: 4px;
+  width: 79px;
+  border-radius: 5px;
+  position: absolute;
+  cursor: pointer;
+  visibility: hidden;
+  background-color: #4d4d4d;
+  z-index: 10;
+}
+
+/* buffered range styling */
+.buffered-range {
+  width: 0px;
+  transition: linear(
+      0 0%,
+      0 1.8%,
+      0.01 3.6%,
+      0.03 6.35%,
+      0.07 9.1%,
+      0.13 11.4%,
+      0.19 13.4%,
+      0.27 15%,
+      0.34 16.1%,
+      0.54 18.35%,
+      0.66 20.6%,
+      0.72 22.4%,
+      0.77 24.6%,
+      0.81 27.3%,
+      0.85 30.4%,
+      0.88 35.1%,
+      0.92 40.6%,
+      0.94 47.2%,
+      0.96 55%,
+      0.98 64%,
+      0.99 74.4%,
+      1 86.4%,
+      1 100%
+    )
+    1s;
+  background-color: #787373 !important;
+}
+
+
+
+
+
+#fullscreenPortal {
+  background-color: #4d4d4d;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.fullscreen-music-player {
+  position: absolute;
+  top: 75%;
+}
+
+/* fullscreen music player styling */
+
+.fullmode-seekbar {
+  height: 4px;
+  width: 512px;
+  position: relative;
+  border: none;
+  background-color: #76767654;
+}
+
+.fullmode-seekbar:hover input[type="range"] {
+  visibility: visible;
+}
+
+.fullmode-seekbar input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 5px;
+  position: absolute;
+  cursor: pointer;
+  visibility: hidden;
+  background-color: #de1d1d54;
+  z-index: 10;
+}
+
+.fullmode-song-time {
+  padding: 0 8%;
+}
+
+.fullmode-music-player {
+  margin-bottom: 2%;
+}
+
+.text-grey {
+  color: #c5c5c6;
+}
+
+.cross:hover {
+  background-color: #3a4142 !important;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.cross:active{
+  transform: scale(0.90);
+  background-color: #2e3233 !important;
+
+}
+
+
+/* Default state for the controls */
+.fullmode-controls {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out; /* Add transition on opacity */
+    margin-bottom: 5%;
+}
+
+/* When visible */
+.visible {
+    opacity: 1 !important;  /* Fade in */
+    visibility: visible !important;
+}
+
+.fullmode{
+  transition: all 2s linear ;
+  position: relative;
+}
+
+.fullscreen-bg{
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  opacity: 1;
+  background-color: #111111;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.scale-lg:hover svg{
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+}
+
 
 @media (min-width: 576px) {
-  .modal-dialog {
+  .custom-modal-dialog {
       max-width: 50rem;
-     
       margin-right: auto;
       margin-left: auto;
   }
