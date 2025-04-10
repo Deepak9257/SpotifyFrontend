@@ -85,15 +85,19 @@ const Playlist = () => {
     // handle play function /
     const handlePlay = (id) => {
 
-        if (currentSong?.artist?._id === id) {
-            setIsPlaying(true)
+
+
+        if (currentSong?._id === id) {
+            setIsPlaying(true);
+            // console.log('handleplay rendered')
         }
     }
 
     // handle song change //
-    const handleSongChange = (artistId) => {
+    const handleSongChange = (songId) => {
 
-        if (currentSong._id && currentSong?.artist?._id === artistId) {
+        if (currentSong._id === songId) {
+            // console.log('return null')
             return null;
         } else {
         
@@ -107,7 +111,7 @@ const Playlist = () => {
 
     }
 
-// console.log('song ID  :',song[0]?.artist?._id)
+// console.log('song ID  :', song[0])
     return (
         <>
 
@@ -167,9 +171,9 @@ const Playlist = () => {
 
                     <div className="controls">
                         <div
-                            className={`play-button ${playId === song[0]?.song?._id && currentSong?.artist?._id === song[0]?.song?._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
+                            className={`play-button`}
 
-                            onClick={() => {handleSongChange(song[0]?.artist?._id), setPlayId(id); }}
+                            onClick={() => {handleSongChange(song[0]?.song?._id), setPlayId(id); }}
                         >
                             {playId === id && isPlaying ?
                                 <div
@@ -180,7 +184,7 @@ const Playlist = () => {
                                 </div>
 
                                 : <div className="pointer smallPlayIcon2 h-100 w-100"
-                                    onClick={() => handlePlay(song[0].song?.artist?._id)}
+                                    onClick={() => handlePlay(song[0]?.song?._id)}
                                 >
                                     <PlayIcon height={18} width={18} fill={"black"} />
 

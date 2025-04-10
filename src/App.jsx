@@ -58,14 +58,15 @@ function App() {
   const userId = user?._id ? user : null;
 
 
-  const [currentSong, setCurrentSong] = useState({})
-  const [currentIndex, setCurrentIndex] = useState({})
-  const [currentPlaylist, setCurrentPlaylist] = useState([])
+  const [currentSong, setCurrentSong] = useState({});
+  const [currentIndex, setCurrentIndex] = useState({});
+  const [currentPlaylist, setCurrentPlaylist] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [songContainer, setSongContainer] = useState(true)
+  const [songContainer, setSongContainer] = useState(true);
   const [fullMode, setFullMode] = useState(false);
   const [playId, setPlayId] = useState("");
   const [playlistId, setPlaylistId] = useState("");
+  const [songDuration, setSongDuration]=useState(null);
 
   const loginBtnRef = useRef(null)
 
@@ -90,7 +91,9 @@ function App() {
             isPlaying,
             setIsPlaying,
             playId,
-            setPlayId
+            setPlayId,
+            songDuration,
+            setSongDuration,
 
           }} >
 

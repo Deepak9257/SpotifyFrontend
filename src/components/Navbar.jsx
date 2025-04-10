@@ -37,9 +37,7 @@ function Navbar({ user }) {
 
     const handleChange = (e) => {
 
-        const category = url.split(`/`)[3] || ""
-
-        // console.log("category:",category )
+        
 
         const value = e.target.value?.trim() || ""
         // console.log("value:",`/search/${value}`)
@@ -48,12 +46,6 @@ function Navbar({ user }) {
         navigate(`/search`);
         return;
         }   
-
-        if(category.length > 0){
-       
-            return navigate(`/search/${value}/${category}`);
-          
-        }
         
         navigate(`/search/${value}`);
     }
@@ -83,7 +75,7 @@ function Navbar({ user }) {
                                 <input
                                     className="col-11 search-input p-2 rounded-pill border-0 txt w-100"
                                     placeholder="What do you want to play?"
-                                    onChange={(e) => { handleChange(e) }}
+                                    onChange={(e) => { handleChange(e); }}
                                 />
 
                             </div>

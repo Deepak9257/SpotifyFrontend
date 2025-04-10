@@ -52,11 +52,11 @@ const AppLayout = () => {
                 <Leftbar user={user} />
                 </div>
 
-               <div className={`rounded ${songContainer && currentSong._id ? 'w-75' : 'outlet'}`}>
+               <div className={`rounded ${songContainer && currentSong._id ? 'col-6' : 'outlet'}`}>
                <Outlet />
                </div>
 
-                <div className={`rounded w-25 ${songContainer && currentSong._id ?'d-block':'d-none'}`}>
+                <div className={`rounded col ${songContainer && currentSong._id ?'d-block':'d-none'}`}>
                 <NowPlayingBar />
                 </div>
             </div>
