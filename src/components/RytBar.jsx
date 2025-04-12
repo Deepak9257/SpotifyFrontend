@@ -7,6 +7,10 @@ import playlistContext from "../contexts/PlaylistContext";
 import PauseIcon from "../Icons/PauseIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import ScrollBar from "./ScrollBar";
+import Slider from 'react-slick'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import HorizontalScroller from "./HorizontallScroller";
 
 function RytBar({ user }) {
 
@@ -116,16 +120,6 @@ function RytBar({ user }) {
         }
     }
 
-    // play audio after currentSong changed 
-    // useEffect(() => {
-
-    //     if (currentSong._id) {
-    //         setIsPlaying(true);
-    //     }
-
-    // }, [currentSong])
-
-
     useEffect(() => {
 
         console.log('isplaying : ', isPlaying)
@@ -173,6 +167,9 @@ function RytBar({ user }) {
 
     }
 
+
+
+
     return (
         <>
             <div className="text-white">
@@ -207,78 +204,81 @@ function RytBar({ user }) {
 
                         {/* artist section */}
 
-                        <div className="row px-4 ">
-                            {artist &&
-                                artist.slice(0, 6).map((artist, index) => (
-                                    <div
-                                        className="rounded user-select-none div-size p hvr-artist py-2 position-relative my-3"
-                                        key={index}
-                                    >
-                                        <Link
-                                            to={`/artist/${artist._id}`}
-                                            className="text-decoration-none"
+                        <div className="px-2">
+                            <HorizontalScroller>
+                                {artist &&
+                                    artist.map((artist, index) => (
+                                        <div
+                                            className="rounded col-2 div-size user-select-none px-2 p hvr-artist py-2 position-relative"
+                                            key={index}
+
+
                                         >
-                                            <div className="pb-4 d-flex justify-content-center">
-                                                <div>
-                                                    <img
-                                                        src={artist.image}
-                                                        alt="artist image"
-                                                        className="rounded-circle  object-fit-cover"
-                                                        height={150}
-                                                        width={150}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <span className="text-white"> {artist.name} </span> <br />
-                                            <span className="text-secondary"> {artist.category} </span>
-                                        </Link>
-
-                                        {!userId
-                                            //display when logout
-
-                                            ? <div
-                                                className="play"
-                                                onClick={() => { setOneArtist(artist); }}
-
+                                            <Link
+                                                to={`/artist/${artist._id}`}
+                                                className="text-decoration-none"
                                             >
-                                                <div
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#logoutModal"
-                                                    className="pointer smallPlayIcon2"
+                                                <div className="pb-4 d-flex justify-content-center">
+                                                    <div>
+                                                        <img
+                                                            src={artist.image}
+                                                            alt="artist image"
+                                                            className="rounded-circle  object-fit-cover"
+                                                            height={150}
+                                                            width={150}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="text-white  text-overflow"> {artist.name} </div>
+                                            </Link>
+
+                                            {!userId
+                                                //display when logout
+
+                                                ? <div
+                                                    className="play"
+                                                    onClick={() => { setOneArtist(artist); }}
 
                                                 >
-                                                    <SmallPlayIcon />
-                                                </div>
-
-                                            </div>
-                                            //display when logined
-                                            :
-                                            <div
-                                                className={`play ${playId === artist._id && currentSong?.artist?._id === artist._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
-
-                                                onClick={() => { handleArtistIdChange(artist._id), setPlayId(artist._id); }}
-                                            >
-                                                {playId === artist._id && currentSong?.artist?._id === artist._id && isPlaying ?
                                                     <div
-                                                        className="pointer  smallPlayIcon2"
-                                                        onClick={handlePause}
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#logoutModal"
+                                                        className="pointer smallPlayIcon2"
+
                                                     >
-                                                        <PauseIcon height={18} width={18} />
-                                                    </div>
-                                                    :
-                                                    <div className="pointer smallPlayIcon2 "
-                                                        onClick={() => handlePlay(artist._id)}
-                                                    >
-                                                        <PlayIcon height={18} width={18} />
+                                                        <SmallPlayIcon />
                                                     </div>
 
-                                                }
+                                                </div>
+                                                //display when logined
+                                                :
+                                                <div
+                                                    className={`play ${playId === artist._id && currentSong?.artist?._id === artist._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
+
+                                                    onClick={() => { handleArtistIdChange(artist._id), setPlayId(artist._id); }}
+                                                >
+                                                    {playId === artist._id && currentSong?.artist?._id === artist._id && isPlaying ?
+                                                        <div
+                                                            className="pointer  smallPlayIcon2"
+                                                            onClick={handlePause}
+                                                        >
+                                                            <PauseIcon height={18} width={18} />
+                                                        </div>
+                                                        :
+                                                        <div className="pointer smallPlayIcon2 "
+                                                            onClick={() => handlePlay(artist._id)}
+                                                        >
+                                                            <PlayIcon height={18} width={18} />
+                                                        </div>
+
+                                                    }
 
 
 
-                                            </div>}
-                                    </div>
-                                ))}
+                                                </div>}
+                                        </div>
+                                    ))}
+                            </HorizontalScroller>
                         </div>
 
                         {/* album section */}
@@ -303,76 +303,79 @@ function RytBar({ user }) {
                             </div>
                         </div>
 
-                        <div className="d-flex px-4">
-                            {album &&
-                                album.slice(0, 6).map((item, index) => (
+                        <div className="px-2 py-2">
+                            <HorizontalScroller>
 
-                                    <div
-                                        className=" user-select-none rounded hvr-artist div-size p py-2 my-3 position-relative"
-                                        key={index}
-                                    >
-                                        <Link
-                                            to={`/album/${item._id}`}
-                                            className="text-decoration-none"
+                                {album &&
+                                    album.map((item, index) => (
+
+                                        <div
+                                            className="rounded hvr-artist div-size col-2 p py-2 px-2  position-relative"
+                                            key={index}
                                         >
-                                            <div className="d-flex justify-content-center pb-4">
-                                                <div>
-                                                    <img
-                                                        src={item.image}
-                                                        alt="album image"
-                                                        className="rounded object-fit-cover"
-                                                        height={150}
-                                                        width={150}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="text-white">
-                                                <span className="">{item.name} </span> <br />
-
-                                            </div>
-                                        </Link>
-                                        {!userId
-                                            // display when logout
-                                            ? <div
-                                                className="play"
-
-                                                onClick={() => { setOneArtist(item); }}
-
+                                            <Link
+                                                to={`/album/${item._id}`}
+                                                className="text-decoration-none"
                                             >
-                                                <div
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#logoutModal"
-                                                    className="pointer smallPlayIcon2"
+                                                <div className="d-flex justify-content-center pb-4">
+                                                    <div>
+                                                        <img
+                                                            src={item.image}
+                                                            alt="album image"
+                                                            className="rounded object-fit-cover"
+                                                            height={150}
+                                                            width={150}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="text-white text-overflow">
+                                                    {item.name}
+                                                </div>
+                                            </Link>
+                                            {!userId
+                                                // display when logout
+                                                ? <div
+                                                    className="play"
+
+                                                    onClick={() => { setOneArtist(item); }}
 
                                                 >
-                                                    <SmallPlayIcon />
+                                                    <div
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#logoutModal"
+                                                        className="pointer smallPlayIcon2"
+
+                                                    >
+                                                        <SmallPlayIcon />
+                                                    </div>
+
                                                 </div>
 
-                                            </div>
-
-                                            // display when login
-                                            : <div
-                                                className={`play ${playId === item._id && currentSong?.album?._id === item._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
+                                                // display when login
+                                                : <div
+                                                    className={`play ${playId === item._id && currentSong?.album?._id === item._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
 
 
-                                                onClick={() => { handleAlbumIdChange(item._id), setPlayId(item._id); }}
-                                            >
-                                                {playId === item._id && currentSong?.album?._id === item._id && isPlaying ?
-                                                    <div
-                                                        className="pointer smallPlayIcon2"
-                                                        onClick={handlePause}
-                                                    >
-                                                        <PauseIcon height={18} width={18} />
-                                                    </div>
-                                                    :
-                                                    <div className="pointer smallPlayIcon2"
-                                                        onClick={() => handlePlay(item._id)}
-                                                    >
-                                                        <PlayIcon height={18} width={18} />
-                                                    </div>}
-                                            </div>}
-                                    </div>
-                                ))}
+                                                    onClick={() => { handleAlbumIdChange(item._id), setPlayId(item._id); }}
+                                                >
+                                                    {playId === item._id && currentSong?.album?._id === item._id && isPlaying ?
+                                                        <div
+                                                            className="pointer smallPlayIcon2"
+                                                            onClick={handlePause}
+                                                        >
+                                                            <PauseIcon height={18} width={18} />
+                                                        </div>
+                                                        :
+                                                        <div className="pointer smallPlayIcon2"
+                                                            onClick={() => handlePlay(item._id)}
+                                                        >
+                                                            <PlayIcon height={18} width={18} />
+                                                        </div>}
+                                                </div>}
+                                        </div>
+                                    ))}
+
+                            </HorizontalScroller>
                         </div>
                     </div>
                 </ScrollBar>

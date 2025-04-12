@@ -165,6 +165,10 @@ const MyMusicPlayer = () => {
 
     const toggleFullscreen = () => {
 
+        if(!currentSong._id){
+             return null;
+        }
+
         let elem = document.getElementById('music-player')
 
         elem.requestFullscreen = elem.requestFullscreen || elem.mozRequestFullscreen
@@ -397,22 +401,22 @@ const MyMusicPlayer = () => {
 
             // setIsPlaying(true); 
 
-            // extractDuration();
         };
     }, [currentSong]) 
     
-    console.log(currentSong.songfile)
+    // console.log(currentSong.songfile)
 
 
     // Function to handle next song next logic//
 
     const next = () => {
 
-        setIsPlaying(true);
-
+        
         if (!currentPlaylist || currentPlaylist.length === 0) {
             return; // Do nothing if currentPlaylist is empty or undefined
         }
+        
+        setIsPlaying(true);
 
         const lastSong = currentPlaylist.length > 0 ? currentPlaylist[currentPlaylist.length - 1] : shuffledSongs[shuffledSongs.length - 1]
 
@@ -1079,7 +1083,7 @@ const MyMusicPlayer = () => {
 
                         </div>
 
-                        <div className="pressed d-flex" onClick={() => { toggleFullscreen() }}>
+                        <div className={`d-flex ${currentSong?._id ? 'pressed' : 'expand'}`}  onClick={() => { toggleFullscreen() }}>
                             {fullMode ? <DefaultScreenIcon /> : <FullScreenIcon fill={'#b3b3b3'} />}
                         </div>
 

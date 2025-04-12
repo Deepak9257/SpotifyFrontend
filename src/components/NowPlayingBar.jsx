@@ -12,16 +12,15 @@ const NowPlayingBar = () => {
         className={`rounded scroll`}
         
         >
-            <div className="px-4">
+            <div className="px-2">
             
-
             <div className="py-3  d-flex justify-content-between align-items-center">
                 <span className="text-white fw-bold">{currentSong?.album?.name}</span>
                 <button onClick={()=>setSongContainer(false)} className="cross border-0 bg-transparent rounded-circle fs-6 text-grey"> &#10005; </button>
             </div>
 
         <div className=" d-flex justify-content-center">
-            <img src={currentSong?.image} alt="song image" height={300} width={300} className="rounded"/>
+            <img src={currentSong?.image} alt="song image" height={388} width={388} className="rounded"/>
         </div>
 
         <div className="pt-3 text-white fw-bold">
