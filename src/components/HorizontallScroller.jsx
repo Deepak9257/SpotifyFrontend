@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import ScrollRightIcon from "../Icons/scrollRightIcon";
+import ScrollRightIcon from "../Icons/ScrollRightIcon";
 import ScrollLeftIcon from "../Icons/ScrollLeftIcon";
 
 const HorizontalScroller = ({ children, scrollAmount = 300, setRightBtn }) => {
