@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import SearchNav from "../components/SearchNav";
+import { useEffect, useState } from "react";
 
 
 const SearchLayout = () => {

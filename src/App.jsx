@@ -15,7 +15,6 @@ import Pricing from "./pages/Pricing"
 import songContext from "./contexts/SongContext"
 import playlistContext from "./contexts/PlaylistContext"
 import { useEffect, useRef, useState } from "react"
-import Search from "./pages/AllSearch"
 // import SearchSong from "./pages/SongSearch"
 import SearchLayout from "./layout/SearchLayout"
 import SongSearch from "./pages/SongSearch"
@@ -24,6 +23,7 @@ import AlbumSearch from "./pages/AlbumSearch"
 import Browse from "./pages/Browse"
 import LoginBtnContext from "./contexts/RefContext";
 import axios from "axios"
+import AllSearch from "./pages/AllSearch"
 
 
 
@@ -65,8 +65,7 @@ function App() {
   const [songContainer, setSongContainer] = useState(true);
   const [fullMode, setFullMode] = useState(false);
   const [playId, setPlayId] = useState("");
-  const [playlistId, setPlaylistId] = useState("");
-  const [songDuration, setSongDuration]=useState(null);
+  const [audioId, setAudioId]=useState("");
 
   const loginBtnRef = useRef(null)
 
@@ -92,12 +91,12 @@ function App() {
             setIsPlaying,
             playId,
             setPlayId,
-            songDuration,
-            setSongDuration,
+            audioId,
+            setAudioId
 
           }} >
 
-            <playlistContext.Provider value={{ currentPlaylist, setCurrentPlaylist, playlistId, setPlaylistId }}>
+            <playlistContext.Provider value={{ currentPlaylist, setCurrentPlaylist }}>
 
               <LoginBtnContext.Provider value={loginBtnRef}>
 
@@ -116,11 +115,11 @@ function App() {
             
             <Route element={<SearchLayout />} >
 
-              <Route path="/search" element={<Browse />} />
-              <Route path="/search/:q" element={<Search />} />
-              <Route path="/search/:q/song" element={<SongSearch />} />
-              <Route path="/search/:q/artist" element={<ArtistSearch />} />
-              <Route path="/search/:q/album" element={<AlbumSearch />} />
+              <Route path="/search" element={<Browse userId={userId}/>} />
+              <Route path="/search/:q" element={<AllSearch userId={userId} />} />
+              <Route path="/search/:q/song" element={<SongSearch userId={userId} />} />
+              <Route path="/search/:q/artist" element={<ArtistSearch userId={userId} />} />
+              <Route path="/search/:q/album" element={<AlbumSearch userId={userId} />} />
 
             </Route>
 

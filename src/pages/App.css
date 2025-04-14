@@ -122,29 +122,27 @@
   justify-content: center;
   align-items: center;
   transform: translateY(25%);
-  
 }
 
-.play:hover{
+.play:hover {
   background-color: #3be477 !important;
   transform: scale(1.05);
 }
 
-.smallPlayIcon2{
+.smallPlayIcon2 {
   height: 2.5em;
   width: 2.5em;
   /* border: 1px solid white; */
-  border-radius:50% ; 
+  border-radius: 50%;
   transition: all 0.3s;
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .play:active {
   background-color: #148f3f !important;
-  transform: scale(0.90) !important;
+  transform: scale(0.9) !important;
 }
 
 .play .smallPlayIcon2 svg {
@@ -160,7 +158,7 @@
   transform: translateY(0);
 }
 
-.translate-0{
+.translate-0 {
   transform: translate(0);
 }
 
@@ -340,6 +338,7 @@ tbody tr:hover {
 .track-number {
   width: 30px;
 }
+
 .track-title {
   display: flex;
   align-items: center;
@@ -414,8 +413,9 @@ tbody tr:hover {
 
 .addIcon {
   position: absolute;
-  top: 30%;
-  left: -60%;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
   cursor: pointer;
   display: none;
   transition: 0.1s ease-in;
@@ -431,7 +431,7 @@ tbody tr:hover {
 }
 
 .addIcon:active {
-  transform: scale(0.98);
+  transform: scale(0.98) translateY(-50%);
 }
 
 .addIcon:hover svg {
@@ -484,7 +484,9 @@ tbody tr:hover {
 }
 
 .top-result:hover .top-play {
-  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+
 }
 
 .song-div {
@@ -521,13 +523,15 @@ tbody tr:hover {
 .song-bar:hover {
   background-color: #3b3b3b;
 }
+
 .top-play {
   width: 45px;
   height: 45px;
   background-color: #1ed760;
   top: 75%;
   left: 85%;
-  visibility: hidden;
+  opacity: 0;
+  transform: translateY(20%);
   transition: 0.2s all;
 }
 
@@ -554,24 +558,22 @@ tbody tr:hover {
 
 .search-play-icon {
   position: absolute;
-  left: 3%;
   visibility: hidden;
 }
 
 .search-song-play-icon {
   position: absolute;
-  left: 2%;
-  visibility: hidden;
+  opacity: 0;
   transition: 0.1s all;
 }
 
 .song-bar:hover .song-index {
-  visibility: hidden;
+  opacity: 0;
 }
 
 .song-bar:hover .search-song-play-icon,
 .song-bar:hover .addIcon3 {
-  visibility: visible;
+  opacity: 1;
 }
 
 .search-song-div:hover .addIcon2,
@@ -580,9 +582,7 @@ tbody tr:hover {
 }
 
 .addIcon3 {
-  position: absolute;
-  left: 92%;
-  visibility: hidden;
+  opacity: 0;
   transition: 0.1s all;
 }
 

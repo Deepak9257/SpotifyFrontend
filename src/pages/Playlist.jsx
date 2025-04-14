@@ -13,8 +13,17 @@ import ScrollBar from "../components/ScrollBar";
 
 const Playlist = () => {
 
-    const { currentSong, setCurrentSong, setCurrentIndex, isPlaying, setIsPlaying, playId, setPlayId } = useContext(songContext);
-    const { currentPlaylist, setCurrentPlaylist, playlistId, setPlaylistId } = useContext(playlistContext);
+    const {
+        currentSong,
+        setCurrentSong,
+        setCurrentIndex,
+        isPlaying,
+        setIsPlaying,
+        playId,
+        setPlayId,
+        audioId,
+    } = useContext(songContext);
+    const { currentPlaylist, setCurrentPlaylist } = useContext(playlistContext);
 
 
     const { id } = useParams();
@@ -26,7 +35,7 @@ const Playlist = () => {
     useEffect(() => {
 
         getAllPlaylist(),
-        getSong()
+            getSong()
 
     }, [id]);
 
@@ -49,6 +58,7 @@ const Playlist = () => {
 
     }
 
+    console.log(song)
 
     const [name, setName] = useState("")
     const [image, setImage] = useState("")
@@ -76,42 +86,53 @@ const Playlist = () => {
     }
 
 
-      // handle play pause from any song/album //
+    // handle play pause from any song/album //
 
-      const handlePause = () => {
+    const handlePause = () => {
         setIsPlaying(false)
     }
 
     // handle play function /
-    const handlePlay = (id) => {
+    const handlePlay = () => {
 
-
-
-        if (currentSong?._id === id) {
+        if (playId === id) {
             setIsPlaying(true);
             // console.log('handleplay rendered')
         }
     }
 
     // handle song change //
-    const handleSongChange = (songId) => {
+    const handleSongChange = () => {
 
-        if (currentSong._id === songId) {
+        if (playId === id) {
             // console.log('return null')
             return null;
         } else {
-        
+
             setCurrentPlaylist(song.map(item => item.song));
             setCurrentSong(song[0].song);
             setCurrentIndex(0);
-           
-       
-   
+
+
+
         }
 
     }
 
-// console.log('song ID  :', song[0])
+    // handle song change and play from song 
+
+    const handleSongChangeOrPlay = (currSong, idx) => {
+        if (audioId === currSong?._id) {
+            handlePlay();
+        } else {
+            setCurrentSong(currSong);
+            setCurrentIndex(idx);
+            setCurrentPlaylist(song.map(item => item.song));
+            setPlayId(id);
+        }
+    }
+
+    // console.log('song ID  :', song[0])
     return (
         <>
 
@@ -173,7 +194,7 @@ const Playlist = () => {
                         <div
                             className={`play-button`}
 
-                            onClick={() => {handleSongChange(song[0]?.song?._id), setPlayId(id); }}
+                            onClick={() => { handleSongChange(), setPlayId(id); }}
                         >
                             {playId === id && isPlaying ?
                                 <div
@@ -223,49 +244,64 @@ const Playlist = () => {
                                 </tr>
                             </thead>
 
-                            <tbody  className="">
-                            {song &&
-                                song.map((playlistSong, index) => (
-                                        <tr key={index} className="tr-border position-relative">
+                            <tbody className="">
+                                {song &&
+                                    song.map((playlistSong, index) => (
+                                        <tr key={index} className="tr-border  position-relative">
                                             <td className="track-number">
 
-                                                <div className="number">{index + 1}</div>
+                                                <div className={`number ${audioId === playlistSong?.song?._id ? 'text-green' : ''}`}>{index + 1}</div>
                                             </td>
 
-                                            <td
-                                                className="popover-div"
-                                                onClick={() => {
-                                                    setCurrentSong(playlistSong?.song);
-                                                        setCurrentIndex(index);
-                                                        setCurrentPlaylist(song.map(item => item.song));
-                                                        setPlayId(id);
-                                                }}
-                                            >
-                                                <div className="smallplayIcon">
-                                                    <div className="popover-target">
-                                                        <SmallPlayIcon />
+                                            {audioId === playlistSong?.song?._id && isPlaying ?
+
+                                                <td
+                                                    className="popover-div"
+                                                    onClick={handlePause}
+                                                >
+                                                    <div className="smallplayIcon">
+
+                                                        <div className="popover-target">
+                                                            <PauseIcon />
+                                                        </div>
+
+                                                        <div className="popover px-3 shadow ">Play</div>
                                                     </div>
+                                                </td>
 
-                                                    <div className="popover px-3 shadow ">Play</div>
-                                                </div>
-                                            </td>
+                                                : <td
+                                                    className="popover-div"
+                                                    onClick={() => { handleSongChangeOrPlay(playlistSong?.song,index) }}
+                                                >
+                                                    <div className="smallplayIcon">
+
+                                                        <div className="popover-target">
+                                                            <SmallPlayIcon />
+                                                        </div>
+
+                                                        <div className="popover px-3 shadow ">Play</div>
+                                                    </div>
+                                                </td>
+
+                                            }
+
                                             <td className="track-title">
                                                 <img
                                                     src={playlistSong?.song?.image}
                                                     alt="Album cover for Slumber Rain"
                                                 />
 
-                                                <div>
-                                                    <div>{playlistSong?.song?.name}</div>
-                                                    <div>{playlistSong?.artist?.name} </div>
+                                                <div className="">
+                                                    <div className={` song-info ${audioId === playlistSong?.song?._id ? 'text-green' : ''}`}>{playlistSong?.song?.name}</div>
+                                                    <div className="song-info">{playlistSong?.artist?.name} </div>
                                                 </div>
                                             </td>
                                             <td>{playlistSong?.album?.name} </td>
                                             <td>{playlistSong.createdAt} </td>
-                                            <td>3.07</td>
+                                            <td>{playlistSong?.song?.time}</td>
                                         </tr>
-                                ))}
-                                </tbody>
+                                    ))}
+                            </tbody>
                         </table>
                     </div>
                 </ScrollBar>

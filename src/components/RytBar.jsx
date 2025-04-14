@@ -7,9 +7,6 @@ import playlistContext from "../contexts/PlaylistContext";
 import PauseIcon from "../Icons/PauseIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import ScrollBar from "./ScrollBar";
-import Slider from 'react-slick'
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import HorizontalScroller from "./HorizontallScroller";
 
 function RytBar({ user }) {
@@ -63,7 +60,7 @@ function RytBar({ user }) {
         }
 
         if (albumId) {
-            getAlbumsSongs();
+            getAlbumSongs();
         }
 
     }, [artistId, albumId])
@@ -71,7 +68,6 @@ function RytBar({ user }) {
 
     // funtion for get artist songs by ID //
     const getArtistSongs = async () => {
-
 
         if (!artistId) {
             return;
@@ -89,7 +85,7 @@ function RytBar({ user }) {
 
     // funtion for get album songs by ID //
 
-    const getAlbumsSongs = async () => {
+    const getAlbumSongs = async () => {
 
 
         if (!albumId) {
@@ -119,12 +115,6 @@ function RytBar({ user }) {
             setIsPlaying(true)
         }
     }
-
-    useEffect(() => {
-
-        console.log('isplaying : ', isPlaying)
-
-    }, [isPlaying])
 
     // handle artist ID change //
 
@@ -250,6 +240,7 @@ function RytBar({ user }) {
                                                     </div>
 
                                                 </div>
+
                                                 //display when logined
                                                 :
                                                 <div
@@ -257,7 +248,7 @@ function RytBar({ user }) {
 
                                                     onClick={() => { handleArtistIdChange(artist._id), setPlayId(artist._id); }}
                                                 >
-                                                    {playId === artist._id && currentSong?.artist?._id === artist._id && isPlaying ?
+                                                    {playId === artist._id && isPlaying ?
                                                         <div
                                                             className="pointer  smallPlayIcon2"
                                                             onClick={handlePause}
@@ -386,11 +377,11 @@ function RytBar({ user }) {
             {/* modal on logout */}
 
             {oneArtist && <div className="modal fade" id="logoutModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog  modal-dialog-centered">
+                <div className="modal-dialog custom-modal-dialog  modal-dialog-centered">
 
-                    <div className="modal-content">
+                    <div className="custom-modal-content modal-content">
 
-                        <div className="modal-body p-5 d-flex gap-5 ">
+                        <div className="custom-modal-body modal-body p-5 d-flex gap-5 ">
 
                             <div className="col-5">
                                 <img src={oneArtist.image} alt="artist image" className="rounded" width={300} height={300} />

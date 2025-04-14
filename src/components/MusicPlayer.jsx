@@ -31,6 +31,8 @@ const MyMusicPlayer = () => {
         setFullMode,
         isPlaying,
         setIsPlaying,
+        audioId,
+        setAudioId
    
     } = useContext(songContext);
 
@@ -399,12 +401,14 @@ const MyMusicPlayer = () => {
                 return;
             }
 
-            // setIsPlaying(true); 
+            setIsPlaying(true); 
+            setAudioId(currentSong._id);
+            
 
         };
     }, [currentSong]) 
     
-    // console.log(currentSong.songfile)
+    // console.log(audioId)
 
 
     // Function to handle next song next logic//
@@ -771,7 +775,7 @@ const MyMusicPlayer = () => {
         {/* audio element  */}
         <audio
             ref={audioRef}
-            // autoPlay={isPlaying}
+            autoPlay={isPlaying}
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
             onEnded={next}

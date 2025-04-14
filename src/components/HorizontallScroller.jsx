@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ScrollRightIcon from "../Icons/ScrollRightIcon";
 import ScrollLeftIcon from "../Icons/ScrollLeftIcon";
 
-const HorizontalScroller = ({ children, scrollAmount = 300, setRightBtn }) => {
+const HorizontalScroller = ({ children, scrollAmount = 300, render }) => {
 
     const scrollRef = useRef(null);
     const [showLeft, setShowLeft] = useState(false);
@@ -52,11 +52,9 @@ const HorizontalScroller = ({ children, scrollAmount = 300, setRightBtn }) => {
             el.removeEventListener('scroll', updateScrollButtons);
 
         }; 
-    }, [containerWidth]);
+    }, [containerWidth, render]);
 
-    console.log(showLeft, showRight)
-
-    // handle horizontal scroll through buttons
+// handle horizontal scroll through buttons
     const scrollLeft = () => {
         scrollRef.current.scrollBy({
             left: -scrollAmount, // scroll left by 300px

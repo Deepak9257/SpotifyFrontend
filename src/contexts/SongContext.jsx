@@ -25,9 +25,10 @@ const songContext = createContext({
     playId: null,
     setPlayId: () => {},
 
-    // global state for song duration //
-    songDuration:null,
-    setSongDuration:(songDuration)=>{},
+    // global state for current song playing id
+    audioId : null,
+    setAudioId : () =>{},
+
 
 
 })

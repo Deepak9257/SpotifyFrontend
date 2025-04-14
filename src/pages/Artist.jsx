@@ -99,7 +99,16 @@ const Artist = ({ userId }) => {
     }, [isOpen]);
 
 
-    const { currentSong, setCurrentSong, setCurrentIndex, playId, setPlayId, isPlaying, setIsPlaying } = useContext(songContext);
+    const {
+        currentSong,
+        setCurrentSong,
+        setCurrentIndex,
+        playId,
+        setPlayId,
+        isPlaying,
+        setIsPlaying,
+        audioId
+    } = useContext(songContext);
     const { setCurrentPlaylist } = useContext(playlistContext);
 
     const [loading, setLoading] = useState(true)
@@ -414,6 +423,19 @@ const Artist = ({ userId }) => {
         }
     }
 
+    // handle song change and play from song 
+
+    const handleSongChangeOrPlay = (currSong, idx) => {
+        if (audioId === currSong?._id) {
+            handlePlay(currSong?.artist?._id);
+        } else {
+            setCurrentIndex(idx),
+            setCurrentSong(currSong),
+            setCurrentPlaylist(songs);
+            setPlayId(Artist?._id)
+        }
+    }
+
 
     if (loading) {
         return (
@@ -431,81 +453,95 @@ const Artist = ({ userId }) => {
 
     return (
         <>
-            <div className="w-100 text-white" >
-
-                {Artist &&
-                    <ScrollBar customClassName={'rounded'} height={'78vh'}>
-
+            <div className="w-100 text-white">
+                {Artist && (
+                    <ScrollBar customClassName={"rounded"} height={"78vh"}>
                         <div
                             id="rytBar"
-                            className="gap-2 text-white rounded" style={{ backgroundColor: "#121212" }}>
-
+                            className="gap-2 text-white rounded"
+                            style={{ backgroundColor: "#121212" }}
+                        >
                             <div className="artist-header rounded-top-3">
-                                <img src={Artist.image} alt="artist pic" className="object-fit-cover rounded-circle" />
+                                <img
+                                    src={Artist.image}
+                                    alt="artist pic"
+                                    className="object-fit-cover rounded-circle"
+                                />
 
-                                <div >
-                                    <div> <VerifiedIcon /> Verified Artist </div>
+                                <div>
+                                    <div>
+                                        {" "}
+                                        <VerifiedIcon /> Verified Artist{" "}
+                                    </div>
                                     <span className="fw-bold text ">{Artist.name}</span> <br />
                                     <span>42,405,290 monthly listeners</span>
-
-
                                 </div>
                             </div>
                             <div className="controls position-relative">
-
-                                {userId
+                                {userId ? (
                                     // display when logined
-                                    ? <div
-                                        className={`play-button ${playId === Artist._id && currentSong?.artist?._id === Artist._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
-
-                                        onClick={() => { handleSongChange(Artist._id), setPlayId(Artist._id); }}
+                                    <div
+                                        className={`play-button ${playId === Artist._id &&
+                                            currentSong?.artist?._id === Artist._id &&
+                                            isPlaying
+                                            ? "opacity-100 translate-0"
+                                            : ""
+                                            }`}
+                                        onClick={() => {
+                                            handleSongChange(Artist._id), setPlayId(Artist._id);
+                                        }}
                                     >
-                                        {playId === Artist._id && currentSong?.artist?._id === Artist._id && isPlaying ?
+                                        {playId === Artist._id &&
+                                            currentSong?.artist?._id === Artist._id &&
+                                            isPlaying ? (
                                             <div
                                                 className="pointer smallPlayIcon2 h-100 w-100"
                                                 onClick={handlePause}
                                             >
                                                 <PauseIcon height={18} width={18} fill={"black"} />
-                                                
                                             </div>
-
-                                            : <div className="pointer smallPlayIcon2 h-100 w-100"
+                                        ) : (
+                                            <div
+                                                className="pointer smallPlayIcon2 h-100 w-100"
                                                 onClick={() => handlePlay(Artist._id)}
                                             >
                                                 <PlayIcon height={18} width={18} fill={"black"} />
                                             </div>
-
-                                        }
-
-
-
+                                        )}
                                     </div>
+                                ) : (
                                     // display when logout
-                                    : <div
+                                    <div
                                         data-bs-toggle="modal"
                                         data-bs-target="#logoutModal"
                                         className="play-button"
-                                        onClick={() => { setOneArtist(Artist); console.log('artist set successfully') }}
+                                        onClick={() => {
+                                            setOneArtist(Artist);
+                                            console.log("artist set successfully");
+                                        }}
                                     >
                                         <i className="fas fa-play"></i>
-                                    </div>}
+                                    </div>
+                                )}
 
-
-
-                                <div> <i className="fas fa-ellipsis-h py-2"></i> </div>
-
+                                <div>
+                                    {" "}
+                                    <i className="fas fa-ellipsis-h py-2"></i>{" "}
+                                </div>
                             </div>
 
                             <div className="table-container">
-                                <div className="">  <span className="fs-2 fw-bold">Popular</span> </div>
+                                <div className="">
+                                    {" "}
+                                    <span className="fs-2 fw-bold">Popular</span>{" "}
+                                </div>
                                 <table>
                                     <thead>
-                                        <tr>
+                                        <tr className="">
                                             <th className="track-number">#</th>
                                             <th>Title</th>
                                             <th>Album</th>
-                                            <th>Date added</th>
-                                            <th>
+                                            <th className="text-center">
                                                 <i className="far fa-clock"></i>
                                             </th>
                                         </tr>
@@ -515,217 +551,297 @@ const Artist = ({ userId }) => {
                                             songs.map((song, index) => (
                                                 <tr
                                                     key={song._id}
-                                                    onClick={() => { handleClick(index) }}
-
-
-                                                    className={`tr-border position-relative ${selectedRow === index ? 'activeRow' : ''}`}>
-
-                                                    <td className="track-number "><div className="number">{index + 1}</div></td>
-
-                                                    <td className="popover-div" >
-
-                                                        {userId ? <div className="smallplayIcon popover-container">
-
-                                                            <div className="popover-target" onClick={() => { { setCurrentIndex(index), setCurrentSong(song), setCurrentPlaylist(songs) } }} >
-                                                                <SmallPlayIcon />
+                                                    onClick={() => {
+                                                        handleClick(index);
+                                                    }}
+                                                    className={`tr-border position-relative ${selectedRow === index ? "activeRow" : ""
+                                                        }`}
+                                                >
+                                                    <td className="track-number ">
+                                                        <div className={`number ${audioId === song?._id ? "text-green" : ""}`}>
+                                                            {index + 1}
                                                             </div>
-
-
-                                                        </div> : <div
-
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#logoutModal"
-                                                            className="smallplayIcon popover-container">
-
-                                                            <div className="popover-target" onClick={() => { setOneArtist(song) }} >
-                                                                <SmallPlayIcon />
-                                                            </div>
-
-
-
-                                                        </div>
-                                                        }
-
                                                     </td>
+
+                                                    <td className="popover-div">
+                                                        {userId ? (
+                                                            <div className="smallplayIcon popover-container">
+                                                                <div className="popover-target">
+                                                                    {audioId === song?._id && isPlaying ? (
+                                                                        <span onClick={handlePause}>
+
+                                                                            <PauseIcon />
+                                                                        </span>
+                                                                    ) : (
+                                                                        <span
+                                                                            onClick={() => {
+                                                                                handleSongChangeOrPlay(song, index);
+                                                                            }}
+                                                                        >
+
+                                                                            <SmallPlayIcon />
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#logoutModal"
+                                                                className="smallplayIcon popover-container"
+                                                            >
+                                                                <div
+                                                                    className="popover-target"
+                                                                    onClick={() => {
+                                                                        setOneArtist(song);
+                                                                    }}
+                                                                >
+                                                                    <SmallPlayIcon />
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </td>
+
                                                     <td className="track-title">
-                                                        <img
-                                                            src={song.image}
-                                                            alt="Album cover for Slumber Rain"
-
-                                                        />
+                                                        <img src={song.image} alt="Album cover" />
                                                         <div>
-                                                            <div>{song.name}</div>
-                                                            <div>{song?.artist?.name}</div>
+                                                            <div
+                                                                className={`song-info ${audioId === song?._id ? "text-green" : ""
+                                                                    }`}
+                                                            >
+                                                                {song.name}
+                                                            </div>
+                                                            <div className="song-info">{song?.artist?.name}</div>
                                                         </div>
                                                     </td>
-                                                    <td> {song?.album?.name}</td>
-                                                    <td>{new Date(song.createdAt).toLocaleDateString()}</td>
-                                                    <td className="position-relative">
+                                                    <td className=""> {song?.album?.name}</td>
+
+                                                    <td
+                                                        className="position-relative  text-center"
+                                                        style={{
+                                                            width: "20%",
+                                                        }}
+                                                    >
                                                         {song.time}
 
-                                                        {userId ?
-
-                                                            <Popover.Root onOpenChange={blockScroll} >
-
+                                                        {userId ? (
+                                                            <Popover.Root onOpenChange={blockScroll}>
                                                                 <Popover.Trigger
                                                                     onClick={() => {
                                                                         setSongId(song._id);
                                                                         setAlbumID(song?.album?._id);
                                                                         setArtistID(song?.artist?._id);
                                                                     }}
+                                                                    className="addIcon bg-transparent border-0 "
+                                                                >
+                                                                    <div>
 
-                                                                    className="addIcon bg-transparent border-0">
-                                                                    <span>
                                                                         <AddIcon />
-                                                                    </span>
+                                                                    </div>
                                                                 </Popover.Trigger>
 
-
-
                                                                 <Popover.Portal>
-                                                                    <Popover.Positioner positionMethod="fixed" collisionBoundary={document.getElementById('rytBar')} sticky={true} align='start' side="top" className="z-9999">
-
+                                                                    <Popover.Positioner
+                                                                        positionMethod="fixed"
+                                                                        collisionBoundary={document.getElementById(
+                                                                            "rytBar"
+                                                                        )}
+                                                                        sticky={true}
+                                                                        align="start"
+                                                                        side="top"
+                                                                        className="z-9999"
+                                                                    >
                                                                         <Popover.Popup className="playlist-popup ">
                                                                             <div className="p-3">
+                                                                                {popupLoading ? (
+                                                                                    <form>
+                                                                                        <div
+                                                                                            className="fs-small fw-bold mb-3"
+                                                                                            style={{ color: "#B3B3B3" }}
+                                                                                        >
+                                                                                            Add to playlist
+                                                                                        </div>
 
+                                                                                        <div className="popupLoading">
+                                                                                            <p className="placeholder-glow ">
+                                                                                                <span className="placeholder col-1 me-4"></span>
+                                                                                                <span className="placeholder col-9"></span>
+                                                                                            </p>
 
-                                                                                {popupLoading ? <form >
-                                                                                    <div className="fs-small fw-bold mb-3" style={{ color: '#B3B3B3' }}>Add to playlist</div>
+                                                                                            <p className="placeholder-glow ">
+                                                                                                <span className="placeholder col-1 me-4"></span>
+                                                                                                <span className="placeholder col-9"></span>
+                                                                                            </p>
 
-                                                                                    <div className="popupLoading">
+                                                                                            <p className="placeholder-glow ">
+                                                                                                <span className="placeholder col-1 me-4"></span>
+                                                                                                <span className="placeholder col-9"></span>
+                                                                                            </p>
 
+                                                                                            <p className="placeholder-glow ">
+                                                                                                <span className="placeholder col-1 me-4"></span>
+                                                                                                <span className="placeholder col-9"></span>
+                                                                                            </p>
+                                                                                        </div>
 
-                                                                                        <p className="placeholder-glow ">
-                                                                                            <span className="placeholder col-1 me-4"></span>
-                                                                                            <span className="placeholder col-9"></span>
-                                                                                        </p>
-
-                                                                                        <p className="placeholder-glow ">
-                                                                                            <span className="placeholder col-1 me-4"></span>
-                                                                                            <span className="placeholder col-9"></span>
-                                                                                        </p>
-
-                                                                                        <p className="placeholder-glow ">
-                                                                                            <span className="placeholder col-1 me-4"></span>
-                                                                                            <span className="placeholder col-9"></span>
-                                                                                        </p>
-
-                                                                                        <p className="placeholder-glow ">
-                                                                                            <span className="placeholder col-1 me-4"></span>
-                                                                                            <span className="placeholder col-9"></span>
-                                                                                        </p>
-
-                                                                                    </div>
-
-
-
-                                                                                    <div className="d-flex flex-row-reverse align-items-center gap-2">
-
-                                                                                        <Popover.Close className='btn btn-light rounded-pill nav-login-btn'> Done</Popover.Close>
-                                                                                        <Popover.Close className='bg-transparent border-0 text-white nav-login-btn'> Cancel</Popover.Close>
-
-                                                                                    </div>
-                                                                                </form> :
-
-                                                                                    <form onSubmit={AddPlaylistSong}  >
-                                                                                        <div className="fs-small fw-bold mb-3" style={{ color: '#B3B3B3' }}>Add to playlist</div>
+                                                                                        <div className="d-flex flex-row-reverse align-items-center gap-2">
+                                                                                            <Popover.Close className="btn btn-light rounded-pill nav-login-btn">
+                                                                                                {" "}
+                                                                                                Done
+                                                                                            </Popover.Close>
+                                                                                            <Popover.Close className="bg-transparent border-0 text-white nav-login-btn">
+                                                                                                {" "}
+                                                                                                Cancel
+                                                                                            </Popover.Close>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                ) : (
+                                                                                    <form onSubmit={AddPlaylistSong}>
+                                                                                        <div
+                                                                                            className="fs-small fw-bold mb-3"
+                                                                                            style={{ color: "#B3B3B3" }}
+                                                                                        >
+                                                                                            Add to playlist
+                                                                                        </div>
 
                                                                                         <div className="p-2 rounded hover-grey d-flex align-items-center  gap-2">
-                                                                                            <span><PlusIcon /></span> <span> New playlist</span>
+                                                                                            <span>
+                                                                                                <PlusIcon />
+                                                                                            </span>{" "}
+                                                                                            <span> New playlist</span>
                                                                                         </div>
 
                                                                                         <hr className="mt-0 m mx-2" />
 
-                                                                                        <ScrollBar height={'35vh'}>
-
-                                                                                            <div className="mb-3  rounded ">
+                                                                                        <ScrollBar
+                                                                                            customClassName=""
+                                                                                            height={"35vh"}
+                                                                                        >
+                                                                                            <div className="rounded">
                                                                                                 {playlist &&
-                                                                                                    playlist.map((playlist, index) => {
-                                                                                                        return (
-
-                                                                                                            <div key={index} className="col hover-grey rounded">
-                                                                                                                <label
-
-                                                                                                                    htmlFor={playlist._id}
-                                                                                                                    className="position-relative w-100 py-1 px-2 d-flex  align-items-center justify-content-between"
-
+                                                                                                    playlist.map(
+                                                                                                        (playlist, index) => {
+                                                                                                            return (
+                                                                                                                <div
+                                                                                                                    key={index}
+                                                                                                                    className="col hover-grey rounded"
                                                                                                                 >
-                                                                                                                    <div className="d-flex gap-2 align-items-center">
-                                                                                                                        <div >
-                                                                                                                            {playlist.image ? <img src={playlist.image} alt="playlist image" width={16} height={16} /> : <div className="musicIcon small-Icon rounded"><MusicIcon /></div>}
+                                                                                                                    <label
+                                                                                                                        htmlFor={
+                                                                                                                            playlist._id
+                                                                                                                        }
+                                                                                                                        className="position-relative w-100 py-1 px-2 d-flex  align-items-center justify-content-between"
+                                                                                                                    >
+                                                                                                                        <div className="d-flex gap-2 align-items-center">
+                                                                                                                            <div>
+                                                                                                                                {playlist.image ? (
+                                                                                                                                    <img
+                                                                                                                                        src={
+                                                                                                                                            playlist.image
+                                                                                                                                        }
+                                                                                                                                        alt="playlist image"
+                                                                                                                                        width={16}
+                                                                                                                                        height={
+                                                                                                                                            16
+                                                                                                                                        }
+                                                                                                                                    />
+                                                                                                                                ) : (
+                                                                                                                                    <div className="musicIcon small-Icon rounded">
+                                                                                                                                        <MusicIcon />
+                                                                                                                                    </div>
+                                                                                                                                )}
+                                                                                                                            </div>
+
+                                                                                                                            <div className="text-select-none">
+                                                                                                                                {
+                                                                                                                                    playlist.name
+                                                                                                                                }
+                                                                                                                            </div>
                                                                                                                         </div>
 
-                                                                                                                        <div className="text-select-none" >
-                                                                                                                            {playlist.name}
+                                                                                                                        <div className="px-2 checkbox col-1">
+                                                                                                                            <input
+                                                                                                                                type="checkbox"
+                                                                                                                                id={
+                                                                                                                                    playlist._id
+                                                                                                                                }
+                                                                                                                                onChange={(
+                                                                                                                                    e
+                                                                                                                                ) => {
+                                                                                                                                    handleChange(
+                                                                                                                                        e,
+                                                                                                                                        playlist._id
+                                                                                                                                    );
+                                                                                                                                }}
+                                                                                                                                checked={
+                                                                                                                                    isChecked[
+                                                                                                                                    playlist
+                                                                                                                                        ._id
+                                                                                                                                    ] || false
+                                                                                                                                }
+                                                                                                                                value={
+                                                                                                                                    playlist._id
+                                                                                                                                }
+                                                                                                                            />
+                                                                                                                            <div
+                                                                                                                                className={`d-flex align-items-center justify-content-center`}
+                                                                                                                            >
+                                                                                                                                {" "}
+                                                                                                                                {isChecked[
+                                                                                                                                    playlist._id
+                                                                                                                                ] ? (
+                                                                                                                                    <CheckIcon />
+                                                                                                                                ) : (
+                                                                                                                                    ""
+                                                                                                                                )}{" "}
+                                                                                                                            </div>
                                                                                                                         </div>
-                                                                                                                    </div>
-
-                                                                                                                    <div className="px-2 checkbox col-1">
-                                                                                                                        <input type="checkbox" id={playlist._id} onChange={(e) => { handleChange(e, playlist._id) }} checked={isChecked[playlist._id] || false} value={playlist._id} />
-                                                                                                                        <div className={`d-flex align-items-center justify-content-center`}>  {isChecked[playlist._id] ? <CheckIcon /> : ''} </div>
-                                                                                                                    </div>
-
-                                                                                                                </label>
-                                                                                                            </div>
-
-
-
-                                                                                                        );
-                                                                                                    })}
-
-
-
-
+                                                                                                                    </label>
+                                                                                                                </div>
+                                                                                                            );
+                                                                                                        }
+                                                                                                    )}
                                                                                             </div>
-
                                                                                         </ScrollBar>
 
-
                                                                                         <div className="d-flex flex-row-reverse align-items-center gap-2">
-
-                                                                                            <Popover.Close className='btn btn-light rounded-pill nav-login-btn'
+                                                                                            <Popover.Close
+                                                                                                className="btn btn-light rounded-pill nav-login-btn"
                                                                                                 type="submit"
-
-
-                                                                                            > Done
+                                                                                            >
+                                                                                                {" "}
+                                                                                                Done
                                                                                             </Popover.Close>
 
                                                                                             <Popover.Close
-
-                                                                                                className='bg-transparent border-0 text-white nav-login-btn'
-
+                                                                                                className="bg-transparent border-0 text-white nav-login-btn"
                                                                                                 onClick={handleCancel}
-                                                                                            > Cancel
+                                                                                            >
+                                                                                                {" "}
+                                                                                                Cancel
                                                                                             </Popover.Close>
-
                                                                                         </div>
-
-
-
-
-
-                                                                                    </form>}
-
+                                                                                    </form>
+                                                                                )}
                                                                             </div>
-
-
                                                                         </Popover.Popup>
                                                                     </Popover.Positioner>
                                                                 </Popover.Portal>
-                                                            </Popover.Root> :
-
+                                                            </Popover.Root>
+                                                        ) : (
                                                             <Popover.Root>
-
                                                                 <Popover.Trigger className="addIcon bg-transparent border-0">
                                                                     <span>
                                                                         <AddIcon />
                                                                     </span>
                                                                 </Popover.Trigger>
 
-
-
                                                                 <Popover.Portal>
-                                                                    <Popover.Positioner className="z-9999" sideOffset={10} anchor={loginBtnRef}>
+                                                                    <Popover.Positioner
+                                                                        className="z-9999"
+                                                                        sideOffset={10}
+                                                                        anchor={loginBtnRef}
+                                                                    >
                                                                         <Popover.Popup className="Popup3">
                                                                             <Popover.Arrow className="Arrow">
                                                                                 <PopoverArrow />
@@ -736,104 +852,89 @@ const Artist = ({ userId }) => {
                                                                             </Popover.Close>
 
                                                                             <Popover.Description className="p-1 m-0">
-                                                                                <span className="fw-bold">You’re logged out</span> <br />
-
+                                                                                <span className="fw-bold">
+                                                                                    You’re logged out
+                                                                                </span>{" "}
+                                                                                <br />
                                                                                 Log in to add this to your playlist.
                                                                             </Popover.Description>
-
                                                                         </Popover.Popup>
                                                                     </Popover.Positioner>
                                                                 </Popover.Portal>
                                                             </Popover.Root>
-
-
-                                                        }
-
-
-
+                                                        )}
                                                     </td>
                                                 </tr>
                                             ))}
                                     </tbody>
-
                                 </table>
                             </div>
-
                         </div>
                     </ScrollBar>
-
-                }
-
-
-
+                )}
             </div>
-
-
 
             {/* modal on logout */}
 
-            {oneArtist && <div className="modal fade" id="logoutModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog  modal-dialog-centered">
-
-                    <div className="modal-content">
-
-                        <div className="modal-body p-5 d-flex gap-5 ">
-
-                            <div className="col-5">
-                                <img src={oneArtist.image} alt="artist image" className="rounded" width={300} height={300} />
-                            </div>
-
-                            <div className="text-white text-center py-5 col ">
-                                <p className="fs-2 fw-bold"> Start listening with a free Spotify account</p>
-
-                                <a href="/signup"><div className="py-3 px-4 text-black fw-bold btn rounded-pill text-black nav-login-btn green">Sign up for free</div>
-                                </a>
-
-                                <div className="mt-5 fw-bold text-secondary">
-
-                                    <span className="me-2"> Already have an account?</span>
-
-                                    <span >
-
-                                        <a href="/login" className="wyt green-link">
-                                            Login
-                                        </a>
-                                    </span>
+            {oneArtist && (
+                <div
+                    className="modal fade"
+                    id="logoutModal"
+                    tabIndex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                >
+                    <div className="custom-modal-dialog modal-dialog  modal-dialog-centered">
+                        <div className=" modal-content custom-modal-content rounded">
+                            <div className="custom-modal-body modal-body p-5 d-flex gap-5 ">
+                                <div className="col-5">
+                                    <img
+                                        src={oneArtist.image}
+                                        alt="artist image"
+                                        className="rounded"
+                                        width={300}
+                                        height={300}
+                                    />
                                 </div>
 
+                                <div className="text-white text-center py-5 col ">
+                                    <p className="fs-2 fw-bold">
+                                        {" "}
+                                        Start listening with a free Spotify account
+                                    </p>
 
+                                    <a href="/signup">
+                                        <div className="py-3 px-4 text-black fw-bold btn rounded-pill text-black nav-login-btn green">
+                                            Sign up for free
+                                        </div>
+                                    </a>
+
+                                    <div className="mt-5 fw-bold text-secondary">
+                                        <span className="me-2"> Already have an account?</span>
+
+                                        <span>
+                                            <a href="/login" className="wyt green-link">
+                                                Login
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
 
-
-
-
-                        </div>
-
-
-
-
-                        <div className="text-center d-flex justify-content-center">
-                            <div data-bs-dismiss="modal" className="text-center p-0 close fs-5 fw-bold">
-                                Close
+                            <div className="text-center d-flex justify-content-center">
+                                <div
+                                    data-bs-dismiss="modal"
+                                    className="text-center p-0 close fs-5 fw-bold"
+                                >
+                                    Close
+                                </div>
                             </div>
                         </div>
-
-
-
-
-
-
                     </div>
-
-
                 </div>
-            </div>}
-
-
-
-
+            )}
         </>
-    )
+    );
 }
 
 export default Artist

@@ -5,16 +5,18 @@ import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import PauseIcon from "../Icons/PauseIcon";
 import songContext from "../contexts/SongContext";
 import playlistContext from "../contexts/PlaylistContext";
+import PlayIcon from "../Icons/PlayIcon";
 
-const AlbumSearch = () => {
+const AlbumSearch = ({ userId }) => {
 
 
-    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const { currentSong, setCurrentSong, setCurrentIndex, playId, setPlayId, isPlaying, setIsPlaying } = useContext(songContext);
     const { setCurrentPlaylist } = useContext(playlistContext);
 
 
 
     const [result, setResult] = useState([]);
+    const [oneArtist, setOneArtist] = useState({});
 
     const [loading, setLoading] = useState(true);
     const location = useLocation();
@@ -60,16 +62,14 @@ const AlbumSearch = () => {
     const uniqueAlbum = getUniqueAlbum(result, "album");
 
 
-    if (loading) {
-        return (
-            <div
-                className="mx-1 p-5 justify-content-between text-center gap-2 text-white p-3 rounded overflow-auto scroll"
-                style={{ backgroundColor: "#121212", height: "78vh" }}
-            >
-                Loading.....
-            </div>
-        );
-    }
+  // funtion for loading screen
+  if (loading) {
+    return <div className="mx-1 p-5 justify-content-center  align-items-center  d-flex text-center gap-2 text-white p-3 rounded overflow-auto scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
+        <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
 
     if (result.length === 0 || !result) {
         return (
@@ -83,6 +83,19 @@ const AlbumSearch = () => {
                 different keywords.
             </div>
         );
+    }
+
+    // handle pause from any song/album //
+
+    const handlePause = () => {
+        setIsPlaying(false)
+    }
+
+    const handlePlay = (id) => {
+
+        if (currentSong?.artist?._id === id || currentSong?.album?._id === id) {
+            setIsPlaying(true)
+        }
     }
 
     return (
@@ -109,19 +122,54 @@ const AlbumSearch = () => {
 
 
                                 </div>
+                                
+                                {/* play pause button */}
+                                {userId
+                                    // display when logined
+                                    ? <div
+                                        className={`play ${playId === song?.album?._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
 
-                                <div className="play" >
-
-                                    <div className="smallPlayIcon2"
                                         onClick={() => {
                                             setCurrentPlaylist(uniqueAlbum),
-                                                setCurrentSong(song),
-                                                setCurrentIndex(0);
-                                        }} >
-                                        <SmallPlayIcon />
+                                            setCurrentSong(song),
+                                            setCurrentIndex(0);
+                                            setPlayId(song?.album?._id)
+                                        }}
+                                    >
+                                        {playId === song?.album?._id && isPlaying ?
+                                            <div
+                                                className="pointer  smallPlayIcon2"
+                                                onClick={handlePause}
+                                            >
+                                                <PauseIcon height={18} width={18} />
+                                            </div>
+                                            :
+                                            <div className="pointer smallPlayIcon2 "
+                                                onClick={() => handlePlay(song?.album?._id)}
+                                            >
+                                                <PlayIcon height={18} width={18} />
+                                            </div>
+
+                                        }
+
                                     </div>
 
-                                </div>
+                                    // display when logged out
+
+                                    : <div
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#logoutModal"
+                                        className="play"
+                                        onClick={() => { setOneArtist(song) }}
+                                    >
+                                        <span className="smallPlayIcon2">
+
+                                            <SmallPlayIcon />
+                                        </span>
+
+                                    </div>
+
+                                }
                             </div>
 
 
@@ -129,6 +177,66 @@ const AlbumSearch = () => {
                 </div>
 
             </div>
+
+
+            {/* modal on logout */}
+
+            {oneArtist && <div className="modal fade" id="logoutModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog custom-modal-dialog  modal-dialog-centered">
+
+                    <div className="custom-modal-content modal-content">
+
+                        <div className="custom-modal-body modal-body p-5 d-flex gap-5 ">
+
+                            <div className="col-5">
+                                <img src={oneArtist.image} alt="artist image" className="rounded" width={300} height={300} />
+                            </div>
+
+                            <div className="text-white text-center py-5 col ">
+                                <p className="fs-2 fw-bold"> Start listening with a free Spotify account</p>
+
+                                <a href="/signup"><div className="py-3 px-4 text-black fw-bold btn rounded-pill text-black nav-login-btn green">Sign up for free</div>
+                                </a>
+
+                                <div className="mt-5 fw-bold text-secondary">
+
+                                    <span className="me-2"> Already have an account?</span>
+
+                                    <span className="">
+
+                                        <a href="/login" className="wyt green-link">
+                                            Login
+                                        </a>
+                                    </span>
+                                </div>
+
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+
+                        <div className="text-center d-flex justify-content-center">
+                            <div data-bs-dismiss="modal" className="text-center p-0 close fs-5 fw-bold">
+                                Close
+                            </div>
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+
+                </div>
+            </div>}
         </>
     );
 };

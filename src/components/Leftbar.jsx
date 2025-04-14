@@ -2,7 +2,7 @@ import LibraryIcon from "../Icons/LibraryIcon";
 import PlusIcon from "../Icons/PlusIcon";
 import axios from "axios";
 import { useState, useEffect, useRef, useContext } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import MusicIcon from "../Icons/MusicIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import AddPlaylistIcon from "../Icons/AddPlaylistIcon";
@@ -27,13 +27,15 @@ function Leftbar({ user }) {
   const [status, setStatus] = useState();
   const [loading, setLoading] = useState(true);
 
-  const { playId } = useContext(songContext);
-  const { isPlaying } = useContext(songContext);
+  const { playId, isPlaying, setIsPlaying, currentSong, setCurrentSong, setCurrentIndex, setPlayId } = useContext(songContext);
+
+  const { currentPlaylist, setCurrentPlaylist } = useContext(playlistContext);
 
   // popover state variables
   const popoverAnchorRef = useRef(null);
-  const popupTriggerRef = useRef(null)
+  const popupTriggerRef = useRef(null);
 
+  const navigate = useNavigate();
   const createPlaylist = async (e) => {
     e.preventDefault();
     var res = await axios.post("https://spotify-backend-blue.vercel.app/playlist/create", {
@@ -41,12 +43,17 @@ function Leftbar({ user }) {
     });
     res = res.data;
     getAllPlaylist();
-    // console.log('playlist created successfully:', res.data)
+
+
+    const id = res.data._id;
+    console.log(id)
+    navigate(`/playlist/${id}`);
+
   };
 
 
-
   const [playlist, setPlaylist] = useState([]);
+  const [song, setSong] = useState([]);
 
   console.log('playlist :', playlist)
 
@@ -69,6 +76,45 @@ function Leftbar({ user }) {
     setLoading(false)
 
   };
+
+  // get the playlist song 
+  const getPlaylistSong = async (id) => {
+
+    try {
+      var res = await axios.get("https://spotify-backend-blue.vercel.app/playlistSong/getAllSongs/" + id)
+      res = res.data.data
+
+      if (!res || res.length === 0) {
+        return null;
+      }
+
+      // set the states after song is received
+      setCurrentPlaylist(res.map((item) => item?.song));
+      setCurrentSong(res[0].song);
+      setCurrentIndex(0);
+      setPlayId(id)
+
+    } catch (error) {
+      console.error('error', error)
+
+    }
+
+
+  }
+
+  // handle pause
+  const handlePause = () => {
+    setIsPlaying(false)
+  }
+
+  // handle play
+  const handlePlay = (id) => {
+    if(id === playId){
+      setIsPlaying(true);
+    } else{
+      getPlaylistSong(id);
+    }
+  }
 
 
   // shadow effect code //
@@ -266,20 +312,34 @@ function Leftbar({ user }) {
 
                           <MusicIcon />
 
-                          <div className="smallPlayIcon" >
-                            {playId === item._id && isPlaying ? <PauseIcon /> : <PlayIcon />}
+                          <div className="smallPlayIcon"
+
+                          >
+
+                            {playId === item._id && isPlaying
+
+                              ? <span onClick={handlePause}>
+                                <PauseIcon />
+                              </span>
+
+                              : <span
+                                onClick={() => { handlePlay(item?._id) }}
+
+                              > <PlayIcon /> </span>}
+
                           </div>
+
 
                         </div>
 
-                        <div className={`w-100 ${playId===item._id && isPlaying ? 'text-green' : 'text-white'}`}>
+                        <div className={`w-100 ${playId === item._id && isPlaying ? 'text-green' : 'text-white'}`}>
 
                           {item.name}
 
                         </div>
 
-                        <div className={`d-flex ${playId===item._id && isPlaying ? '':'d-none'}`}>
-                          <VolumeIcon fill={'#1ed760'} filled={true}/>
+                        <div className={`d-flex ${playId === item._id && isPlaying ? '' : 'd-none'}`}>
+                          <VolumeIcon fill={'#1ed760'} filled={true} />
                         </div>
 
                       </div>

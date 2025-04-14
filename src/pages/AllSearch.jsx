@@ -5,33 +5,44 @@ import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import AddIcon from "../Icons/AddIcon";
 import songContext from "../contexts/SongContext";
 import playlistContext from "../contexts/PlaylistContext";
+import HorizontalScroller from "../components/HorizontallScroller";
+import PauseIcon from "../Icons/PauseIcon";
+import PlayIcon from "../Icons/PlayIcon";
 
-const Search = () => {
+const AllSearch = ({ userId }) => {
 
 
-    const { setCurrentSong, setCurrentIndex } = useContext(songContext);
+    const {
+        currentSong,
+        setCurrentSong,
+        setCurrentIndex,
+        isPlaying,
+        setIsPlaying,
+        playId,
+        setPlayId,
+        audioId
+    } = useContext(songContext);
     const { setCurrentPlaylist } = useContext(playlistContext);
 
 
 
     const [result, setResult] = useState([]);
+    const [oneArtist, setOneArtist] = useState({});
+
 
     const [loading, setLoading] = useState(true)
-    const [playId, setPlayId] = useState(null)
-
     const location = useLocation()
     const query = location.pathname.split('/search/')[1]
     console.log(query)
-    
+
     useEffect(() => {
         const timer = setTimeout(() => {
             getResult()
-            console.log('sending query:', query);
+
         }, 500);
 
         return () => clearTimeout(timer);
     }, [query]);
-
 
 
     const getResult = async () => {
@@ -39,39 +50,36 @@ const Search = () => {
         var res = await axios.get(`https://spotify-backend-blue.vercel.app/song/search/?search=` + query)
 
         res = res.data
-        console.log("search Data :", res.data)
         setResult(res.data)
         setLoading(false)
 
     }
 
-
+    // function to remove the duplicate artists songs and return the unique artist 
     const getUniqueData = (data, artist) => {
+        console.log('render uniqueData')
         let res = data.map((item) => {
             return item[artist].name
         })
 
-
         res = [... new Set(res)]
-        console.log("unique data:", res)
 
         const uniqueArtist = res.map((artistName) => {
             return data.find((item) => item[artist].name === artistName)
         })
-        console.log("Unique artist: ", uniqueArtist);
-
         return uniqueArtist;
     }
 
     const uniqueData = getUniqueData(result, "artist")
 
-
+// funtion for loading screen
     if (loading) {
-        return <div className="mx-1 p-5 justify-content-between text-center gap-2 text-white p-3 rounded overflow-auto scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
-            Loading.....
+        return <div className="mx-1 p-5 justify-content-center  align-items-center  d-flex text-center gap-2 text-white p-3 rounded overflow-auto scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
+            <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     }
-
 
 
     if (result.length === 0 || !result) {
@@ -83,28 +91,62 @@ const Search = () => {
             Please make sure your words are spelled correctly, or use fewer or different keywords.</div>
     }
 
+    // handle pause from any song/album //
+
+    const handlePause = () => {
+        setIsPlaying(false)
+    }
+
+    const handlePlay = (id) => {
+
+        if (currentSong?.artist?._id === id || currentSong?.album?._id === id) {
+            setIsPlaying(true)
+        }
+    }
+
+    // handle song change and play from song 
+
+    const handleSongChangeOrPlay = (currSong, idx) => {
+        if (audioId === currSong?._id) {
+            handlePlay(currSong?.artist?._id);
+        } else {
+            setCurrentIndex(idx),
+                setCurrentSong(currSong),
+                setCurrentPlaylist(result);
+            setPlayId(Artist?._id)
+        }
+    }
 
     const { q } = useParams()
     const query2 = q || ""
 
+    console.log(playId, currentSong?.artist?._id)
     return (<>
 
 
         <div className="px-4">
 
 
-            <div className="d-flex fw-bold">
+            <div className="d-flex fw-bold flex-wrap">
 
-                <div className="px-3  py-4 col-5 ">
+                <div className="px-3 py-4 flex-fill"
+                    style={{
+                        minWidth: '500px',
+                        maxWidth: '500px'
+                    }}
+                >
 
                     <div className="fs-3 mb-2">  Top result </div>
 
-                    {
+                    <Link
+                        to={`/artist/${result[0]?.artist?._id}`}
+                        className="text-decoration-none text-white"
+                    >
                         <div className="top-result p-3 p rounded" >
 
                             <img className="rounded-circle " width={100} height={100} src={result.length === 0 ? "" : result[0].artist.image} alt="" srcset="" /> <br />
 
-                            <span className="fs-1 ">
+                            <span className="fs-1">
 
                                 {result && result.length === 0 ? "" : result[0].artist.name}
 
@@ -113,32 +155,59 @@ const Search = () => {
 
                             <span className="text-grey"> Artist </span>
 
-                            <div
-                                className="top-play rounded-circle d-flex position-absolute justify-content-center align-items-center p-3"
-                                onClick={() => {
-                                    setCurrentPlaylist(result),
-                                      setCurrentSong(result[0]),
-                                      setCurrentIndex(0);
-                                  }}
-                            >
-                                {playId === result[0]._id ? (
+                            {userId
+                                // display when logined
+                                ? <div
+                                    className="top-play rounded-circle d-flex position-absolute justify-content-center align-items-center p-3"
+                                    style={{
+                                        opacity: `${playId === result[0]?.artist?._id && isPlaying ? '1' : ''}`,
+                                        transform: `${playId === result[0]?.artist?._id && isPlaying ? 'translate(0)' : ''}`
+                                    }}
+                                    onClick={(e) => {
+                                        e.preventDefault(),
+                                            setCurrentPlaylist(result),
+                                            setCurrentSong(result[0]),
+                                            setCurrentIndex(0);
+                                        setPlayId(result[0]?.artist?._id)
+                                    }}
+                                >
+                                    {playId === result[0]?.artist?._id && currentSong?.artist?._id === result[0]?.artist?._id && isPlaying
+                                        ?
+                                        <div
+                                            className="pointer smallPlayIcon2"
+                                            onClick={handlePause}
+                                        >
+                                            <PauseIcon height={18} width={18} />
+                                        </div>
+                                        :
+                                        <div className="pointer smallPlayIcon2"
+                                            onClick={() => handlePlay(result[0]?.artist?._id)}
+                                        >
+                                            <PlayIcon height={18} width={18} />
+                                        </div>}
+                                </div>
 
+                                // display when logged out
 
-
-                                 <span className="d-flex align-items-center"> 
-                                       <PauseIcon />
-                                 </span>
-
-                                ) : (
+                                : <div
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#logoutModal"
+                                    className="top-play rounded-circle d-flex position-absolute justify-content-center align-items-center p-3"
+                                    onClick={() => { setOneArtist(result[0]?.artist); console.log(result[0]) }}
+                                >
                                     <span className="d-flex align-items-center">
 
                                         <SmallPlayIcon />
                                     </span>
 
+                                </div>
 
-                                )}
-                            </div>
-                        </div>}
+                            }
+
+                        </div>
+
+                    </Link>
+
 
 
 
@@ -147,8 +216,7 @@ const Search = () => {
 
                 </div>
 
-
-                <div className="col py-4  ">
+                <div className="flex-fill py-4  ">
 
                     <div className="fs-3 ">
 
@@ -165,7 +233,6 @@ const Search = () => {
                     {result && result.slice(0, 4).map((song, index) => (
 
                         <>
-
                             <div key={index} className="search-song-div" >
 
                                 <div className="d-flex song-div rounded p-1 px-2 align-items-center ">
@@ -173,41 +240,61 @@ const Search = () => {
                                     {/* song name/image  div */}
                                     <div className="d-flex col align-items-center">
 
-                                        <div className="d-flex align-items-center">
-                                            
+                                        <div className="d-flex align-items-center justify-content-center">
+
                                             <img src={song.image} alt="song Image" height={42} className="rounded" />
-                                           
-                                            <span className="search-play-icon" 
-                                             onClick={() => {
-                                                {
-                                                  setCurrentIndex(index),
-                                                    setCurrentSong(song),
-                                                    setCurrentPlaylist(result);
-                                                }
-                                              }}
-                                            
-                                             
-                                            >
-                                                <SmallPlayIcon/>
-                                            </span>
+
+                                            {userId
+
+                                                ? <span className="search-play-icon">
+
+                                                    {audioId === song?._id && isPlaying ? (
+                                                        <span onClick={handlePause}>
+
+                                                            <PauseIcon height={24} width={24} />
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            onClick={() => {
+                                                                handleSongChangeOrPlay(song, index);
+
+                                                            }}
+                                                        >
+
+                                                            <SmallPlayIcon height={24} width={24} />
+                                                        </span>
+                                                    )}
+                                                </span>
+
+
+                                                : <span
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#logoutModal"
+
+                                                    className="search-play-icon"
+                                                    onClick={() => { setOneArtist(song) }}
+
+
+                                                >
+                                                    <SmallPlayIcon />
+                                                </span>}
                                         </div>
 
                                         <div className="px-2">
-                                            <span> {song.name} </span> <br />
+                                            <span className={`${audioId === song?._id ? "text-green" : ""}`}> {song.name} </span> <br />
                                             <span className="text-grey"> {song.artist.name} </span>
                                         </div>
                                     </div>
 
                                     <span className="addIcon2">
-                                    <AddIcon />
+                                        <AddIcon />
                                     </span>
                                     {/* time div */}
                                     <div className="col-1 me-2" >
                                         {song.time}
-                                        
                                     </div >
 
-                                   
+
 
 
                                 </div>
@@ -232,7 +319,7 @@ const Search = () => {
                 </Link>
             </div>
 
-            <div className="d-flex mx-auto px-3">
+            <HorizontalScroller render={true}>
                 {uniqueData &&
                     uniqueData.map((song, index) => (
                         <div
@@ -256,32 +343,61 @@ const Search = () => {
                                 <span className="text-secondary">Artist</span>
                             </Link>
 
-                            <div
-                                className="play"
-                                onClick={() => {
-                                    setCurrentPlaylist(uniqueData),
-                                      setCurrentSong(song),
-                                      setCurrentIndex(0);
-                                  }}
-                            >
-                                {playId === song._id ? (
-                                    <div
+                            {userId
+                                // display when logined
+                                ? <div
+                                    className={`play ${playId === song?.artist?._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
 
-                                    >
-                                        <PauseIcon />
-                                    </div>
-                                ) : (
-                                    <div
-                                        className="smallPlayIcon2"
+                                    onClick={() => {
+                                        setCurrentPlaylist(uniqueData),
+                                            setCurrentSong(song),
+                                            setCurrentIndex(0);
+                                        setPlayId(song?.artist?._id)
+                                    }}
+                                >
+                                    {playId === song?.artist?._id && isPlaying ?
+                                        <div
+                                            className="pointer  smallPlayIcon2"
+                                            onClick={handlePause}
+                                        >
+                                            <PauseIcon height={18} width={18} />
+                                        </div>
+                                        :
+                                        <div className="pointer smallPlayIcon2 "
+                                            onClick={() => handlePlay(song?.artist?._id)}
+                                        >
+                                            <PlayIcon height={18} width={18} />
+                                        </div>
 
-                                    >
+                                    }
+
+
+
+                                </div>
+
+                                // display when logged out
+
+                                : <div
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#logoutModal"
+                                    className="play"
+                                    onClick={() => { setOneArtist(song) }}
+                                >
+                                    <span className="smallPlayIcon2">
+
                                         <SmallPlayIcon />
-                                    </div>
-                                )}
-                            </div>
+                                    </span>
+
+                                </div>
+
+                            }
                         </div>
                     ))}
-            </div>
+
+            </HorizontalScroller>
+
+
+
 
 
             {/* ALbum Section */}
@@ -295,7 +411,8 @@ const Search = () => {
                 </Link>
             </div>
 
-            <div className="d-flex mx-auto px-3 ">
+
+            <HorizontalScroller>
                 {uniqueData &&
                     uniqueData.map((song, index) => (
                         <div
@@ -313,43 +430,124 @@ const Search = () => {
                                 <span className="text-white"> {song.album.name} </span> <br />
                                 <span className="text-secondary"> Album </span>
                             </Link>
+                            {/* play pause button */}
+                            {userId
+                                // display when logined
+                                ? <div
+                                    className={`play ${playId === song?.album?._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
 
-                             <div
-                                className="play"
-                                onClick={() => {
-                                    setCurrentPlaylist(uniqueData),
-                                      setCurrentSong(song),
-                                      setCurrentIndex(0);
-                                  }}
-                            >
-                                {playId === song._id ? (
-                                    <div
+                                    onClick={() => {
+                                        setCurrentPlaylist(uniqueData),
+                                            setCurrentSong(song),
+                                            setCurrentIndex(0);
+                                        setPlayId(song?.album?._id)
+                                    }}
+                                >
+                                    {playId === song?.album?._id && isPlaying ?
+                                        <div
+                                            className="pointer  smallPlayIcon2"
+                                            onClick={handlePause}
+                                        >
+                                            <PauseIcon height={18} width={18} />
+                                        </div>
+                                        :
+                                        <div className="pointer smallPlayIcon2 "
+                                            onClick={() => handlePlay(song?.album?._id)}
+                                        >
+                                            <PlayIcon height={18} width={18} />
+                                        </div>
 
-                                    >
-                                        <PauseIcon />
-                                    </div>
-                                ) : (
-                                    <div
-                                        className="smallPlayIcon2"
+                                    }
 
-                                    >
+
+
+                                </div>
+
+                                // display when logged out
+
+                                : <div
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#logoutModal"
+                                    className="play"
+                                    onClick={() => { setOneArtist(song) }}
+                                >
+                                    <span className="smallPlayIcon2">
+
                                         <SmallPlayIcon />
-                                    </div>
-                                )}
-                            </div>
+                                    </span>
+
+                                </div>
+
+                            }
                         </div>
                     ))}
-            </div>
+            </HorizontalScroller>
+
 
 
         </div>
 
 
 
+        {oneArtist && <div className="modal fade" id="logoutModal" tabIndex="-1" aria-labelledby="exampleModalLabel">
+            <div className="modal-dialog custom-modal-dialog  modal-dialog-centered">
 
+                <div className="custom-modal-content modal-content">
+
+                    <div className="custom-modal-body modal-body p-5 d-flex gap-5 ">
+
+                        <div className="col-5">
+                            <img src={oneArtist.image} alt="artist image" className="rounded" width={300} height={300} />
+                        </div>
+
+                        <div className="text-white text-center py-5 col ">
+                            <p className="fs-2 fw-bold"> Start listening with a free Spotify account</p>
+
+                            <a href="/signup"><div className="py-3 px-4 text-black fw-bold btn rounded-pill text-black nav-login-btn green">Sign up for free</div>
+                            </a>
+
+                            <div className="mt-5 fw-bold text-secondary">
+
+                                <span className="me-2"> Already have an account?</span>
+
+                                <span className="">
+
+                                    <a href="/login" className="wyt green-link">
+                                        Login
+                                    </a>
+                                </span>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+
+                    <div className="text-center d-flex justify-content-center">
+                        <div data-bs-dismiss="modal" className="text-center p-0 close fs-5 fw-bold">
+                            Close
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+
+
+            </div>
+        </div>}
 
     </>)
 
 }
 
-export default Search;
+export default AllSearch;

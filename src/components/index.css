@@ -390,6 +390,15 @@ body::-webkit-scrollbar{
   line-clamp: 2; 
 }
 
+.song-info{
+  width: inherit;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1; 
+}
+
 
 .activeRow {
 
@@ -423,6 +432,7 @@ body::-webkit-scrollbar{
   cursor: pointer;
   
 }
+
 .horizontal-scroll:hover .scroll-btn.left{
   opacity: 1;
   transform: translateX(0);
