@@ -171,8 +171,8 @@ function Leftbar({ user }) {
     return (
 
       <div
-        className="d-flex rounded flex-column leftbar-container"
-        style={{ backgroundColor: "#121212", height: "78vh" }}
+        className="d-flex w-100 rounded flex-column leftbar-container"
+      
       >
         <div className=" fw-bold w-100 text-grey p-3 d-flex justify-content-between align-items-center">
 
@@ -248,8 +248,7 @@ function Leftbar({ user }) {
   return (
     <>
       <div
-        className="d-flex rounded flex-column leftbar-container"
-        style={{ backgroundColor: "#121212", height: "78vh" }}
+        className="d-flex rounded flex-column leftbar-container w-100"
       >
         <div className="fw-bold text-grey  align-items-center ">
 

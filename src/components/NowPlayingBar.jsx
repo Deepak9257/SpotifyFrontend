@@ -19,8 +19,8 @@ const NowPlayingBar = () => {
                 <button onClick={()=>setSongContainer(false)} className="cross border-0 bg-transparent rounded-circle fs-6 text-grey"> &#10005; </button>
             </div>
 
-        <div className=" d-flex justify-content-center">
-            <img src={currentSong?.image} alt="song image" height={388} width={388} className="rounded"/>
+        <div className="d-flex px-2 justify-content-center">
+            <img src={currentSong?.image} alt="song image" width="100%" className="rounded object-fit-cover"/>
         </div>
 
         <div className="pt-3 text-white fw-bold">

@@ -15,6 +15,7 @@ import { toast, Zoom } from 'react-toastify';
 import PauseIcon from "../Icons/PauseIcon";
 import PlayIcon from "../Icons/PlayIcon";
 import ScrollBar from "../components/ScrollBar";
+import FontResize from "../components/FontResize";
 
 const Album = ({ userId }) => {
 
@@ -28,12 +29,13 @@ const Album = ({ userId }) => {
     // selected effect conditions on tr-border
     const [selectedRow, setSelectedRow] = useState(null)
     const trBorderRef = useRef(null)
-    const scrollBarRef = useRef(null)
+    const textRef = useRef(null)
 
     const handleClick = (index) => {
         setSelectedRow(index)
 
     }
+
 
     // logic to handle click outside of the tr border
     useEffect(() => {
@@ -104,7 +106,8 @@ const Album = ({ userId }) => {
         setPlayId,
         isPlaying,
         setIsPlaying,
-        audioId
+        audioId,
+        songContainer,
     } = useContext(songContext);
     const { setCurrentPlaylist } = useContext(playlistContext);
 
@@ -437,6 +440,7 @@ const Album = ({ userId }) => {
     }
 
 
+
     if (loading) {
         return (
 
@@ -459,7 +463,7 @@ const Album = ({ userId }) => {
 
 
                 {album &&
-                    <ScrollBar customClassName={'rounded'} height={"78vh"} >
+                    <ScrollBar customClassName={'rounded'} height={"80vh"} >
 
                         <div
 
@@ -467,13 +471,30 @@ const Album = ({ userId }) => {
                             className=" gap-2 text-white rounded" style={{ backgroundColor: "#121212" }}>
 
                             <div className="artist-header rounded-top-3">
-                                <img src={album.image} alt="album pic" className="object-fit-cover rounded-circle" />
 
-                                <div >
-                                    <div> <VerifiedIcon /> Verified Artist </div>
-                                    <span className="fw-bold text ">{album.name}</span> <br />
-                                    <span>42,405,290 monthly listeners</span>
+                                <div className="">
+                                    <img src={album.image} alt="album pic" className="object-fit-cover rounded"
 
+                                        style={{
+                                            width: `${songContainer ? '200px' : ''}`,
+                                            height: `${songContainer ? '200px' : ''}`
+                                        }}
+                                    />
+                                </div>
+
+                                <div className="border w-100">
+                                    <div> Album </div>
+                                    <div className="fw-bold border fs-large"
+                                    >
+
+                                        <FontResize>
+
+                                            {album.name}
+
+                                        </FontResize>
+
+                                    </div>
+                                    <div>{album?.artist?.name}</div>
 
                                 </div>
                             </div>
@@ -489,16 +510,16 @@ const Album = ({ userId }) => {
                                     >
                                         {playId === album._id && currentSong?.album?._id === album._id && isPlaying ?
                                             <div
-                                                className="pointer smallPlayIcon2 h-100 w-100"
+                                                className="pointer smallPlayIcon2 "
                                                 onClick={handlePause}
                                             >
-                                                <PauseIcon height={18} width={18} fill={"black"} />
+                                                <PauseIcon height={"calc(0.9vw + 0.3rem)"} width={"calc(0.9vw + 0.3rem)"} fill={"black"} />
                                             </div>
 
-                                            : <div className="pointer smallPlayIcon2 h-100 w-100"
+                                            : <div className="pointer smallPlayIcon2 "
                                                 onClick={() => handlePlay(album._id)}
                                             >
-                                                <PlayIcon height={18} width={18} fill={"black"} />
+                                                <PlayIcon height={"calc(0.9vw + 0.3rem)"} width={"calc(0.9vw + 0.3rem)"} fill={"black"} />
                                             </div>
 
                                         }
@@ -526,9 +547,9 @@ const Album = ({ userId }) => {
                             <div className="table-container">
                                 <div> <span className="fs-2 fw-bold">Popular</span> </div>
                                 <table>
-                                <thead>
+                                    <thead>
                                         <tr className="">
-                                            <th className="track-number">#</th>
+                                            <th className="track-number text-center" >#</th>
                                             <th>Title</th>
                                             <th>Album</th>
                                             <th className="text-center">
@@ -547,20 +568,21 @@ const Album = ({ userId }) => {
                                                     className={`tr-border position-relative ${selectedRow === index ? "activeRow" : ""
                                                         }`}
                                                 >
-                                                    <td className="track-number ">
-                                                        <div className={`number ${audioId === song?._id ? "text-green" : ""}`}>
-                                                            {index + 1}
-                                                        </div>
-                                                    </td>
+                                                    <td>
 
-                                                    <td className="popover-div">
-                                                        {userId ? (
-                                                            <div className="smallplayIcon popover-container">
+                                                        <div className="track-number text-center">
+                                                            <div className={`number ${audioId === song?._id ? "text-green" : ""}`}>
+                                                                {index + 1}
+                                                            </div>
+
+                                                            {userId ? (
+
                                                                 <div className="popover-target">
                                                                     {audioId === song?._id && isPlaying ? (
                                                                         <span onClick={handlePause}>
 
-                                                                            <PauseIcon />
+                                                                            <PauseIcon height={"calc(1vw + 0.2rem"} width={"calc(1vw + 0.2rem)"} />
+
                                                                         </span>
                                                                     ) : (
                                                                         <span
@@ -569,28 +591,28 @@ const Album = ({ userId }) => {
                                                                             }}
                                                                         >
 
-                                                                            <SmallPlayIcon />
+                                                                            <SmallPlayIcon height={"calc(1vw + 0.5rem"} width={"calc(1vw + 0.5rem)"} />
                                                                         </span>
                                                                     )}
                                                                 </div>
-                                                            </div>
-                                                        ) : (
-                                                            <div
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#logoutModal"
-                                                                className="smallplayIcon popover-container"
-                                                            >
+
+                                                            ) : (
                                                                 <div
                                                                     className="popover-target"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#logoutModal"
                                                                     onClick={() => {
                                                                         setOneArtist(song);
                                                                     }}
                                                                 >
-                                                                    <SmallPlayIcon />
+                                                                    <SmallPlayIcon height={"calc(1vw + 0.5rem"} width={"calc(1vw + 0.5rem)"} />
                                                                 </div>
-                                                            </div>
-                                                        )}
+                                                            )}
+                                                        </div>
+
                                                     </td>
+
+
 
                                                     <td className="track-title">
                                                         <img src={song.image} alt="Album cover" />
@@ -626,9 +648,9 @@ const Album = ({ userId }) => {
                                                                         }}
                                                                         className="addIcon bg-transparent border-0 "
                                                                     >
-                                                                        <div>
+                                                                        <div >
 
-                                                                            <AddIcon />
+                                                                            <AddIcon height={"calc(1vw + 0.5rem"} width={"calc(1vw + 0.5rem)"} />
                                                                         </div>
                                                                     </Popover.Trigger>
 

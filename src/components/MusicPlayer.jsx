@@ -33,7 +33,7 @@ const MyMusicPlayer = () => {
         setIsPlaying,
         audioId,
         setAudioId
-   
+
     } = useContext(songContext);
 
 
@@ -167,8 +167,8 @@ const MyMusicPlayer = () => {
 
     const toggleFullscreen = () => {
 
-        if(!currentSong._id){
-             return null;
+        if (!currentSong._id) {
+            return null;
         }
 
         let elem = document.getElementById('music-player')
@@ -394,20 +394,20 @@ const MyMusicPlayer = () => {
     // change isPlaying state on currentSong changes
     useEffect(() => {
         if (currentSong._id) {
-            
-            if(lastSongChange){
+
+            if (lastSongChange) {
                 setLastSongChange(false);
                 setIsPlaying(false);
                 return;
             }
 
-            setIsPlaying(true); 
+            setIsPlaying(true);
             setAudioId(currentSong._id);
-            
+
 
         };
-    }, [currentSong]) 
-    
+    }, [currentSong])
+
     // console.log(audioId)
 
 
@@ -415,11 +415,11 @@ const MyMusicPlayer = () => {
 
     const next = () => {
 
-        
+
         if (!currentPlaylist || currentPlaylist.length === 0) {
             return; // Do nothing if currentPlaylist is empty or undefined
         }
-        
+
         setIsPlaying(true);
 
         const lastSong = currentPlaylist.length > 0 ? currentPlaylist[currentPlaylist.length - 1] : shuffledSongs[shuffledSongs.length - 1]
@@ -768,7 +768,13 @@ const MyMusicPlayer = () => {
         }
     }, [isNextClicked]);
 
+    // handle songcontainer change 
 
+    const handleSongContainer = () => {
+        if (currentSong?._id) {
+            setSongContainer(!songContainer)
+        }
+    }
 
     return <>
 
@@ -825,7 +831,7 @@ const MyMusicPlayer = () => {
 
                 }}
                 ref={fullscreenModePlayer}
-                className={` ${fullMode ? 'fullmode pb-5' : 'bg-black'}  playerDiv d-flex align-items-center flex-column-reverse  px-2  text-white`}>
+                className={` ${fullMode ? 'fullmode pb-5' : 'bg-black'}  h-100 d-flex align-items-center flex-column-reverse  px-2  text-white`}>
 
                 <div className="fullscreen-bg"></div>
 
@@ -890,7 +896,7 @@ const MyMusicPlayer = () => {
 
                             <div className={`${currentSong?._id ? 'd-flex' : 'not-allowed'}  col-2`}>
                                 <span className="d-flex pressed pointer">
-                                    <AddIcon fill={'#b3b3b3'} height={20} width={20} />
+                                    <AddIcon fill={'#b3b3b3'} height={"calc(0.5rem + 1vw)"} width={"calc(0.5rem + 1vw)"} />
                                 </span>
                             </div>
 
@@ -909,7 +915,7 @@ const MyMusicPlayer = () => {
 
                                     <div className={`${currentSong?._id ? 'pointer bg-white toggle-pressed' : 'not-allowed bg-grey'} rounded-circle d-flex p-3`} onClick={handlePlayPause} >
 
-                                        {isPlaying ? <PauseIcon height={20} width={20} fill={'black'} /> : <PlayIcon height={20} width={20} fill={'black'} />}
+                                        {isPlaying ? <PauseIcon height={"calc(0.5rem + 1vw)"} width={"calc(0.5rem + 1vw)"} fill={'black'} /> : <PlayIcon height={20} width={20} fill={'black'} />}
 
                                     </div>
 
@@ -929,8 +935,6 @@ const MyMusicPlayer = () => {
 
                             {/* volume & other controls */}
                             <div className="other-controls  col-2 d-flex align-items-center justify-content-center gap-3">
-
-                                <div onClick={() => setSongContainer(!songContainer)} className="pressed d-flex"> {!fullMode && <NowPlayingIcon fill={"#b3b3b3"} />}</div>
 
 
                                 <div className="volume-bar d-flex align-items-center justify-content-center gap-2">
@@ -972,7 +976,9 @@ const MyMusicPlayer = () => {
             :
 
             // normal mode player
-            <div id="music-player" className={` ${fullMode ? 'fullmode pb-5' : 'bg-black'} playerDiv d-flex align-items-center flex-column-reverse  px-2  text-white`}>
+            <div id="music-player" className={` ${fullMode ? 'fullmode pb-5' : 'bg-black'} d-flex align-items-center flex-column-reverse  text-white`}
+                style={{ height: "15%", padding:"0.4em"}}
+            >
 
                 <div key={fullMode} className={`${fullMode ? 'mb-5' : ''} playerDiv d-flex align-items-center  px-2  w-100`}>
                     <div className="audio-info col d-flex align-items-center gap-2 user-select-none">
@@ -983,24 +989,24 @@ const MyMusicPlayer = () => {
                                 <div key={fullMode} className="song-image">
                                     <img
                                         src={currentSong.image}
-                                        height={56}
-                                        width={56}
-                                        className="rounded fade-in-element"
+                                        height="50vh"
+                                        width="100%"
+                                        className="rounded"
                                         alt="song image"
                                     />
                                 </div>
                             }
 
-                            <div className="song-title px-2 ">
+                            <div className="song-title px-2">
 
-                                <div className="fw-bold fs-small">{currentSong.name} </div>
+                                <div className="fw-bold">{currentSong.name} </div>
 
-                                <div className="fs-small text-secondary">{currentSong?.artist?.name}</div>
+                                <div className="text-secondary">{currentSong?.artist?.name}</div>
 
                             </div>
 
                             <div className={`${currentSong?._id ? 'pointer pressed d-flex ' : 'not-allowed'}`}>
-                                <AddIcon fill={'#b3b3b3'} height={16} width={16} />
+                                <AddIcon fill={'#b3b3b3'} height={"calc(0.5rem + 1vw)"} width={"calc(0.5rem + 1vw)"} />
                             </div>
                         </> : null}
 
@@ -1009,35 +1015,9 @@ const MyMusicPlayer = () => {
 
                     <div className="audio-controls col-6">
 
-                        <div className="play-pause-controls d-flex justify-content-center align-items-center gap-4">
-
-                            <div onClick={() => handleShuffle([...currentPlaylist])} className={`${currentSong?._id ? 'pointer ' : 'not-allowed'} ${shuffledSongs.length > 0 ? 'repeat' : 'pressed'} d-flex`}>
-
-                                <ShuffleOff fill={shuffledSongs.length > 0 ? "#1ed760" : "#b3b3b3"} />
-
-                            </div>
-                            <div onClick={previous} className={`${currentSong?._id ? 'pointer pressed ' : 'not-allowed'} d-flex`} ><PreviousBtn fill={"#b3b3b3"} /></div>
-
-                            <div className={`${currentSong?._id ? 'pointer bg-white toggle-pressed' : 'not-allowed bg-grey'} rounded-circle d-flex p-2`} onClick={handlePlayPause} >
-
-                                {isPlaying ? <PauseIcon fill={'black'} /> : <PlayIcon fill={'black'} />}
-
-                            </div>
-
-                            <div onClick={handleNext} className={`${currentSong?._id ? 'pointer pressed ' : 'not-allowed'} d-flex`}><NextIcon fill={"#b3b3b3"} /></div>
-
-                            {/* repeat btn */}
-
-                            <div onClick={handleRepeat} className={`d-flex repeat ${currentSong?._id ? 'pointer' : 'not-allowed'} ${!isRepeat && !repeatAll && 'pressed'}`}>
-
-                                {isRepeat ? <RepeatOne fill={"#1ed760"} /> : repeatAll ? <RepeatIcon fill={'#1ed760'} /> : <RepeatIcon />}
-
-                            </div>
-                        </div>
-
                         <div className="song-time d-flex align-items-center justify-content-center gap-2 w-100">
 
-                            <div className="user-select-none fs-small text-secondary">{formatDuration(currentTime)}</div>
+                            <div className=" text-secondary">{formatDuration(currentTime)}</div>
 
 
                             <div className="seekbar rounded w-75">
@@ -1053,15 +1033,59 @@ const MyMusicPlayer = () => {
                                 <span ref={bufferedRef} className="buffered-range d-block rounded h-100"></span>
                             </div>
 
-                            <div className="user-select-none fs-small text-secondary">{formatDuration(isNaN(duration) ? 0 : duration)}</div>
+                            <div className=" text-secondary">{formatDuration(isNaN(duration) ? 0 : duration)}</div>
 
                         </div>
+
+                        <div className="play-pause-controls d-flex justify-content-center align-items-center gap-4">
+
+                            <div onClick={() => handleShuffle([...currentPlaylist])} className={`${currentSong?._id ? 'pointer ' : 'not-allowed'} ${shuffledSongs.length > 0 ? 'repeat' : 'pressed'} d-flex`}>
+
+                                <ShuffleOff fill={shuffledSongs.length > 0 ? "#1ed760" : "#b3b3b3"} />
+
+                            </div>
+
+                            <div onClick={previous} className={`${currentSong?._id ? 'pointer pressed ' : 'not-allowed'} d-flex`} ><PreviousBtn fill={"#b3b3b3"} /></div>
+
+                            <div className={`rounded-circle ${currentSong?._id ? 'pointer bg-white toggle-pressed' : 'not-allowed bg-grey'}
+                             `}
+                                style={{
+                                    width: "2.1em",
+                                    height: "2.1em",
+
+                                }}
+                                onClick={handlePlayPause}
+                            >
+
+
+                                <span className="d-flex justify-content-center align-items-center   ">
+                                    {isPlaying
+                                        ? <PauseIcon height={'1em'} width={'1em'} fill={'black'} />
+                                        : <PlayIcon height={'1em'} width={'1em'} fill={'black'} />
+                                    }
+                                </span>
+
+
+                            </div>
+
+                            <div onClick={handleNext} className={`${currentSong?._id ? 'pointer pressed ' : 'not-allowed'} d-flex`}><NextIcon fill={"#b3b3b3"} /></div>
+
+                            {/* repeat btn */}
+
+                            <div onClick={handleRepeat} className={`d-flex repeat ${currentSong?._id ? 'pointer' : 'not-allowed'} ${!isRepeat && !repeatAll && 'pressed'}`}>
+
+                                {isRepeat ? <RepeatOne fill={"#1ed760"} /> : repeatAll ? <RepeatIcon fill={'#1ed760'} /> : <RepeatIcon />}
+
+                            </div>
+                        </div>
+
+
                     </div>
 
-                    <div className="other-controls col d-flex align-items-center justify-content-center gap-3">
+                    <div className="other-controls col d-flex align-items-center flex-row-reverse pe-2 gap-3">
 
-                        <div onClick={() => setSongContainer(!songContainer)} className={`d-flex ${songContainer ?'scale-lg' :'pressed '}`}>
-                            {!fullMode && <NowPlayingIcon fill={`${songContainer ? '#1ed760' : '#b3b3b3'}`} />}
+                        <div className={`d-flex ${currentSong?._id ? 'pressed' : 'expand'}`} onClick={() => { toggleFullscreen() }}>
+                            {fullMode ? <DefaultScreenIcon /> : <FullScreenIcon fill={'#b3b3b3'} />}
                         </div>
 
 
@@ -1087,9 +1111,10 @@ const MyMusicPlayer = () => {
 
                         </div>
 
-                        <div className={`d-flex ${currentSong?._id ? 'pressed' : 'expand'}`}  onClick={() => { toggleFullscreen() }}>
-                            {fullMode ? <DefaultScreenIcon /> : <FullScreenIcon fill={'#b3b3b3'} />}
+                        <div onClick={() => handleSongContainer()} className={`d-flex ${songContainer ? 'scale-lg' : 'pressed '}`}>
+                            {!fullMode && <NowPlayingIcon fill={`${songContainer ? '#1ed760' : '#b3b3b3'}`} />}
                         </div>
+
 
                     </div>
                 </div>

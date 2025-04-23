@@ -15,6 +15,7 @@ import { toast, Zoom } from 'react-toastify';
 import PauseIcon from "../Icons/PauseIcon";
 import PlayIcon from "../Icons/PlayIcon";
 import ScrollBar from "../components/ScrollBar";
+import FontResize from "../components/FontResize";
 
 const Artist = ({ userId }) => {
 
@@ -107,7 +108,8 @@ const Artist = ({ userId }) => {
         setPlayId,
         isPlaying,
         setIsPlaying,
-        audioId
+        audioId,
+        songContainer
     } = useContext(songContext);
     const { setCurrentPlaylist } = useContext(playlistContext);
 
@@ -455,25 +457,38 @@ const Artist = ({ userId }) => {
         <>
             <div className="w-100 text-white">
                 {Artist && (
-                    <ScrollBar customClassName={"rounded"} height={"78vh"}>
+                    <ScrollBar customClassName={"rounded"} height={"80vh"}>
                         <div
                             id="rytBar"
                             className="gap-2 text-white rounded"
                             style={{ backgroundColor: "#121212" }}
                         >
                             <div className="artist-header rounded-top-3">
-                                <img
+                              <div>
+                              <img
                                     src={Artist.image}
                                     alt="artist pic"
                                     className="object-fit-cover rounded-circle"
+                                    style={{
+                                        width:`${songContainer ? '200px' : ''}`,
+                                        height:`${songContainer ? '200px' : ''}`
+                                    }}
                                 />
+                              </div>
 
-                                <div>
+                                <div className=" w-100">
                                     <div>
-                                        {" "}
-                                        <VerifiedIcon /> Verified Artist{" "}
+                                        
+                                        <VerifiedIcon /> Verified Artist
                                     </div>
-                                    <span className="fw-bold text ">{Artist.name}</span> <br />
+                                    <span className="fw-bold text " 
+                                                                        
+                                    >
+                                       <FontResize>
+                                       {Artist.name}
+                                       </FontResize>
+                                        
+                                        </span> 
                                     <span>42,405,290 monthly listeners</span>
                                 </div>
                             </div>

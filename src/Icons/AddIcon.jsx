@@ -1,4 +1,4 @@
-const AddIcon = () => {
+const AddIcon = ({height, width}) => {
   return (
     <>
       <svg
@@ -6,7 +6,8 @@ const AddIcon = () => {
         role="img"
         aria-hidden="true"
         viewBox="0 0 16 16"
-        height="20"
+        height={height ? height : 16 }
+        width={width ? width : 16}
         fill="grey"
         className="Svg-sc-ytk21e-0 dYnaPI"
       >

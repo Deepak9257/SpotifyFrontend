@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import { useNavigate, useParams } from "react-router-dom"
 import EditIcon from "../Icons/EditIcon";
@@ -8,6 +8,7 @@ import playlistContext from "../contexts/PlaylistContext";
 import PauseIcon from "../Icons/PauseIcon";
 import PlayIcon from "../Icons/PlayIcon";
 import ScrollBar from "../components/ScrollBar";
+import FontResize from "../components/FontResize";
 
 
 
@@ -17,6 +18,7 @@ const Playlist = () => {
         currentSong,
         setCurrentSong,
         setCurrentIndex,
+        songContainer,
         isPlaying,
         setIsPlaying,
         playId,
@@ -58,8 +60,6 @@ const Playlist = () => {
 
     }
 
-    console.log(song)
-
     const [name, setName] = useState("")
     const [image, setImage] = useState("")
     const [status, setStatus] = useState("")
@@ -82,6 +82,15 @@ const Playlist = () => {
         navigate('/');
 
 
+
+    }
+
+    // selected effect conditions on tr-border
+    const [selectedRow, setSelectedRow] = useState(null)
+    const trBorderRef = useRef(null)
+
+    const handleClick = (index) => {
+        setSelectedRow(index)
 
     }
 
@@ -141,10 +150,16 @@ const Playlist = () => {
                 className="playlist-body h-100 gap-2 text-white rounded"
 
             >
-                <ScrollBar customClassName={'rounded'} height={'78vh'}>
+                <ScrollBar customClassName={'rounded'} height={'80vh'}>
                     {playlist && (
                         <div className="playlist-header rounded-top-3">
-                            <div className="bg-music position-relative col-2 rounded shadow m-2 text-center">
+                            <div className="bg-music position-relative rounded shadow text-center"
+                                style={{
+                                    height:`${songContainer ? '0' : ''}`,
+                                    width:`${songContainer ? '0' : ''}`,
+                                }}
+
+                            >
                                 {playlist && playlist.image ? (
                                     <div
                                         className="playlist-image-container"
@@ -167,25 +182,34 @@ const Playlist = () => {
                                     data-bs-toggle="modal"
                                     data-bs-target="#UpdatePlaylist"
                                 >
-                                    <EditIcon />
+                                    <span className="d-grid justify-content-center align-items-end"><EditIcon /></span>
                                     <span className="text-nowrap">Choose Photo</span>
                                 </span>
                             </div>
 
                             <div className="details col">
-                                <p>Playlist</p>
-                                <h1
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#UpdatePlaylist"
-                                    className=" fs-large pointer"
-                                >
-                                    {playlist.name}
-                                </h1>
-                                <h4>Dee</h4>
-                                <div className="stats">
+                                <div className="stats d-flex align-items-center gap-2">
                                     <i className="fab fa-spotify" />
                                     <span>Total songs</span>
                                 </div>
+                                <div>Dee</div>
+
+                                <div
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#UpdatePlaylist"
+                                    className="fw-bold pointer"
+                                    
+
+                                >
+                                  <FontResize >
+                                        {playlist.name}
+                                  </FontResize>
+
+                                </div>
+
+                                <div>Playlist</div>
+
+
                             </div>
                         </div>
                     )}
@@ -236,9 +260,9 @@ const Playlist = () => {
                                 <tr>
                                     <th className="track-number">#</th>
                                     <th>Title</th>
-                                    <th>Album</th>
-                                    <th>Date added</th>
-                                    <th>
+                                    <th style={{width:'40%'}}> Album</th>
+                                   {!songContainer && <th >Date added</th>}
+                                    <th className="text-center">
                                         <i className="far fa-clock" />
                                     </th>
                                 </tr>
@@ -247,7 +271,15 @@ const Playlist = () => {
                             <tbody className="">
                                 {song &&
                                     song.map((playlistSong, index) => (
-                                        <tr key={index} className="tr-border  position-relative">
+                                        <tr key={index}
+
+                                            onClick={() => {
+                                                handleClick(index);
+                                            }}
+                                            className={`tr-border position-relative ${selectedRow === index ? "activeRow" : ""
+                                                }`}
+
+                                        >
                                             <td className="track-number">
 
                                                 <div className={`number ${audioId === playlistSong?.song?._id ? 'text-green' : ''}`}>{index + 1}</div>
@@ -271,7 +303,7 @@ const Playlist = () => {
 
                                                 : <td
                                                     className="popover-div"
-                                                    onClick={() => { handleSongChangeOrPlay(playlistSong?.song,index) }}
+                                                    onClick={() => { handleSongChangeOrPlay(playlistSong?.song, index) }}
                                                 >
                                                     <div className="smallplayIcon">
 
@@ -288,17 +320,21 @@ const Playlist = () => {
                                             <td className="track-title">
                                                 <img
                                                     src={playlistSong?.song?.image}
-                                                    alt="Album cover for Slumber Rain"
+                                                    alt="Album cover"
                                                 />
 
                                                 <div className="">
-                                                    <div className={` song-info ${audioId === playlistSong?.song?._id ? 'text-green' : ''}`}>{playlistSong?.song?.name}</div>
+                                                    <div className={`song-info ${audioId === playlistSong?.song?._id ? 'text-green' : ''}`}>{playlistSong?.song?.name}</div>
                                                     <div className="song-info">{playlistSong?.artist?.name} </div>
                                                 </div>
                                             </td>
-                                            <td>{playlistSong?.album?.name} </td>
-                                            <td>{playlistSong.createdAt} </td>
-                                            <td>{playlistSong?.song?.time}</td>
+                                            <td >
+                                                <div className="album-info"> {playlistSong?.album?.name} </div>
+                                            </td>
+                                            {!songContainer && <td>  {new Date(playlistSong.createdAt).toLocaleDateString('en-US', {
+                                                month: 'short', day: 'numeric', year: 'numeric'
+                                            })} </td>}
+                                            <td className="text-center">{playlistSong?.song?.time}</td>
                                         </tr>
                                     ))}
                             </tbody>

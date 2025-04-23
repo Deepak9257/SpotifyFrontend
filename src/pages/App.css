@@ -130,10 +130,8 @@
 }
 
 .smallPlayIcon2 {
-  height: 2.5em;
-  width: 2.5em;
-  /* border: 1px solid white; */
-  border-radius: 50%;
+  height: 100%;
+  width: 100%;
   transition: all 0.3s;
   display: flex;
   justify-content: center;
@@ -171,7 +169,14 @@
 }
 
 .bg-music {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #282828;
+  min-width: 170px;
+  min-height: 170px;
+  height: 200px;
+  width: 200px;
 }
 
 .music-icon {
@@ -183,9 +188,14 @@
 
 .artist-header {
   display: flex;
-  align-items: center;
   padding: 20px;
   background: linear-gradient(180deg, #1e3264, #121212);
+}
+
+.artist-header :nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 }
 
 .text {
@@ -231,7 +241,7 @@
 
 .playlist-header {
   display: flex;
-  align-items: center;
+  gap: 8px;
   padding: 20px;
   background: linear-gradient(180deg, #494949, #121212);
 }
@@ -280,8 +290,8 @@
   background-color: #1ed760;
   border: none;
   border-radius: 50%;
-  width: 56px;
-  height: 56px;
+  width: calc(2vw + 1rem);
+  height: calc(2vw + 1rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -325,18 +335,11 @@ td {
   text-align: left;
 }
 th {
-  font-size: 14px;
   color: #b3b3b3;
 }
-td {
-  font-size: 16px;
-}
+
 tbody tr:hover {
   background-color: #282828;
-}
-
-.track-number {
-  width: 30px;
 }
 
 .track-title {
@@ -344,8 +347,8 @@ tbody tr:hover {
   align-items: center;
 }
 .track-title img {
-  width: 40px;
-  height: 40px;
+  width: clamp(2rem, 2vw + 1rem, 5rem);
+  height: clamp(2rem, 2vw + 1rem, 5rem);
   margin-right: 10px;
 }
 .footer {
@@ -389,10 +392,17 @@ tbody tr:hover {
   color: #b3b3b3;
 }
 
+.track-number{
+  width: calc(2vw + 1.2rem);
+}
+.popover-target{
+  display: none;
+}
+
 .tr-border:hover {
-  .popover-div,
+  .popover-target,
   .addIcon {
-    display: block;
+    display: block !important;
   }
 
   .number {
@@ -440,18 +450,21 @@ tbody tr:hover {
 }
 
 .editIcon {
+  display: grid !important;
+  justify-content: center !important;
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0%;
   left: 0%;
   background-color: rgba(0, 0, 0, 0.526);
-  padding: 19%;
   border-radius: 3%;
-  display: none;
+  opacity: 0;
 }
 
 .bg-music:hover .editIcon {
-  display: block;
-  transition: ease-in-out;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
 }
 
 .pointer {
@@ -486,7 +499,6 @@ tbody tr:hover {
 .top-result:hover .top-play {
   opacity: 1;
   transform: translateY(0);
-
 }
 
 .song-div {

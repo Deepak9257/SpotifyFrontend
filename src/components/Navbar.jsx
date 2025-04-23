@@ -55,10 +55,12 @@ function Navbar({ user }) {
     return (
 
         <>
-            <div className="container-fluid">
+            <div className="container-fluid" 
+                style={{height:"10%"}}
+            >
 
-                <nav className="navbar row justify-content-between px-2">
-                    <div className="col-2 navbar-brand text-white ms-3">
+                <nav className="navbar row justify-content-between px-2 h-100">
+                    <div className="col navbar-brand text-white ms-3">
                         <Link to={"/"}>
 
                             <SpotifyIcon />
@@ -66,7 +68,7 @@ function Navbar({ user }) {
                         </Link>
                     </div>
 
-                    <div className="col-4 d-flex align-items-center gap-2 text-white ">
+                    <div className="col d-flex align-items-center gap-2 text-white ">
                     <Link className='home-icon p-2 d-flex align-items-center' to={"/"}>   <div>  {url === "/" ? <HomeIcon /> : <HomeIcon2 />} </div> </Link> 
                         <div className="d-flex bg-base search-bar rounded-pill align-items-center py-1 justify-content-between container-fluid" >
                             <div className='col-10 d-flex align-items-center'>
@@ -87,35 +89,43 @@ function Navbar({ user }) {
 
 
 
-                    {!user && <div className="text-end col-2">
+                    {!user && <div className="text-end col">
 
-                        <a href="/signup">
+                      <div className=''>
+                      <a href="/signup">
                             <button type="button" className="btn me-2 nav-signup-btn" >
-                                <span className='signup-text text-decoration-none fw-bold'>
+                                <span className='signup-text text-decoration-none fw-bold '>
                                     Sign-up
                                 </span>
                             </button>
                         </a>
 
                         <a href="/login" >
-                            <button ref={loginBtnRef} type="button" className="btn btn-light rounded-pill w-50 padding nav-login-btn" >
+                            <button ref={loginBtnRef} type="button" className="btn btn-light rounded-pill w-25  padding nav-login-btn" >
                                 <span className='text-decoration-none text-black fw-bold'>
                                     Login
                                 </span>
                             </button>
                         </a>
+                      </div>
                     </div>}
 
-                    {/* Logout section */}
+            
 
                     {user && <>
-                        <div className='col-3'>
+                        <div className='col'>
 
-                            <div className='row'>
-                                <div className='col-4'>
-                                    <a href="/pricing" >
-                                        <button type="button" className="btn btn-light rounded-pill" >
-                                            <span className='text-decoration-none text-nowrap text-black fw-bold'>
+                            <div className='row align-items-center justify-content-between flex-nowrap'>
+                                <div className='col ms-5'>
+                                    <a href="/pricing" className='text-decoration-none'>
+                                        <button type="button" className="btn btn-light rounded-pill w-100 "  style={{
+                                            height:"5vh",
+                                            display:"flex",
+                                            justifyContent:'center',
+                                            alignItems:'center',
+                                           
+                                        }}>
+                                            <span className=' text-nowrap text-black fw-bold'>
                                                 Explore Premium
                                             </span>
                                         </button>

@@ -127,16 +127,16 @@ const ArtistSearch = ({userId}) => {
                                {userId
                                     // display when logined
                                     ? <div
-                                        className={`play ${playId === song?.album?._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
+                                        className={`play ${playId === song?.artist?._id && isPlaying ? 'opacity-100 translate-0' : ''}`}
 
                                         onClick={() => {
                                             setCurrentPlaylist(uniqueArtist),
                                             setCurrentSong(song),
                                             setCurrentIndex(0);
-                                            setPlayId(song?.album?._id)
+                                            setPlayId(song?.artist?._id)
                                         }}
                                     >
-                                        {playId === song?.album?._id && isPlaying ?
+                                        {playId === song?.artist?._id && isPlaying ?
                                             <div
                                                 className="pointer  smallPlayIcon2"
                                                 onClick={handlePause}
@@ -145,7 +145,7 @@ const ArtistSearch = ({userId}) => {
                                             </div>
                                             :
                                             <div className="pointer smallPlayIcon2 "
-                                                onClick={() => handlePlay(song?.album?._id)}
+                                                onClick={() => handlePlay(song?.artist?._id)}
                                             >
                                                 <PlayIcon height={18} width={18} />
                                             </div>

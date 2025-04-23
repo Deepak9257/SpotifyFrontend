@@ -164,7 +164,7 @@ function RytBar({ user }) {
         <>
             <div className="text-white">
 
-                <ScrollBar customClassName={'rounded'} height={'78vh'}>
+                <ScrollBar customClassName={'rounded'} height={'80vh'}>
 
                     <div
 
@@ -175,7 +175,7 @@ function RytBar({ user }) {
                         <div className="d-flex align-items-center px-4 pt-2">
                             <div className="col text-white">
                                 <a
-                                    className="fw-bold fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+                                    className="fw-bold text-nowrap fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
                                     href="#"
                                 >
                                     Popular artists
@@ -199,7 +199,7 @@ function RytBar({ user }) {
                                 {artist &&
                                     artist.map((artist, index) => (
                                         <div
-                                            className="rounded col-2 div-size user-select-none px-2 p hvr-artist py-2 position-relative"
+                                            className="rounded div-size flex-grow-1 px-2 p hvr-artist py-2 position-relative"
                                             key={index}
 
 
@@ -209,7 +209,7 @@ function RytBar({ user }) {
                                                 className="text-decoration-none"
                                             >
                                                 <div className="pb-4 d-flex justify-content-center">
-                                                    <div>
+                                                    <div className="row-image">
                                                         <img
                                                             src={artist.image}
                                                             alt="artist image"
@@ -277,7 +277,7 @@ function RytBar({ user }) {
                         <div className="d-flex align-items-center px-4 mt-2">
                             <div className="col text-white">
                                 <a
-                                    className="fw-bold fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
+                                    className="fw-bold text-nowrap fs-2 link-offset-2 text-white link-offset-3-hover link-underline-light link-underline-opacity-0 link-underline-opacity-75-hover"
                                     href="#"
                                 >
                                     Popular albums
@@ -301,7 +301,7 @@ function RytBar({ user }) {
                                     album.map((item, index) => (
 
                                         <div
-                                            className="rounded hvr-artist div-size col-2 p py-2 px-2  position-relative"
+                                            className="rounded hvr-artist div-size flex-grow-1 p py-2 px-2  position-relative"
                                             key={index}
                                         >
                                             <Link
@@ -309,7 +309,7 @@ function RytBar({ user }) {
                                                 className="text-decoration-none"
                                             >
                                                 <div className="d-flex justify-content-center pb-4">
-                                                    <div>
+                                                    <div className="row-image">
                                                         <img
                                                             src={item.image}
                                                             alt="album image"
