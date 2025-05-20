@@ -174,13 +174,17 @@ function Leftbar({ user }) {
         className="d-flex w-100 rounded flex-column leftbar-container"
       
       >
-        <div className=" fw-bold w-100 text-grey p-3 d-flex justify-content-between align-items-center">
+        <div className=" fw-bold w-100 text-grey p-3 d-flex justify-content-between align-items-center text-nowrap overflow-hidden">
 
           <span className="d-flex gap-3 align-items-center">
 
-            <LibraryIcon /> Your library
+            <LibraryIcon /> 
+            
+            <span >Your library</span>
+
           </span>
-          <span>
+
+          <span >
 
             <PlusIcon />
 
@@ -248,18 +252,20 @@ function Leftbar({ user }) {
   return (
     <>
       <div
-        className="d-flex rounded flex-column leftbar-container w-100"
+        className="d-flex rounded flex-column w-100"
       >
         <div className="fw-bold text-grey  align-items-center ">
 
           <div className={`d-flex p-3 sticky-top library-div rounded-top justify-content-between ${isScrolled ? 'library-div-shadow' : ''} `}>
 
             <div className="d-flex gap-3 align-items-center">
-              <LibraryIcon /> Your library
+              <LibraryIcon /> <span className="display-none">
+              Your library
+              </span>
             </div>
 
-            <Popover.Root>
-              <Popover.Trigger className="border-0 btn plusIcon rounded-circle p-2 d-flex align-items-center">
+            <Popover.Root >
+              <Popover.Trigger className="border-0 btn plusIcon rounded-circle p-2 d-flex align-items-center display-none">
                 <PlusIcon />
               </Popover.Trigger>
 
@@ -331,7 +337,7 @@ function Leftbar({ user }) {
 
                         </div>
 
-                        <div className={`w-100 ${playId === item._id && isPlaying ? 'text-green' : 'text-white'}`}>
+                        <div className={`w-100 text-nowrap overflow-hidden ${playId === item._id && isPlaying ? 'text-green' : 'text-white'}`}>
 
                           {item.name}
 

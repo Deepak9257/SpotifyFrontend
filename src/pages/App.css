@@ -21,7 +21,15 @@
   background-color: #2a2a2a;
   padding: 2.3% !important;
   transition: 0.2s all;
+  height: calc(2vw + 0.5rem);
+  width: calc(2vw + 0.5rem);
+  min-width: 3rem;
+  min-height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .home-icon:hover {
   transform: scale(1.05);
@@ -30,11 +38,29 @@
 .search-bar {
   transition: 0.1s ease-in-out;
   cursor: pointer;
+  height: clamp(2em, 2vw + 1rem, 5em);
+  width: clamp(20rem, 30vw + 5rem, 70rem);
+  min-width: 300px;
+  min-height: 3rem;
+
 }
 
 .search-bar:hover {
   background: #2a2a2a;
 }
+
+.search-Icon svg, .file-icon svg{
+  height: calc(1vw + 0.5rem);
+  width: calc(1vw + 0.5rem);
+  min-height: calc(1vw + 1.4rem);
+  min-width: calc(1vw + 1.4rem);
+}
+
+.home-icon div svg{
+  height: calc(1vw + 0.5rem);
+  width: calc(1vw + 0.5rem);
+}
+
 
 .search-bar:hover .search-Icon svg {
   fill: white;

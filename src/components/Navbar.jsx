@@ -59,7 +59,7 @@ function Navbar({ user }) {
                 style={{height:"10%"}}
             >
 
-                <nav className="navbar row justify-content-between px-2 h-100">
+                <nav className="navbar  px-2 h-100">
                     <div className="col navbar-brand text-white ms-3">
                         <Link to={"/"}>
 
@@ -82,7 +82,7 @@ function Navbar({ user }) {
 
                             </div>
 
-                            <div className='col-1'> <FileIcon /> </div>
+                            <div className='col-1 file-icon'> <FileIcon /> </div>
                         </div>
 
                     </div>
@@ -116,7 +116,7 @@ function Navbar({ user }) {
                         <div className='col'>
 
                             <div className='row align-items-center justify-content-between flex-nowrap'>
-                                <div className='col ms-5'>
+                                <div className='col ms-5 premium-btn'>
                                     <a href="/pricing" className='text-decoration-none'>
                                         <button type="button" className="btn btn-light rounded-pill w-100 "  style={{
                                             height:"5vh",

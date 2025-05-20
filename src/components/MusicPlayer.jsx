@@ -913,7 +913,7 @@ const MyMusicPlayer = () => {
 
                                     <div onClick={previous} className={`${currentSong?._id ? 'pointer pressed ' : 'not-allowed'} d-flex`} > <PreviousBtn fill={"#b3b3b3"} /></div>
 
-                                    <div className={`${currentSong?._id ? 'pointer bg-white toggle-pressed' : 'not-allowed bg-grey'} rounded-circle d-flex p-3`} onClick={handlePlayPause} >
+                                    <div className={`${currentSong?._id ? 'pointer bg-white toggle-pressed' : 'not-allowed bg-grey'} rounded-circle d-flex p-3 `} onClick={handlePlayPause} >
 
                                         {isPlaying ? <PauseIcon height={"calc(0.5rem + 1vw)"} width={"calc(0.5rem + 1vw)"} fill={'black'} /> : <PlayIcon height={20} width={20} fill={'black'} />}
 

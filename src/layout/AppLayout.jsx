@@ -48,14 +48,14 @@ const AppLayout = () => {
             {/* center part of the screen */}
             <div className="d-flex mx-2 gap-2 justify-content-xxl-between flex-grow-1">
 
-                <div className="rounded col-3 h-100" 
+                <div className="rounded col-3 h-100 leftbar-container" 
                 
                 style={{ backgroundColor: "#121212"}}
                 >
                     <Leftbar user={user} />
                 </div>
 
-                <div className={`rounded ${songContainer && currentSong._id ? 'center-container' : 'flex-fill'}`}
+                <div className={`rounded flex-fill`}
                     style={{
                         minWidth: '0',
                         background: '#121212',
@@ -65,7 +65,7 @@ const AppLayout = () => {
                     <Outlet />
                 </div>
 
-                <div className={`rounded col-3 h-100  ${songContainer && currentSong._id ? 'd-block' : 'd-none'}`} 
+                <div className={`rounded col-3 h-100 song-bar  ${songContainer && currentSong._id ? 'd-block' : 'd-none'}`} 
                     style={{
                         background: '#121212',
                     }}
