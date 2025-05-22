@@ -46,7 +46,7 @@ const AppLayout = () => {
 
             <Navbar user={user} />
             {/* center part of the screen */}
-            <div className="d-flex mx-2 gap-2 justify-content-xxl-between flex-grow-1">
+            <div className="d-flex mx-2 center-div gap-2 justify-content-xxl-between flex-grow-1">
 
                 <div className="rounded col-3 h-100 leftbar-container" 
                 
@@ -55,7 +55,7 @@ const AppLayout = () => {
                     <Leftbar user={user} />
                 </div>
 
-                <div className={`rounded flex-fill`}
+                <div className={`outlet-div flex-fill rounded`}
                     style={{
                         minWidth: '0',
                         background: '#121212',
@@ -74,7 +74,8 @@ const AppLayout = () => {
                 </div>
             </div>
 
-            {user2 ? <MyMusicPlayer /> : <Bottom user={user} />}
+             {user2 ? <MyMusicPlayer /> : <Bottom user={user} />}
+         
 
         </>
     )

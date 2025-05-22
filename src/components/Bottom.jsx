@@ -4,7 +4,7 @@ function Bottom({user}) {
   return (
     <>
     {!user && 
-      <div className="container-fluid py-2">
+      <div className="container-fluid py-2 bottom-div ">
         <a href="/signup" className="text-decoration-none">
 
           <div className="text-white">

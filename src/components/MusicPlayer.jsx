@@ -835,7 +835,7 @@ const MyMusicPlayer = () => {
 
                 <div className="fullscreen-bg"></div>
 
-                <div className={`${fullMode ? 'fullmode-music-player' : ''}    px-2    w-100`}>
+                <div className={`${fullMode ? 'fullmode-music-player' : ''} px-2 w-100`}>
 
                     {/* song image */}
                     <div className="audio-info col d-flex align-items-center gap-2 user-select-none px-5">
@@ -845,7 +845,7 @@ const MyMusicPlayer = () => {
                             <div className="song-image">
                                 <img ref={songImageRef}
                                     src={currentSong.image}
-                                    height={150} width={150}
+                                    height={"30%"} width={"30%"}
                                     className="rounded fade-in-element" alt="song image"
                                     crossOrigin="anonymous"
                                 />
@@ -976,7 +976,7 @@ const MyMusicPlayer = () => {
             :
 
             // normal mode player
-            <div id="music-player" className={` ${fullMode ? 'fullmode pb-5' : 'bg-black'} d-flex align-items-center flex-column-reverse  text-white`}
+            <div id="music-player" className={` ${fullMode ? 'fullmode pb-5' : 'bg-black'} d-flex align-items-center flex-column-reverse text-white bottom-div`}
                 style={{ height: "15%", padding:"0.4em"}}
             >
 

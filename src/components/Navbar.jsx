@@ -55,7 +55,7 @@ function Navbar({ user }) {
     return (
 
         <>
-            <div className="container-fluid" 
+            <div className="container-fluid navbar-div" 
                 style={{height:"10%"}}
             >
 

@@ -162,7 +162,7 @@ function RytBar({ user }) {
 
     return (
         <>
-            <div className="text-white">
+            <div className="text-white h-100">
 
                 <ScrollBar customClassName={'rounded'} height={'80vh'}>
 
@@ -194,7 +194,7 @@ function RytBar({ user }) {
 
                         {/* artist section */}
 
-                        <div className="px-2">
+                        <div className="px-2 p-0">
                             <HorizontalScroller>
                                 {artist &&
                                     artist.map((artist, index) => (
@@ -294,7 +294,7 @@ function RytBar({ user }) {
                             </div>
                         </div>
 
-                        <div className="px-2 py-2">
+                        <div className="px-2 p-0 py-2">
                             <HorizontalScroller>
 
                                 {album &&
