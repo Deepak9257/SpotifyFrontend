@@ -1,4 +1,4 @@
-const SpotifyIcon = () => {
+const SpotifyIcon = ({height = "32"}) => {
   return (
     <>
       <svg
@@ -6,7 +6,7 @@ const SpotifyIcon = () => {
         viewBox="0 0 24 24"
         aria-label="Spotify"
         aria-hidden="false"
-        height="32"
+        height={height}
         data-encore-id="logoSpotify"
         className="Svg-sc-6c3c1v-0 dDJltW"
         fill="white"

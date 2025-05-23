@@ -349,7 +349,10 @@ const MyMusicPlayer = () => {
     useEffect(() => {
 
         const handleKeyDown = (e) => {
-            if (e.code === 'Space') {
+            const isInputActive = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
+
+            if (e.code === 'Space' && !isInputActive) {
+                e.preventDefault();
                 if (isPlaying) {
                     pause();
                 } else {
@@ -977,7 +980,7 @@ const MyMusicPlayer = () => {
 
             // normal mode player
             <div id="music-player" className={` ${fullMode ? 'fullmode pb-5' : 'bg-black'} d-flex align-items-center flex-column-reverse text-white bottom-div`}
-                style={{ height: "15%", padding:"0.4em"}}
+                style={{ height: "15%", padding: "0.4em" }}
             >
 
                 <div key={fullMode} className={`${fullMode ? 'mb-5' : ''} playerDiv d-flex align-items-center  px-2  w-100`}>

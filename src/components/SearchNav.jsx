@@ -14,8 +14,8 @@ const SearchNav = () => {
     return (
         <>
 
-
-           { query && <div className="d-flex column-gap-3 btn-div py-3 px-5 sticky-top" style={{ backgroundColor: "#121212" }}>
+        
+           {query && <div className="d-flex search-nav column-gap-3 btn-div py-3 px-5 sticky-top" style={{ backgroundColor: "#121212" }}>
                 <div>
                     <NavLink
                         to={`/search/${query}`}

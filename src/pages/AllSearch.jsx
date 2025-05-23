@@ -44,7 +44,7 @@ const AllSearch = ({ userId }) => {
         return () => clearTimeout(timer);
     }, [query]);
 
-
+    // get result of all songs
     const getResult = async () => {
 
         var res = await axios.get(`https://spotify-backend-blue.vercel.app/song/search/?search=` + query)
@@ -72,7 +72,7 @@ const AllSearch = ({ userId }) => {
 
     const uniqueData = getUniqueData(result, "artist")
 
-// funtion for loading screen
+    // funtion for loading screen
     if (loading) {
         return <div className="mx-1 p-5 justify-content-center  align-items-center  d-flex text-center gap-2 text-white p-3 rounded overflow-auto scroll" style={{ backgroundColor: "#121212", height: "78vh" }}>
             <div class="spinner-border text-success" role="status">
@@ -121,11 +121,192 @@ const AllSearch = ({ userId }) => {
     const query2 = q || ""
 
     console.log(playId, currentSong?.artist?._id)
+
+
     return (<>
 
+        {/* for small screen */}
 
-        <div className="px-4">
+          {/* artists */}
+        <div className="flex-fill  d-none mob-d-block">
 
+            {uniqueData && uniqueData.slice(0, 4).map((song, index) => (
+
+                <>
+                    <Link
+                        to={`/artist/${song.artist._id}`}
+                        className="text-decoration-none text-white"
+                    >
+
+                        <div key={index} className="search-song-div" >
+
+                            <div className="d-flex song-div rounded p-1 px-2 align-items-center ">
+
+
+                                <div className="d-flex col align-items-center">
+
+                                    <div className="d-flex align-items-center justify-content-center">
+
+                                        <img src={song?.artist?.image} alt="song Image" height={42} width={42} className="rounded-circle" />
+
+                                    </div>
+
+                                    <div className="px-2">
+                                        <span> {song?.artist?.name} </span> <br />
+                                        <span className="text-grey"> Artist </span>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                            </div>
+
+                        </div>
+
+                    </Link>
+                </>
+            ))}
+
+        </div>
+
+           {/* songs */}
+        <div className="flex-fill   d-none mob-d-block">
+
+            {result && result.slice(0, 4).map((song, index) => (
+
+                <>
+                    <div key={index} className="search-song-div" >
+
+                        <div className="d-flex song-div rounded p-1 px-2 align-items-center ">
+
+                            {/* song name/image  div */}
+                            <div className="d-flex col align-items-center">
+
+                                <div className="d-flex align-items-center justify-content-center">
+
+                                    <img src={song.image} alt="song Image" height={42} className="rounded" />
+
+                                    {userId
+
+                                        ? <span className="search-play-icon">
+
+                                            {audioId === song?._id && isPlaying ? (
+                                                <span onClick={handlePause}>
+
+                                                    <PauseIcon height={24} width={24} />
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    onClick={() => {
+                                                        handleSongChangeOrPlay(song, index);
+
+                                                    }}
+                                                >
+
+                                                    <SmallPlayIcon height={24} width={24} />
+                                                </span>
+                                            )}
+                                        </span>
+
+
+                                        : <span
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#logoutModal"
+
+                                            className="search-play-icon"
+                                            onClick={() => { setOneArtist(song) }}
+
+
+                                        >
+                                            <SmallPlayIcon />
+                                        </span>}
+                                </div>
+
+                                <div className="px-2">
+                                    <span className={`${audioId === song?._id ? "text-green" : ""}`}> {song.name} </span> <br />
+                                    <span className="text-grey"> {song.artist.name} </span>
+                                </div>
+                            </div>
+
+                          
+                            <div className="col-1 me-2" >
+                                
+                                <AddIcon />
+                            </div >
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </>
+            ))}
+
+        </div>
+
+      
+
+
+
+  {/* albums */}
+        <div className="flex-fill  d-none mob-d-block">
+
+            {uniqueData && uniqueData.slice(0, 4).map((song, index) => (
+
+                <>
+                    <Link
+                        to={`/album/${song?.album?._id}`}
+                        className="text-decoration-none text-white"
+                    >
+
+                        <div key={index} className="search-song-div" >
+
+                            <div className="d-flex song-div rounded p-1 px-2 align-items-center ">
+
+
+                                <div className="d-flex col align-items-center">
+
+                                    <div className="d-flex align-items-center justify-content-center">
+
+                                        <img src={song?.album?.image} alt="song Image" height={42} width={42} className="rounded" />
+
+                                    </div>
+
+                                    <div className="px-2">
+                                        <span> {song?.album?.name} </span> <br />
+                                        <span className="text-grey"> Album </span>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                            </div>
+
+                        </div>
+
+                    </Link>
+                </>
+            ))}
+
+        </div>
+
+     
+
+         
+
+
+        {/* for big screens */}
+        <div className="px-4 mob-d-none">
 
             <div className="d-flex fw-bold flex-wrap">
 
@@ -486,7 +667,6 @@ const AllSearch = ({ userId }) => {
 
 
         </div>
-
 
 
         {oneArtist && <div className="modal fade" id="logoutModal" tabIndex="-1" aria-labelledby="exampleModalLabel">

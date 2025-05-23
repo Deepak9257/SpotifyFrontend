@@ -9,6 +9,7 @@ import Bottom from "../components/Bottom";
 import MyMusicPlayer from "../components/MusicPlayer";
 import NowPlayingBar from "../components/NowPlayingBar";
 import songContext from "../contexts/SongContext";
+import MobNavbar from "../components/MobNavbar";
 
 const AppLayout = () => {
 
@@ -46,36 +47,43 @@ const AppLayout = () => {
 
             <Navbar user={user} />
             {/* center part of the screen */}
-            <div className="d-flex mx-2 center-div gap-2 justify-content-xxl-between flex-grow-1">
+            <div className="h-100">
 
-                <div className="rounded col-3 h-100 leftbar-container" 
-                
-                style={{ backgroundColor: "#121212"}}
-                >
-                    <Leftbar user={user} />
+
+                <div className="d-flex mx-2 center-div gap-2 justify-content-xxl-between flex-grow-1">
+
+                    <div className="rounded col-3 leftbar-container"
+
+                        style={{ backgroundColor: "#121212" }}
+                    >
+                        <Leftbar user={user} />
+                    </div>
+
+                    <div className={`outlet-div flex-fill rounded`}
+                        style={{
+                            minWidth: '0',
+                            background: '#121212',
+                            height: '100%',
+                        }}
+                    >
+                        <Outlet />
+                    </div>
+
+                    <div className={`rounded col-3 h-100 song-bar  ${songContainer && currentSong._id ? 'd-block' : 'd-none'}`}
+                        style={{
+                            background: '#121212',
+                        }}
+                    >
+                        <NowPlayingBar />
+                    </div>
+
+
                 </div>
 
-                <div className={`outlet-div flex-fill rounded`}
-                    style={{
-                        minWidth: '0',
-                        background: '#121212',
-                        height: '100%',
-                    }}
-                >
-                    <Outlet />
-                </div>
-
-                <div className={`rounded col-3 h-100 song-bar  ${songContainer && currentSong._id ? 'd-block' : 'd-none'}`} 
-                    style={{
-                        background: '#121212',
-                    }}
-                >
-                    <NowPlayingBar />
-                </div>
+                <MobNavbar />
             </div>
+            {user2 ? <MyMusicPlayer /> : <Bottom user={user} />}
 
-             {user2 ? <MyMusicPlayer /> : <Bottom user={user} />}
-         
 
         </>
     )

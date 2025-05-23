@@ -32,12 +32,10 @@ function Navbar({ user }) {
         }
     }
 
-    const url = location.pathname
-    // console.log("url:",url )
+    const url = location.pathname // logic to change home icon dynamicaly based on url
+
 
     const handleChange = (e) => {
-
-        
 
         const value = e.target.value?.trim() || ""
         // console.log("value:",`/search/${value}`)

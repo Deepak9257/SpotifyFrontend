@@ -247,8 +247,6 @@ function Leftbar({ user }) {
     );
   }
 
-
-
   return (
     <>
       <div

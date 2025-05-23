@@ -100,7 +100,53 @@ const AlbumSearch = ({ userId }) => {
 
     return (
         <>
-            <div className="px-4">
+
+         {/* artists for small screens*/}
+        <div className="flex-fill  d-none mob-d-block">
+
+            {uniqueAlbum && uniqueAlbum.slice(0, 4).map((song, index) => (
+
+                <>
+                    <Link
+                        to={`/album/${song.album._id}`}
+                        className="text-decoration-none text-white"
+                    >
+
+                        <div key={index} className="search-song-div" >
+
+                            <div className="d-flex song-div rounded p-1 px-2 align-items-center ">
+
+
+                                <div className="d-flex col align-items-center">
+
+                                    <div className="d-flex align-items-center justify-content-center">
+
+                                        <img src={song?.album?.image} alt="song Image" height={42} width={42} className="rounded" />
+
+                                    </div>
+
+                                    <div className="px-2">
+                                        <span> {song?.album?.name} </span> <br />
+                                        <span className="text-grey"> Artist </span>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                            </div>
+
+                        </div>
+
+                    </Link>
+                </>
+            ))}
+
+        </div>
+            <div className="px-4 mob-d-none">
 
 
                 <div className="d-flex flex-wrap">

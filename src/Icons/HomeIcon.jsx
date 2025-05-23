@@ -1,11 +1,11 @@
-const HomeIcon = () => {
+const HomeIcon = ({height="24"}) => {
   return (
     <>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         data-encore-id="icon"
         role="img"
-        width="24" height="24"
+        height={height}
         fill="#fff"
         aria-hidden="true"
         viewBox="0 0 24 24"
