@@ -432,9 +432,9 @@ const Album = ({ userId }) => {
             handlePlay(currSong?.album?._id);
         } else {
             setCurrentIndex(idx),
-                setCurrentSong(currSong),
-                setCurrentPlaylist(songs);
-            playId(album?._id);
+            setCurrentSong(currSong),
+            setCurrentPlaylist(songs);
+            setPlayId(album?._id);
 
         }
     }

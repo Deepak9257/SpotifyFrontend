@@ -31,7 +31,7 @@ const MyMusicPlayer = () => {
         setFullMode,
         isPlaying,
         setIsPlaying,
-        audioId,
+     
         setAudioId
 
     } = useContext(songContext);
@@ -411,7 +411,7 @@ const MyMusicPlayer = () => {
         };
     }, [currentSong])
 
-    // console.log(audioId)
+
 
 
     // Function to handle next song next logic//

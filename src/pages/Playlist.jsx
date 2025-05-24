@@ -102,11 +102,10 @@ const Playlist = () => {
     }
 
     // handle play function /
-    const handlePlay = () => {
-
-        if (playId === id) {
-            setIsPlaying(true);
-            // console.log('handleplay rendered')
+    const handlePlay = (id) => {
+       
+        if (currentSong?.artist?._id === id) {
+            setIsPlaying(true)
         }
     }
 
@@ -128,16 +127,24 @@ const Playlist = () => {
 
     }
 
-    // handle song change and play from song 
+    // handle song change and play by clicking on song 
 
     const handleSongChangeOrPlay = (currSong, idx) => {
+
         if (audioId === currSong?._id) {
-            handlePlay();
+
+            handlePlay(currSong?.artist?._id);
+
+            console.log('current song: play')
+
+            
         } else {
             setCurrentSong(currSong);
             setCurrentIndex(idx);
             setCurrentPlaylist(song.map(item => item.song));
             setPlayId(id);
+            console.log('current song:',  currSong)
+
         }
     }
 
@@ -155,8 +162,8 @@ const Playlist = () => {
                         <div className="playlist-header rounded-top-3">
                             <div className="bg-music position-relative rounded shadow text-center"
                                 style={{
-                                    height:`${songContainer ? '0' : ''}`,
-                                    width:`${songContainer ? '0' : ''}`,
+                                    height: `${songContainer ? '0' : ''}`,
+                                    width: `${songContainer ? '0' : ''}`,
                                 }}
 
                             >
@@ -198,12 +205,12 @@ const Playlist = () => {
                                     data-bs-toggle="modal"
                                     data-bs-target="#UpdatePlaylist"
                                     className="fw-bold pointer"
-                                    
+
 
                                 >
-                                  <FontResize >
+                                    <FontResize >
                                         {playlist.name}
-                                  </FontResize>
+                                    </FontResize>
 
                                 </div>
 
@@ -218,7 +225,8 @@ const Playlist = () => {
                         <div
                             className={`play-button`}
 
-                            onClick={() => { handleSongChange(), setPlayId(id); }}
+                            
+                           
                         >
                             {playId === id && isPlaying ?
                                 <div
@@ -229,7 +237,7 @@ const Playlist = () => {
                                 </div>
 
                                 : <div className="pointer smallPlayIcon2 h-100 w-100"
-                                    onClick={() => handlePlay(song[0]?.song?._id)}
+                                   onClick={() => handleSongChangeOrPlay(song[0].song, 0)}
                                 >
                                     <PlayIcon height={18} width={18} fill={"black"} />
 
@@ -260,8 +268,8 @@ const Playlist = () => {
                                 <tr>
                                     <th className="track-number">#</th>
                                     <th>Title</th>
-                                    <th style={{width:'40%'}}> Album</th>
-                                   {!songContainer && <th >Date added</th>}
+                                    <th style={{ width: '40%' }}> Album</th>
+                                    {!songContainer && <th >Date added</th>}
                                     <th className="text-center">
                                         <i className="far fa-clock" />
                                     </th>
@@ -283,39 +291,31 @@ const Playlist = () => {
                                             <td className="track-number">
 
                                                 <div className={`number ${audioId === playlistSong?.song?._id ? 'text-green' : ''}`}>{index + 1}</div>
+
+                                                <div className="popover-target">
+                                                    {audioId === playlistSong?.song?._id && isPlaying ?
+                                                        (
+                                                            <span onClick={handlePause}>
+
+                                                                <PauseIcon />
+
+                                                            </span>
+                                                        ) : (
+                                                            <span
+                                                                onClick={() => {
+                                                                    handleSongChangeOrPlay(playlistSong.song, index);
+                                                                }}
+                                                            >
+
+                                                                <SmallPlayIcon />
+                                                            </span>
+                                                        )}
+
+                                                </div>
+
                                             </td>
 
-                                            {audioId === playlistSong?.song?._id && isPlaying ?
 
-                                                <td
-                                                    className="popover-div"
-                                                    onClick={handlePause}
-                                                >
-                                                    <div className="smallplayIcon">
-
-                                                        <div className="popover-target">
-                                                            <PauseIcon />
-                                                        </div>
-
-                                                        <div className="popover px-3 shadow ">Play</div>
-                                                    </div>
-                                                </td>
-
-                                                : <td
-                                                    className="popover-div"
-                                                    onClick={() => { handleSongChangeOrPlay(playlistSong?.song, index) }}
-                                                >
-                                                    <div className="smallplayIcon">
-
-                                                        <div className="popover-target">
-                                                            <SmallPlayIcon />
-                                                        </div>
-
-                                                        <div className="popover px-3 shadow ">Play</div>
-                                                    </div>
-                                                </td>
-
-                                            }
 
                                             <td className="track-title">
                                                 <img
@@ -340,132 +340,136 @@ const Playlist = () => {
                             </tbody>
                         </table>
                     </div>
-                </ScrollBar>
-            </div>
+                </ScrollBar >
+            </div >
 
             {/* Delete Playlist Model */}
-            {playlist && (
-                <div
-                    className="modal fade"
-                    id="DeletePlaylist"
-                    tabIndex={-1}
-                    aria-hidden="true"
-                >
-                    <div className="modal-dialog modal-dialog-centered justify-content-center">
-                        <div className="modal-content w-75 px-3">
+            {
+                playlist && (
+                    <div
+                        className="modal fade"
+                        id="DeletePlaylist"
+                        tabIndex={-1}
+                        aria-hidden="true"
+                    >
+                        <div className="modal-dialog modal-dialog-centered justify-content-center">
+                            <div className="modal-content w-75 px-3">
 
 
-                            <span>
-                                <h1 className="modal-title fs-5 mt-4 fw-bold" id="ViewSongModal">
-                                    Delete from Your Library?
-                                </h1>
-                            </span>
+                                <span>
+                                    <h1 className="modal-title fs-5 mt-4 fw-bold" id="ViewSongModal">
+                                        Delete from Your Library?
+                                    </h1>
+                                </span>
 
-                            <div className="my-2 fs-small">
-                                This will delete
-                                <span className="fw-bold"> {playlist.name}</span> from
-                                <span className="fw-bold">  Your Library.</span>
+                                <div className="my-2 fs-small">
+                                    This will delete
+                                    <span className="fw-bold"> {playlist.name}</span> from
+                                    <span className="fw-bold">  Your Library.</span>
 
-                            </div>
+                                </div>
 
-                            <div className="modal-footer mb-2 border-0">
-                                <button
-                                    type="close"
-                                    className="btn rounded-pill"
-                                    data-bs-dismiss="modal"
+                                <div className="modal-footer mb-2 border-0">
+                                    <button
+                                        type="close"
+                                        className="btn rounded-pill"
+                                        data-bs-dismiss="modal"
 
-                                >
-                                    Cancel
-                                </button>
+                                    >
+                                        Cancel
+                                    </button>
 
-                                <button
-                                    type="submit"
-                                    className="btn btn-success rounded-pill"
-                                    data-bs-dismiss="modal"
-                                    onClick={() => handleDelete(playlist._id)}
-                                >
-                                    Delete
-                                </button>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-success rounded-pill"
+                                        data-bs-dismiss="modal"
+                                        onClick={() => handleDelete(playlist._id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
             {/* Edit Playlist Modal */}
 
-            {playlist && (
-                <div
-                    className="modal fade"
-                    id="UpdatePlaylist"
-                    tabIndex={-1}
-                    aria-labelledby="UpdatePlaylist"
-                    aria-hidden="true"
-                >
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h1 className="modal-title fs-5" id="UpdatePlaylist">
-                                    Edit Song
-                                </h1>
-                                <button
-                                    type="button"
-                                    className="btn-close bg-dark"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                />
+            {
+                playlist && (
+                    <div
+                        className="modal fade"
+                        id="UpdatePlaylist"
+                        tabIndex={-1}
+                        aria-labelledby="UpdatePlaylist"
+                        aria-hidden="true"
+                    >
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h1 className="modal-title fs-5" id="UpdatePlaylist">
+                                        Edit Song
+                                    </h1>
+                                    <button
+                                        type="button"
+                                        className="btn-close bg-dark"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    />
+                                </div>
+                                <form method="put" onSubmit={() => UpdateByID(playlist._id)}>
+                                    <div className="modal-body">
+                                        <div className="mb-3">
+                                            <label className="form-label">Name</label>
+                                            <input
+                                                type="text"
+                                                className="form-control border px-2"
+                                                onKeyUp={(e) => setName(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <label className="form-label">Image Url</label>
+                                            <input
+                                                type="text"
+                                                className="form-control border px-2"
+                                                placeholder="Enter Image Url"
+                                                onKeyUp={(e) => setImage(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <label className="form-label">Status</label>
+                                            <select
+                                                className="form-select px-3"
+                                                required
+                                                onChange={(e) => setStatus(e.target.value)}
+                                            >
+                                                <option value={""} readOnly defaultValue>
+                                                    {" "}
+                                                    Now: {playlist.isActive ? "Active" : "Inactive"}
+                                                </option>
+                                                <option value={true}>Active</option>
+                                                <option value={false}>Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button type="reset" className="btn btn-secondary">
+                                            Reset
+                                        </button>
+
+                                        <button type="submit" className="btn btn-info">
+                                            Done
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <form method="put" onSubmit={() => UpdateByID(playlist._id)}>
-                                <div className="modal-body">
-                                    <div className="mb-3">
-                                        <label className="form-label">Name</label>
-                                        <input
-                                            type="text"
-                                            className="form-control border px-2"
-                                            onKeyUp={(e) => setName(e.target.value)}
-                                        />
-                                    </div>
-
-                                    <div className="mb-3">
-                                        <label className="form-label">Image Url</label>
-                                        <input
-                                            type="text"
-                                            className="form-control border px-2"
-                                            placeholder="Enter Image Url"
-                                            onKeyUp={(e) => setImage(e.target.value)}
-                                        />
-                                    </div>
-
-                                    <div className="mb-3">
-                                        <label className="form-label">Status</label>
-                                        <select
-                                            className="form-select px-3"
-                                            required
-                                            onChange={(e) => setStatus(e.target.value)}
-                                        >
-                                            <option value={""} readOnly defaultValue>
-                                                {" "}
-                                                Now: {playlist.isActive ? "Active" : "Inactive"}
-                                            </option>
-                                            <option value={true}>Active</option>
-                                            <option value={false}>Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="reset" className="btn btn-secondary">
-                                        Reset
-                                    </button>
-
-                                    <button type="submit" className="btn btn-info">
-                                        Done
-                                    </button>
-                                </div>
-                            </form>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
         </>
     );
 }

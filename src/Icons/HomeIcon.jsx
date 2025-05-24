@@ -1,4 +1,4 @@
-const HomeIcon = ({height="24"}) => {
+const HomeIcon = ({height="24" , fill= "#fff"}) => {
   return (
     <>
       <svg
@@ -6,7 +6,7 @@ const HomeIcon = ({height="24"}) => {
         data-encore-id="icon"
         role="img"
         height={height}
-        fill="#fff"
+        fill={fill}
         aria-hidden="true"
         viewBox="0 0 24 24"
         className="Svg-sc-ytk21e-0 bneLcE"

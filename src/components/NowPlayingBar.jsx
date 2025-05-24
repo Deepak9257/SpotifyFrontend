@@ -8,7 +8,7 @@ const NowPlayingBar = () => {
     return <>
 
         <div 
-        style={{ backgroundColor: "#121212", height: "78vh" }}
+        style={{ backgroundColor: "#121212", height: "80vh" }}
         className={`rounded scroll`}
         
         >

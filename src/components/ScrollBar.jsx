@@ -121,7 +121,7 @@ const ScrollBar = ({ children, height, customClassName }) => {
     return <>
         <div className={`scrollbar-container  ${customClassName ? customClassName : ''}`}>
 
-            <div className="scrollbar-content scroll rounded" style={{ maxHeight: height }} ref={scrollableContentRef}>
+            <div className="scrollbar-content scroll rounded" style={{ height: height }} ref={scrollableContentRef}>
                 {children}
             </div>
 

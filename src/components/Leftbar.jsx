@@ -53,9 +53,8 @@ function Leftbar({ user }) {
 
 
   const [playlist, setPlaylist] = useState([]);
-  const [song, setSong] = useState([]);
 
-  console.log('playlist :', playlist)
+  // console.log('playlist :', playlist)
 
   useEffect(() => {
     var user = localStorage.getItem("token");
@@ -205,40 +204,7 @@ function Leftbar({ user }) {
           </div>
         </div>
 
-        <div>
-          <div className="text-white mt-5">
-            <div className="">
-
-              <a href="#" className="text-decoration-none text-white">
-
-                Legal
-              </a>
-              <a href="#" className="text-decoration-none text-white">
-
-                Safety & PrivacyCenter
-              </a>
-              <a href="#" className="text-decoration-none text-white">
-
-                Privacy Policy
-              </a>
-            </div>
-            <div className="">Cookies AboutAds Accessibility</div>
-
-            <div className="col-4">Cookies</div>
-          </div>
-
-          <div className="px-3 my-3 text-white">
-
-            <button
-              type="button"
-              className="btn rounded-5 border border-white text-white"
-            >
-
-              English
-            </button>
-          </div>
-
-        </div>
+       
 
 
 

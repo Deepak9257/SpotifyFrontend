@@ -138,10 +138,10 @@ function RytBar({ user }) {
             <>
 
 
-                <div className="w-100 text-white container-flutimeoutId">
+                <div className="w-100 h-100">
                     <div
                         className="text-white rounded overflow-auto scroll"
-                        style={{ backgroundColor: "#141414", height: "78vh" }}
+                        style={{ backgroundColor: "#141414", height: "100%" }}
                     >
 
                         <div className="text-center text-success loading-hyt d-flex align-items-center justify-content-center">
@@ -156,8 +156,6 @@ function RytBar({ user }) {
 
 
     }
-
-
 
 
     return (

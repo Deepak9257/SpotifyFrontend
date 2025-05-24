@@ -113,7 +113,7 @@ const AllSearch = ({ userId }) => {
             setCurrentIndex(idx),
                 setCurrentSong(currSong),
                 setCurrentPlaylist(result);
-            setPlayId(Artist?._id)
+            setPlayId(currSong?.artist?._id)
         }
     }
 
@@ -127,7 +127,7 @@ const AllSearch = ({ userId }) => {
 
         {/* for small screen */}
 
-          {/* artists */}
+        {/* artists */}
         <div className="flex-fill  d-none mob-d-block">
 
             {uniqueData && uniqueData.slice(0, 4).map((song, index) => (
@@ -173,13 +173,31 @@ const AllSearch = ({ userId }) => {
 
         </div>
 
-           {/* songs */}
+        {/* songs */}
         <div className="flex-fill   d-none mob-d-block">
 
             {result && result.slice(0, 4).map((song, index) => (
 
                 <>
-                    <div key={index} className="search-song-div" >
+                    <div key={index} className="mob-song-div"
+
+                        onClick={() => {
+                            if (userId) {
+                                handleSongChangeOrPlay(song, index);
+                            } else {
+
+                                setOneArtist(song);
+
+                                // Trigger Bootstrap modal manually
+                                const modalElement = document.getElementById('logoutModal');
+                                if (modalElement) {
+                                    const modal = new bootstrap.Modal(modalElement);
+                                    modal.show();
+                                }
+                            }
+                        }}
+
+                    >
 
                         <div className="d-flex song-div rounded p-1 px-2 align-items-center ">
 
@@ -190,51 +208,17 @@ const AllSearch = ({ userId }) => {
 
                                     <img src={song.image} alt="song Image" height={42} className="rounded" />
 
-                                    {userId
-
-                                        ? <span className="search-play-icon">
-
-                                            {audioId === song?._id && isPlaying ? (
-                                                <span onClick={handlePause}>
-
-                                                    <PauseIcon height={24} width={24} />
-                                                </span>
-                                            ) : (
-                                                <span
-                                                    onClick={() => {
-                                                        handleSongChangeOrPlay(song, index);
-
-                                                    }}
-                                                >
-
-                                                    <SmallPlayIcon height={24} width={24} />
-                                                </span>
-                                            )}
-                                        </span>
-
-
-                                        : <span
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#logoutModal"
-
-                                            className="search-play-icon"
-                                            onClick={() => { setOneArtist(song) }}
-
-
-                                        >
-                                            <SmallPlayIcon />
-                                        </span>}
                                 </div>
 
                                 <div className="px-2">
                                     <span className={`${audioId === song?._id ? "text-green" : ""}`}> {song.name} </span> <br />
-                                    <span className="text-grey"> {song.artist.name} </span>
+                                    <span className="text-grey"> Song &bull; {song.artist.name}  </span>
                                 </div>
                             </div>
 
-                          
+
                             <div className="col-1 me-2" >
-                                
+
                                 <AddIcon />
                             </div >
 
@@ -250,11 +234,7 @@ const AllSearch = ({ userId }) => {
 
         </div>
 
-      
-
-
-
-  {/* albums */}
+        {/* albums */}
         <div className="flex-fill  d-none mob-d-block">
 
             {uniqueData && uniqueData.slice(0, 4).map((song, index) => (
@@ -300,9 +280,9 @@ const AllSearch = ({ userId }) => {
 
         </div>
 
-     
 
-         
+
+
 
 
         {/* for big screens */}

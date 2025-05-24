@@ -108,14 +108,33 @@ const SongSearch = ({ userId }) => {
         <>
 
      {/* songs  for mobile screens*/}
-        <div className="flex-fill   d-none mob-d-block">
+        <div className="flex-fill  d-none mob-d-block">
 
             {result && result.slice(0, 4).map((song, index) => (
 
                 <>
-                    <div key={index} className="search-song-div" >
+                    <div key={index} className="mob-song-div" >
 
-                        <div className="d-flex song-div rounded p-1 px-2 align-items-center ">
+                        <div className="d-flex song-div rounded p-1 px-2 align-items-center"
+
+                             onClick={() => {
+                            if (userId) {
+                                handleSongChangeOrPlay(song, index);
+                            } else {
+                                
+                                setOneArtist(song);
+
+                                // Trigger Bootstrap modal manually
+                                const modalElement = document.getElementById('logoutModal');
+                                if (modalElement) {
+                                    const modal = new bootstrap.Modal(modalElement);
+                                    modal.show();
+                                }
+                            }
+                        }}
+                        
+                        
+                        >
 
                             {/* song name/image  div */}
                             <div className="d-flex col align-items-center">
@@ -124,40 +143,6 @@ const SongSearch = ({ userId }) => {
 
                                     <img src={song.image} alt="song Image" height={42} className="rounded" />
 
-                                    {userId
-
-                                        ? <span className="search-play-icon">
-
-                                            {audioId === song?._id && isPlaying ? (
-                                                <span onClick={handlePause}>
-
-                                                    <PauseIcon height={24} width={24} />
-                                                </span>
-                                            ) : (
-                                                <span
-                                                    onClick={() => {
-                                                        handleSongChangeOrPlay(song, index);
-
-                                                    }}
-                                                >
-
-                                                    <SmallPlayIcon height={24} width={24} />
-                                                </span>
-                                            )}
-                                        </span>
-
-
-                                        : <span
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#logoutModal"
-
-                                            className="search-play-icon"
-                                            onClick={() => { setOneArtist(song) }}
-
-
-                                        >
-                                            <SmallPlayIcon />
-                                        </span>}
                                 </div>
 
                                 <div className="px-2">

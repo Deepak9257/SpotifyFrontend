@@ -432,8 +432,8 @@ const Artist = ({ userId }) => {
             handlePlay(currSong?.artist?._id);
         } else {
             setCurrentIndex(idx),
-            setCurrentSong(currSong),
-            setCurrentPlaylist(songs);
+                setCurrentSong(currSong),
+                setCurrentPlaylist(songs);
             setPlayId(Artist?._id)
         }
     }
@@ -464,31 +464,31 @@ const Artist = ({ userId }) => {
                             style={{ backgroundColor: "#121212" }}
                         >
                             <div className="artist-header rounded-top-3">
-                              <div>
-                              <img
-                                    src={Artist.image}
-                                    alt="artist pic"
-                                    className="object-fit-cover rounded-circle"
-                                    style={{
-                                        width:`${songContainer ? '200px' : ''}`,
-                                        height:`${songContainer ? '200px' : ''}`
-                                    }}
-                                />
-                              </div>
+                                <div>
+                                    <img
+                                        src={Artist.image}
+                                        alt="artist pic"
+                                        className="object-fit-cover rounded-circle"
+                                        style={{
+                                            width: `${songContainer ? '200px' : ''}`,
+                                            height: `${songContainer ? '200px' : ''}`
+                                        }}
+                                    />
+                                </div>
 
                                 <div className=" w-100">
                                     <div>
-                                        
+
                                         <VerifiedIcon /> Verified Artist
                                     </div>
-                                    <span className="fw-bold text " 
-                                                                        
+                                    <span className="fw-bold text "
+
                                     >
-                                       <FontResize>
-                                       {Artist.name}
-                                       </FontResize>
-                                        
-                                        </span> 
+                                        <FontResize>
+                                            {Artist.name}
+                                        </FontResize>
+
+                                    </span>
                                     <span>42,405,290 monthly listeners</span>
                                 </div>
                             </div>
@@ -573,14 +573,15 @@ const Artist = ({ userId }) => {
                                                         }`}
                                                 >
                                                     <td className="track-number ">
+
                                                         <div className={`number ${audioId === song?._id ? "text-green" : ""}`}>
                                                             {index + 1}
-                                                            </div>
-                                                    </td>
+                                                        </div>
 
-                                                    <td className="popover-div">
+
+
                                                         {userId ? (
-                                                            <div className="smallplayIcon popover-container">
+                                                            
                                                                 <div className="popover-target">
                                                                     {audioId === song?._id && isPlaying ? (
                                                                         <span onClick={handlePause}>
@@ -598,7 +599,7 @@ const Artist = ({ userId }) => {
                                                                         </span>
                                                                     )}
                                                                 </div>
-                                                            </div>
+                                                           
                                                         ) : (
                                                             <div
                                                                 data-bs-toggle="modal"
@@ -615,7 +616,8 @@ const Artist = ({ userId }) => {
                                                                 </div>
                                                             </div>
                                                         )}
-                                                    </td>
+
+                                                    </td>   
 
                                                     <td className="track-title">
                                                         <img src={song.image} alt="Album cover" />

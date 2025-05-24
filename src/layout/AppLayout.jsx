@@ -69,7 +69,7 @@ const AppLayout = () => {
                         <Outlet />
                     </div>
 
-                    <div className={`rounded col-3 h-100 song-bar  ${songContainer && currentSong._id ? 'd-block' : 'd-none'}`}
+                    <div className={`rounded col-3 h-100 song-bar mob-d-none  ${songContainer && currentSong._id ? 'd-block' : 'd-none'}`}
                         style={{
                             background: '#121212',
                         }}

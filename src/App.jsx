@@ -24,6 +24,7 @@ import Browse from "./pages/Browse"
 import LoginBtnContext from "./contexts/RefContext";
 import axios from "axios"
 import AllSearch from "./pages/AllSearch"
+import Library from "./pages/Library"
 
 
 
@@ -112,6 +113,7 @@ function App() {
             <Route path="/album/:id" element={<Album userId={userId} />} />
             <Route path="/playlist/:id" element={<Playlist />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/library" element={<Library />} />
             
             <Route element={<SearchLayout />} >
 
