@@ -100,7 +100,7 @@ const SongSearch = ({ userId }) => {
             setCurrentIndex(idx),
                 setCurrentSong(currSong),
                 setCurrentPlaylist(result);
-            setPlayId(Artist?._id)
+            setPlayId(currSong?.artist?._id)
         }
     }
 
@@ -110,7 +110,7 @@ const SongSearch = ({ userId }) => {
      {/* songs  for mobile screens*/}
         <div className="flex-fill  d-none mob-d-block">
 
-            {result && result.slice(0, 4).map((song, index) => (
+            {result && result.map((song, index) => (
 
                 <>
                     <div key={index} className="mob-song-div" >

@@ -432,8 +432,8 @@ const Album = ({ userId }) => {
             handlePlay(currSong?.album?._id);
         } else {
             setCurrentIndex(idx),
-            setCurrentSong(currSong),
-            setCurrentPlaylist(songs);
+                setCurrentSong(currSong),
+                setCurrentPlaylist(songs);
             setPlayId(album?._id);
 
         }
@@ -470,7 +470,7 @@ const Album = ({ userId }) => {
                             id="rytBar"
                             className=" gap-2 text-white rounded" style={{ backgroundColor: "#121212" }}>
 
-                            <div className="artist-header rounded-top-3">
+                            <div className="artist-header ">
 
                                 <div className="">
                                     <img src={album.image} alt="album pic" className="object-fit-cover rounded"
@@ -482,9 +482,9 @@ const Album = ({ userId }) => {
                                     />
                                 </div>
 
-                                <div className="border w-100">
+                                <div className="album-text w-100">
                                     <div> Album </div>
-                                    <div className="fw-bold border fs-large"
+                                    <div className="fw-bold fs-large"
                                     >
 
                                         <FontResize>
@@ -499,7 +499,18 @@ const Album = ({ userId }) => {
                                 </div>
                             </div>
 
-                            <div className="controls ">
+                           
+
+                            <div className="controls">
+                                
+                                 <div className="mob-text">
+                                {album.name}
+                                <div className="fs-small d-flex gap-2 align-items-center">
+                                    <img src={album?.artist?.image} alt="artist-image" className="rounded-circle" width={25} height={25}/>
+                                    {album?.artist?.name}
+                                </div>
+
+                            </div>
 
                                 {userId
 
@@ -513,13 +524,13 @@ const Album = ({ userId }) => {
                                                 className="pointer smallPlayIcon2 "
                                                 onClick={handlePause}
                                             >
-                                                <PauseIcon height={"calc(0.9vw + 0.3rem)"} width={"calc(0.9vw + 0.3rem)"} fill={"black"} />
+                                                <PauseIcon height={18} width={18} fill={"black"} />
                                             </div>
 
                                             : <div className="pointer smallPlayIcon2 "
                                                 onClick={() => handlePlay(album._id)}
                                             >
-                                                <PlayIcon height={"calc(0.9vw + 0.3rem)"} width={"calc(0.9vw + 0.3rem)"} fill={"black"} />
+                                                <PlayIcon height={18} width={18} fill={"black"} />
                                             </div>
 
                                         }
@@ -539,12 +550,11 @@ const Album = ({ userId }) => {
 
 
 
-                                <div> <i className="fas fa-ellipsis-h py-2"></i> </div>
 
                             </div>
 
 
-                            <div className="table-container">
+                            <div className="table-container border mob-d-none">
                                 <div> <span className="fs-2 fw-bold">Popular</span> </div>
                                 <table>
                                     <thead>
@@ -887,6 +897,68 @@ const Album = ({ userId }) => {
                                     </tbody>
 
                                 </table>
+                            </div>
+
+                            {/* songs  for mobile screens*/}
+                            <div className="flex-fill  d-none mob-d-block">
+
+                                {songs && songs.map((song, index) => (
+
+                                    <>
+                                        <div key={index} className="mob-song-div" >
+
+                                            <div className="d-flex song-div rounded p-1 px-2 align-items-center"
+
+                                                onClick={() => {
+                                                    if (userId) {
+                                                        handleSongChangeOrPlay(song, index);
+                                                    } else {
+
+                                                        setOneArtist(song);
+
+                                                        // Trigger Bootstrap modal manually
+                                                        const modalElement = document.getElementById('logoutModal');
+                                                        if (modalElement) {
+                                                            const modal = new bootstrap.Modal(modalElement);
+                                                            modal.show();
+                                                        }
+                                                    }
+                                                }}
+
+
+                                            >
+
+                                                {/* song name/image  div */}
+                                                <div className="d-flex col align-items-center">
+
+                                                    <div className="d-flex align-items-center justify-content-center">
+
+                                                        <img src={song.image} alt="song Image" height={42} className="rounded" />
+
+                                                    </div>
+
+                                                    <div className="px-2">
+                                                        <span className={`${audioId === song?._id ? "text-green" : ""}`}> {song.name} </span> <br />
+                                                        <span className="text-grey"> {song.artist.name} </span>
+                                                    </div>
+                                                </div>
+
+
+                                                <div className="col-1 me-2" >
+
+                                                    <AddIcon />
+                                                </div >
+
+
+
+
+                                            </div>
+
+                                        </div>
+
+                                    </>
+                                ))}
+
                             </div>
 
 

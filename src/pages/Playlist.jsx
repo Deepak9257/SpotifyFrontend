@@ -9,6 +9,7 @@ import PauseIcon from "../Icons/PauseIcon";
 import PlayIcon from "../Icons/PlayIcon";
 import ScrollBar from "../components/ScrollBar";
 import FontResize from "../components/FontResize";
+import AddIcon from "../Icons/AddIcon";
 
 
 
@@ -25,10 +26,11 @@ const Playlist = () => {
         setPlayId,
         audioId,
     } = useContext(songContext);
-    const { currentPlaylist, setCurrentPlaylist } = useContext(playlistContext);
+    const { setCurrentPlaylist } = useContext(playlistContext);
 
 
     const { id } = useParams();
+
     const navigate = useNavigate();
     const [playlist, setPlaylist] = useState([]);
     const [song, setSong] = useState([])
@@ -103,49 +105,50 @@ const Playlist = () => {
 
     // handle play function /
     const handlePlay = (id) => {
-       
+
         if (currentSong?.artist?._id === id) {
             setIsPlaying(true)
         }
     }
 
-    // handle song change //
-    const handleSongChange = () => {
+    
+    // function to play, pause and change song to 0th index 
+
+        const handleSongChange = () => {
 
         if (playId === id) {
-            // console.log('return null')
-            return null;
+            handlePlay();
         } else {
-
             setCurrentPlaylist(song.map(item => item.song));
             setCurrentSong(song[0].song);
             setCurrentIndex(0);
-
-
-
+            setPlayId(id);
         }
-
     }
+  
 
     // handle song change and play by clicking on song 
 
     const handleSongChangeOrPlay = (currSong, idx) => {
 
+        
+
         if (audioId === currSong?._id) {
 
             handlePlay(currSong?.artist?._id);
+           
 
-            console.log('current song: play')
-
-            
         } else {
             setCurrentSong(currSong);
             setCurrentIndex(idx);
             setCurrentPlaylist(song.map(item => item.song));
             setPlayId(id);
-            console.log('current song:',  currSong)
 
+    
+          
         }
+           
+
     }
 
     // console.log('song ID  :', song[0])
@@ -159,7 +162,7 @@ const Playlist = () => {
             >
                 <ScrollBar customClassName={'rounded'} height={'80vh'}>
                     {playlist && (
-                        <div className="playlist-header rounded-top-3">
+                        <div className="playlist-header">
                             <div className="bg-music position-relative rounded shadow text-center"
                                 style={{
                                     height: `${songContainer ? '0' : ''}`,
@@ -197,7 +200,7 @@ const Playlist = () => {
                             <div className="details col">
                                 <div className="stats d-flex align-items-center gap-2">
                                     <i className="fab fa-spotify" />
-                                    <span>Total songs</span>
+
                                 </div>
                                 <div>Dee</div>
 
@@ -221,12 +224,32 @@ const Playlist = () => {
                         </div>
                     )}
 
+                    <div className="mob-text">
+                        {playlist.name}
+                    </div>
+
                     <div className="controls">
+
+
+
+                        <div className="mob-del">
+
+                            {playlist && (
+                                <button
+                                    className="btn btn-danger rounded-pill"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#DeletePlaylist"
+                                >
+                                    delete
+                                </button>
+                            )}
+                        </div>
+
                         <div
                             className={`play-button`}
 
-                            
-                           
+
+
                         >
                             {playId === id && isPlaying ?
                                 <div
@@ -237,7 +260,7 @@ const Playlist = () => {
                                 </div>
 
                                 : <div className="pointer smallPlayIcon2 h-100 w-100"
-                                   onClick={() => handleSongChangeOrPlay(song[0].song, 0)}
+                                    onClick={() => handleSongChange()}
                                 >
                                     <PlayIcon height={18} width={18} fill={"black"} />
 
@@ -262,7 +285,8 @@ const Playlist = () => {
                             )}
                         </div>
                     </div>
-                    <div className="table-container">
+
+                    <div className="table-container mob-d-none">
                         <table>
                             <thead>
                                 <tr>
@@ -339,6 +363,58 @@ const Playlist = () => {
                                     ))}
                             </tbody>
                         </table>
+                    </div>
+
+                    {/* songs  for mobile screens*/}
+                    <div className="flex-fill  d-none mob-d-block">
+
+                        {song && song.map((song, index) => (
+
+                            <>
+                                <div key={index} className="mob-song-div" >
+
+                                    <div className="d-flex song-div rounded p-1 px-2 align-items-center"
+
+                                        onClick={() => { handleSongChangeOrPlay(song.song, index); }}
+
+
+                                    >
+
+                                        {/* song name/image  div */}
+                                        <div className="d-flex col align-items-center">
+
+                                            <div className="d-flex align-items-center justify-content-center">
+
+                                                <img src={song?.song?.image} alt="song Image" height={42} className="rounded" />
+
+                                            </div>
+
+                                            <div className="px-2">
+                                                <span className={`${audioId === song?.song?._id ? "text-green" : ""}`}> {song?.song?.name} </span> <br />
+                                                <span className="text-grey"> {song?.artist?.name} </span>
+                                            </div>
+                                        </div>
+
+
+                                        <div className="col-1 me-2" >
+
+                                            <AddIcon />
+                                        </div >
+
+
+
+
+                                    </div>
+
+                                </div>
+
+                               
+
+                            </>
+                        ))}
+
+                         <div className="last-div"></div>
+
                     </div>
                 </ScrollBar >
             </div >

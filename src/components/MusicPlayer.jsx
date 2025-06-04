@@ -394,7 +394,7 @@ const MyMusicPlayer = () => {
 
     }, [isPlaying]);
 
-    // change isPlaying state on currentSong changes
+    // changing isPlaying state when currentSong changes
     useEffect(() => {
         if (currentSong._id) {
 
@@ -405,7 +405,10 @@ const MyMusicPlayer = () => {
             }
 
             setIsPlaying(true);
-            setAudioId(currentSong._id);
+            setAudioId(currentSong?._id);
+
+           
+
 
 
         };
