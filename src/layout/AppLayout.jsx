@@ -50,6 +50,7 @@ const AppLayout = () => {
             <div className="h-100">
 
 
+
                 <div className="d-flex mx-2 center-div gap-2 justify-content-xxl-between flex-grow-1">
 
                     <div className="rounded col-3 leftbar-container"
@@ -59,13 +60,18 @@ const AppLayout = () => {
                         <Leftbar user={user} />
                     </div>
 
+
+
                     <div className={`outlet-div flex-fill rounded`}
                         style={{
                             minWidth: '0',
                             background: '#121212',
                             height: '100%',
+                         
                         }}
                     >
+
+                     
                         <Outlet />
                     </div>
 
@@ -80,7 +86,7 @@ const AppLayout = () => {
 
                 </div>
 
-                <MobNavbar />
+                {user2 && <MobNavbar />}
             </div>
             {user2 ? <MyMusicPlayer /> : <Bottom user={user} />}
 

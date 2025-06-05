@@ -872,13 +872,17 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .mob-artist,
-.mob-artist-name {
+.mob-artist-name, .mob-login-page {
   display: none;
 }
 
   .play-button {
     min-width: 48px;
     min-height: 48px;
+  }
+
+    .mob-login button{
+    min-width: 272px;
   }
 
 /* media queries styling   */
@@ -957,6 +961,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 }
 
+.mob-user{
+  display: none;
+}
+
 
 
 @media (min-width: 576px) {
@@ -968,6 +976,7 @@ input[type="range"]::-webkit-slider-thumb {
 
   .leftbar-container{
     min-width: 25% !important;
+    min-height: 80vh;
     max-height: 80vh;
     overflow-y: auto;
   }
@@ -989,7 +998,9 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 0% !important;
     height: 100%;
   }
-
+.mob-user{
+  display: block;
+}
   .outlet-div,
   .scrollbar-container,
   .scrollbar-content {
@@ -1043,6 +1054,8 @@ input[type="range"]::-webkit-slider-thumb {
   .browse-page {
     display: none;
   }
+
+  
 
   .mob-search-page {
     display: block;
@@ -1111,9 +1124,12 @@ input[type="range"]::-webkit-slider-thumb {
     min-width: 343px;
   }
 
-  .mob-login button{
-    min-width: 272px;
+  .mob-login-page{
+    display: grid;
+    place-content: center;
   }
+
+
 }
 
 @media (max-width: 1120px) {

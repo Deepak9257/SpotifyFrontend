@@ -8,11 +8,14 @@ import PauseIcon from "../Icons/PauseIcon";
 import SmallPlayIcon from "../Icons/SmallPlayIcon";
 import ScrollBar from "./ScrollBar";
 import HorizontalScroller from "./HorizontallScroller";
+import { useNavigate } from "react-router-dom";
+import SpotifyIcon from "../Icons/SpotifyIcon";
 
 function RytBar({ user }) {
 
 
     const userId = user?._id ? user : null
+    const navigate = useNavigate();
 
     const [artist, setArtist] = useState([]);
     const [album, setAlbum] = useState([]);
@@ -132,6 +135,19 @@ function RytBar({ user }) {
             setAlbumId(id);
         }
     }
+
+    const handleLogout = () => {
+
+        const confirm = window.confirm("Are you sure?");
+        if (confirm) {
+            localStorage.removeItem("token");
+            navigate("/");
+            window.location.reload();
+
+        }
+    }
+
+
     // loading funciton //
     if (loading) {
         return (
@@ -160,7 +176,77 @@ function RytBar({ user }) {
 
     return (
         <>
-            <div className="text-white h-100">
+
+            <div className="text-white w-100 h-100 text-center mob-login-page">
+                <div className="px-3">
+
+
+                    <SpotifyIcon height="3rem" />
+
+                    <h1>
+                        Millions of songs.
+                        Free on Spotify.
+                    </h1>
+
+
+                </div>
+
+                <div className="p-1 w-75 mx-auto">
+
+                    <Link to={"/signup"} className="text-decoration-none">
+                        <button className="btn login-btn text-black w-100 p-2 rounded-pill fw-bold" style={{ background: "#1ed760" }}>
+                            Sign up free
+                        </button>
+                    </Link>
+
+                    <Link to={"/login"} className="text-decoration-none">
+
+                        <button className="btn b hvr text-white w-100 rounded-pill fw-bold my-2 d-flex justify-content-evenly align-items-center">
+                            Login
+                        </button>
+
+                    </Link>
+
+                </div>
+
+            </div>
+
+            <div className="text-white h-100 mob-d-none">
+
+                {userId && <div className='sticky-top mob-user px-3 py-1' style={{ background: "#141414" }}>
+                    <div className="col d-flex nav-item dropdown text-white  gap-2 align-items-center">
+
+                        <a
+                            className="nav-link "
+                            href="#"
+                            id="navbarDropdown"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+
+                            <div className="p-1 rounded-circle" style={{ background: "#787878" }}>
+                                <div className="p-2 rounded-circle fw-bold fs-3 d-flex justify-content-center align-items-center" style={{
+                                    height: "2.2rem",
+                                    width: "2.2rem",
+                                    background: "#f573a0"
+                                }}>
+                                    {user.name[0].toUpperCase()}
+
+                                </div>
+                            </div>
+
+                        </a>
+
+                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a className="dropdown-item" href="#" onClick={handleLogout}>
+                                    <i className="fas fa-sign-out-alt fa-fw" /> Log Out
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>}
 
                 <ScrollBar customClassName={'rounded'} height={'80vh'}>
 
