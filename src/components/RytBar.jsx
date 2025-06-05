@@ -147,6 +147,24 @@ function RytBar({ user }) {
         }
     }
 
+const [screenWidth, setScreenWidth] = useState(screen.width);
+
+useEffect(()=>{
+    const handleResize = ()=>{
+        setScreenWidth(screen.width)
+    }
+
+    window.addEventListener("resize", handleResize)
+
+    handleResize();
+
+    return ()=>{
+        window.removeEventListener("resize", handleResize)
+    }
+},[])
+
+console.log(screenWidth)
+
 
     // loading funciton //
     if (loading) {
@@ -177,7 +195,7 @@ function RytBar({ user }) {
     return (
         <>
 
-            <div className="text-white w-100 h-100 text-center mob-login-page">
+            {!userId && <div className="text-white w-100 h-100 text-center mob-login-page">
                 <div className="px-3">
 
 
@@ -209,9 +227,9 @@ function RytBar({ user }) {
 
                 </div>
 
-            </div>
+            </div>}
 
-            <div className="text-white h-100 mob-d-none">
+            <div className={`text-white h-100 ${!userId && screenWidth <= 768 ? "mob-d-none" : ""}`}>
 
                 {userId && <div className='sticky-top mob-user px-3 py-1' style={{ background: "#141414" }}>
                     <div className="col d-flex nav-item dropdown text-white  gap-2 align-items-center">
