@@ -73,7 +73,9 @@ function SingnUp() {
 
   return <>
     <div className="text-center d-flex justify-content-center container-fluid p-5">
-      <div className=" px-4 w-25">
+      <div className=" px-4 w-25" style={{
+        minWidth:"335px"
+      }}>
 
         <header className="text-white mb-5">
           <i class="fa-brands fa-spotify fa-3x "></i>

@@ -220,7 +220,7 @@ function Leftbar({ user }) {
       >
         <div className="fw-bold text-grey  align-items-center ">
 
-          <div className={`d-flex p-3 sticky-top library-div rounded-top justify-content-between ${isScrolled ? 'library-div-shadow' : ''} `}>
+          <div className={`d-flex p-3 library-div rounded-top justify-content-between ${isScrolled ? 'library-div-shadow' : ''} `}>
 
             <div className="d-flex gap-3 align-items-center">
               <LibraryIcon /> <span className="display-none">

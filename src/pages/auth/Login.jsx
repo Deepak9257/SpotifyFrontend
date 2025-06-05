@@ -63,7 +63,7 @@ const handlePswrd = () => {
 return (
   <>
     <div className="text-center container-fluid d-flex justify-content-center p-5 login">
-      <div className=" p-5 grey w-50 w-sm-100 rounded d-flex flex-column align-items-center">
+      <div className=" p-5 grey w-50 rounded d-flex flex-column align-items-center d-block">
         <div className="w-50">
           <div className="mb-3 text-white">
             <i className="fa-brands fa-spotify fa-3x"></i>
@@ -71,7 +71,7 @@ return (
             <h1 className="fw-bold fs-3">Log in to Spotify</h1>
           </div>
 
-          <div className=" d-flex flex-column align-items-center p-0">
+          <div className="d-flex flex-column align-items-center p-0 mob-login">
             <button
               className="btn b hvr text-white w-100  rounded-pill fw-bold my-2 d-flex justify-content-evenly align-items-center"
               type="submit"
@@ -213,7 +213,7 @@ return (
 
     {/* for small screen */}
 
-    <div className="d-none sm-screen text-center d-flex justify-content-center">
+    {/* <div className="d-none sm-screen text-center d-flex justify-content-center">
       <div className="w-100 p-2 d-flex flex-column align-items-center">
         <div className="w-100">
           <div className="mb-3 text-white">
@@ -374,7 +374,7 @@ return (
         Terms of Service
       </a>
       apply.
-    </div>
+    </div> */}
   </>
 );
 }

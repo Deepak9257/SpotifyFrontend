@@ -1,32 +1,27 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useContext } from 'react';
 import HomeIcon from '../Icons/HomeIcon';
 import FileIcon from '../Icons/FileIcon';
 import SearchIcon from '../Icons/SearchIcon';
 import SpotifyIcon from '../Icons/SpotifyIcon';
-import { useNavigate, Link, useLocation } from "react-router-dom"
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 import HomeIcon2 from '../Icons/HomeIcon2';
 import LoginBtnContext from '../contexts/RefContext';
 
 
-
-
-
-
 function Navbar({ user }) {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const location = useLocation();
-    // const [searchValue, setSearchValue] = useState('');
 
-    const loginBtnRef = useContext(LoginBtnContext)    
+    const loginBtnRef = useContext(LoginBtnContext);
 
     const handleLogout = () => {
 
         const confirm = window.confirm("Are you sure?");
         if (confirm) {
             localStorage.removeItem("token");
-            navigate("/")
+            navigate("/");
             window.location.reload();
 
         }
@@ -34,11 +29,9 @@ function Navbar({ user }) {
 
     const url = location.pathname // logic to change home icon dynamicaly based on url
 
-
     const handleChange = (e) => {
 
         const value = e.target.value?.trim() || ""
-        // console.log("value:",`/search/${value}`)
         
         if(value === ""){
         navigate(`/search`);
@@ -99,7 +92,7 @@ function Navbar({ user }) {
                         </a>
 
                         <a href="/login" >
-                            <button ref={loginBtnRef} type="button" className="btn btn-light rounded-pill w-25  padding nav-login-btn" >
+                            <button type="button" className="btn btn-light rounded-pill w-25  padding nav-login-btn" >
                                 <span className='text-decoration-none text-black fw-bold'>
                                     Login
                                 </span>
@@ -116,14 +109,15 @@ function Navbar({ user }) {
                             <div className='row align-items-center justify-content-between flex-nowrap'>
                                 <div className='col ms-5 premium-btn'>
                                     <a href="/pricing" className='text-decoration-none'>
-                                        <button type="button" className="btn btn-light rounded-pill w-100 "  style={{
+                                        <button type="button" className="btn btn-light rounded-pill w-100"
+                                        style={{
                                             height:"5vh",
                                             display:"flex",
                                             justifyContent:'center',
                                             alignItems:'center',
                                            
                                         }}>
-                                            <span className=' text-nowrap text-black fw-bold'>
+                                            <span className='text-nowrap text-black fw-bold'>
                                                 Explore Premium
                                             </span>
                                         </button>

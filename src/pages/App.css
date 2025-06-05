@@ -671,18 +671,3 @@ tbody tr:hover {
   border-left: 10px solid transparent;
 }
 
-@media only screen and (max-width: 426px) {
-  .login .div {
-    padding: 0 !important;
-  }
-  .grey {
-    display: none !important;
-  }
-  .login-bottom {
-    display: none !important;
-  }
-
-  .sm-screen {
-    display: block !important;
-  }
-}

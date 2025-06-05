@@ -499,18 +499,18 @@ const Album = ({ userId }) => {
                                 </div>
                             </div>
 
-                           
+
 
                             <div className="controls">
-                                
-                                 <div className="mob-text">
-                                {album.name}
-                                <div className="fs-small d-flex gap-2 align-items-center">
-                                    <img src={album?.artist?.image} alt="artist-image" className="rounded-circle" width={25} height={25}/>
-                                    {album?.artist?.name}
-                                </div>
 
-                            </div>
+                                <div className="mob-text song-info">
+                                    {album.name}
+                                    <div className="fs-small d-flex gap-2 align-items-center">
+                                        <img src={album?.artist?.image} alt="artist-image" className="rounded-circle" width={25} height={25} />
+                                        {album?.artist?.name}
+                                    </div>
+
+                                </div>
 
                                 {userId
 
@@ -554,7 +554,7 @@ const Album = ({ userId }) => {
                             </div>
 
 
-                            <div className="table-container border mob-d-none">
+                            <div className="table-container mob-d-none">
                                 <div> <span className="fs-2 fw-bold">Popular</span> </div>
                                 <table>
                                     <thead>
