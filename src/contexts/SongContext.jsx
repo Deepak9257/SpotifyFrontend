@@ -19,7 +19,7 @@ const songContext = createContext({
 
     // global state for play/pause //
     isPlaying: false,
-    setIsPlaying: (isplaying) => {},
+    setIsPlaying: (isPlaying) => {},
 
     // global state for playing Id//
     playId: null,

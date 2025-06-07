@@ -89,6 +89,7 @@ const AppLayout = () => {
                 {user2 && <MobNavbar />}
                 
             </div>
+            
             {user2 ? <MyMusicPlayer /> : <Bottom user={user} />}
 
 

@@ -11,32 +11,28 @@ function Login() {
   const [uemail, setEmail] = useState('');
   const [upassword, setPassword] = useState('');
   const [msg, setMsg] = useState({});
-  const [active, inactive] = useState(false)
+  const [active, inactive] = useState(false);
   const navigate = useNavigate();
-
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     var res = await axios.post("https://spotify-backend-blue.vercel.app/auth/login", {
       email: uemail, password: upassword
-    })
-
-    console.log(res.data)
+    });
 
   if (res.data) {
 
     if (res.data.status == true) {
-      setMsg({ status: "success", message: res.data.message });
-      localStorage.setItem("token", res.data.data.token)
-      navigate("/")
 
+      setMsg({ status: "success", message: res.data.message });
+      localStorage.setItem("token", res.data.data.token);
+      navigate("/");
+      window.location.reload();
 
     } else {
       setMsg({ status: "failed", message: res.data.message });
-
     }
-
 
 
   } else {
@@ -53,7 +49,7 @@ const handleClick = () => {
 const [pswrd, setPswrd] = useState(true)
 
 const handlePswrd = () => {
-  setPswrd(!pswrd)
+  setPswrd(!pswrd);
   console.log(pswrd);
 
 }
@@ -78,7 +74,6 @@ return (
             >
 
               <span className="fs-4 col-3">
-
                 <i className="bi bi-google"></i>
               </span>
               <span className="col"> Continue with Google</span>
@@ -94,15 +89,16 @@ return (
               </span>
               <span className="col"> Continue with Facebook</span>
             </button>
+
             <button
               className="btn b hvr text-white w-100 rounded-pill fw-bold my-2 d-flex justify-content-evenly align-items-center"
               type="submit"
             >
 
               <span className="fs-4 col-3">
-
                 <i className="bi bi-apple"></i>
               </span>
+
               <span className="col"> Continue with Apple</span>
             </button>
             <button
@@ -117,7 +113,8 @@ return (
 
         <div className="text-light w-75">
 
-          <hr />
+          <hr/>
+
         </div>
 
         <form method="post" onSubmit={handleSubmit}>
@@ -207,6 +204,7 @@ return (
             </div>
           </div>
         </form>
+
       </div>
     </div>
 

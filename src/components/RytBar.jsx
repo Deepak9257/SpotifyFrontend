@@ -163,7 +163,6 @@ useEffect(()=>{
     }
 },[])
 
-console.log(screenWidth)
 
 
     // loading funciton //

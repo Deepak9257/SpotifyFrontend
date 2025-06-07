@@ -13,7 +13,7 @@ const MobNavbar = () => {
     const location = useLocation();
 
     const path = location.pathname
-    console.log(path)
+
     return (<>
 
         <div className="mob-navbar">

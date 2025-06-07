@@ -853,9 +853,6 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: clamp(0.8rem, 0.9vw + 0.1rem, 3.5rem);
 }
 
-.song-image {
-  min-width: 3.2rem;
-}
 
 .mob-navbar {
   display: none;
@@ -863,7 +860,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 .mob-search-page,
 .mob-del,
-.mob-text {
+.mob-text,
+.mob-music-player {
   display: none;
 }
 
@@ -872,18 +870,44 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .mob-artist,
-.mob-artist-name, .mob-login-page {
+.mob-artist-name,
+.mob-login-page {
   display: none;
 }
 
-  .play-button {
-    min-width: 48px;
-    min-height: 48px;
-  }
+.play-button {
+  min-width: 48px;
+  min-height: 48px;
+}
 
-    .mob-login button{
-    min-width: 272px;
-  }
+.mob-login button {
+  min-width: 272px;
+}
+
+.mob-user {
+  display: none;
+}
+
+.mob-song-info div{
+  font-size: calc(1vw + 0.5em);
+}
+
+.mob-play-btn {
+  transition: transform 0.2s cubic-bezier(0.32, 0.11, 0.11, 0.92);
+  position: absolute;
+  right: 20px;
+}
+
+.mob-add-btn {
+  transition: transform 0.2s cubic-bezier(0.32, 0.11, 0.11, 0.92);
+  position: absolute;
+  right: 55px;
+}
+
+.mob-play-btn:active, .mob-add-btn:active{
+  transform: scale(0.80);
+
+}
 
 /* media queries styling   */
 
@@ -958,11 +982,13 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 0 0.3em;
   }
 
+      .mob-music-player > :first-child .song-image img{
 
-}
-
-.mob-user{
-  display: none;
+    height: 40px !important;
+    width: 40px !important;
+   
+    
+  }
 }
 
 
@@ -974,7 +1000,7 @@ input[type="range"]::-webkit-slider-thumb {
     margin-left: auto;
   }
 
-  .leftbar-container{
+  .leftbar-container {
     min-width: 25% !important;
     min-height: 80vh;
     max-height: 80vh;
@@ -998,9 +1024,9 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 0% !important;
     height: 100%;
   }
-.mob-user{
-  display: block;
-}
+  .mob-user {
+    display: block;
+  }
   .outlet-div,
   .scrollbar-container,
   .scrollbar-content {
@@ -1054,8 +1080,6 @@ input[type="range"]::-webkit-slider-thumb {
   .browse-page {
     display: none;
   }
-
-  
 
   .mob-search-page {
     display: block;
@@ -1114,22 +1138,41 @@ input[type="range"]::-webkit-slider-thumb {
     height: 3em;
   }
 
-  .login{
+  .login {
     padding: 0 !important;
     border: 1px solid;
   }
 
-  .grey{
+  .grey {
     width: 100% !important;
     min-width: 343px;
   }
 
-  .mob-login-page{
+  .mob-login-page {
     display: grid;
     place-content: center;
   }
 
+  .mob-music-player {
+    display: block;
+    position: fixed;
+    bottom: 45px;
+    width: 100%;
+  }
 
+  .mob-music-player > :first-child{
+    display: flex;
+    align-items: center;
+    padding: 1.2%;
+    
+  }
+
+    .mob-music-player > :first-child .song-image img{
+    height: 50px;
+    width: 50px;
+   
+    
+  }
 }
 
 @media (max-width: 1120px) {

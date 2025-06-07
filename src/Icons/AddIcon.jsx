@@ -1,4 +1,4 @@
-const AddIcon = ({height, width}) => {
+const AddIcon = ({height, width, fill="white"}) => {
   return (
     <>
       <svg
@@ -8,7 +8,7 @@ const AddIcon = ({height, width}) => {
         viewBox="0 0 16 16"
         height={height ? height : 16 }
         width={width ? width : 16}
-        fill="grey"
+        fill={fill}
         className="Svg-sc-ytk21e-0 dYnaPI"
       >
         <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"></path>

@@ -31,7 +31,6 @@ const MyMusicPlayer = () => {
         setFullMode,
         isPlaying,
         setIsPlaying,
-     
         setAudioId
 
     } = useContext(songContext);
@@ -43,7 +42,7 @@ const MyMusicPlayer = () => {
 
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [volume, setVolume] = useState(30);
+    const [volume, setVolume] = useState(100);
     const [shuffledSongs, setShuffledSongs] = useState([]);
     const [shuffledIndex, setShuffledIndex] = useState(0);
     const [isRepeat, setIsRepeat] = useState(false);
@@ -67,6 +66,8 @@ const MyMusicPlayer = () => {
     const songImageRef = useRef(null);
     const songNameRef = useRef(null);
     const controlsRef = useRef(null);
+    const mobMusicRef = useRef(null);
+
 
 
     // dynamic fullscreen background color //
@@ -121,47 +122,53 @@ const MyMusicPlayer = () => {
             l: l
         };
     };
+
+    // Initialize FastAverageColor
+    const fac = new FastAverageColor();
+
+    const extractColor = () => {
+        if (songImageRef.current) {
+            // Extract the dominant color from the image using FastAverageColor
+            fac.getColorAsync(songImageRef.current)
+                .then((color) => {
+                    // Extract the hex color
+                    const colorHex = color.hex;
+
+                    console.log(colorHex)
+
+                    // Convert hex to HSL
+                    const colorHSL = HEXtoHSL(colorHex);
+
+                    if (colorHSL) {
+                        // console.log('Extracted HSL color:', colorHSL);
+                        // You can now use colorHSL to set the background or for any other use case
+                        setBgColor(colorHSL);
+                    } else {
+                        console.error('Failed to convert HEX to HSL');
+                    }
+
+                })
+                .catch((error) => {
+                    console.error('Error extracting color: ', error);
+                });
+        }
+    };
+
     // extract dominant color function from song image//
     useEffect(() => {
-        // Initialize FastAverageColor
-        const fac = new FastAverageColor();
-
-        const extractColor = () => {
-            if (songImageRef.current && fullMode) {
-                // Extract the dominant color from the image using FastAverageColor
-                fac.getColorAsync(songImageRef.current)
-                    .then((color) => {
-                        // Extract the hex color
-                        const colorHex = color.hex;
-
-                        // Convert hex to HSL
-                        const colorHSL = HEXtoHSL(colorHex);
-
-                        if (colorHSL) {
-                            // console.log('Extracted HSL color:', colorHSL);
-                            // You can now use colorHSL to set the background or for any other use case
-                            setBgColor(colorHSL);
-                        } else {
-                            console.error('Failed to convert HEX to HSL');
-                        }
-
-                    })
-                    .catch((error) => {
-                        console.error('Error extracting color: ', error);
-                    });
-            }
-        };
 
         // Wait for the image to load and then extract color
         if (songImageRef.current && songImageRef.current.complete) {
             extractColor(); // Extract color immediately if image is already loaded
         } else {
             if (songImageRef.current) {
-                songImageRef.current.onload = extractColor; // Set onload handler to extract color when image loads
+                songImageRef.current.onload = extractColor(); // Set onload handler to extract color when image loads
             }
         }
 
     }, [fullMode, currentSong]);
+
+
 
     // toggle fullscreen 
 
@@ -407,8 +414,6 @@ const MyMusicPlayer = () => {
             setIsPlaying(true);
             setAudioId(currentSong?._id);
 
-           
-
 
 
         };
@@ -591,7 +596,6 @@ const MyMusicPlayer = () => {
     }
     // volume bar logic end //
 
-
     // shuffle logic //
     const handleShuffle = (songs) => {
 
@@ -608,8 +612,6 @@ const MyMusicPlayer = () => {
         }
 
     }
-
-
 
     // repeat song logic //
 
@@ -651,7 +653,6 @@ const MyMusicPlayer = () => {
 
         }
     }
-
 
     // animation on fullscreen for song image //
 
@@ -703,7 +704,6 @@ const MyMusicPlayer = () => {
             }
         }
     }, [currentSong, bgColor]);
-
 
     // fullscreen audio controls visibility effect //
 
@@ -760,7 +760,6 @@ const MyMusicPlayer = () => {
 
     }, [fullMode])
 
-
     // function for handle next button //
     const handleNext = () => {
         setIsNextClicked(true);
@@ -782,6 +781,7 @@ const MyMusicPlayer = () => {
         }
     }
 
+
     return <>
 
         {/* audio element  */}
@@ -796,6 +796,68 @@ const MyMusicPlayer = () => {
             muted={isMute}
         />
 
+        {/* less than 768px screen */}
+
+        {currentSong && currentSong.name && <> <div id="music-player" ref={mobMusicRef} className="p-2 mob-music-player text-white" style={{
+
+
+        }} >
+
+            <div className="rounded position-relative" style={{
+                backgroundImage: `linear-gradient(
+                      180deg,
+                        hsl(0deg 0% 7%) 0%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 20}% ${bgColor.l - 50}%) 0%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 14}%) 1%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 13}%) 2%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 12}%) 5%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 11}%) 8%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 10}%) 13%,
+                        hsl(${bgColor.h}deg ${bgColor.s - 14}% ${bgColor.l - 10}%) 13%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 9}%) 18%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 8}%) 23%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 7}%) 30%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s - 14}% ${bgColor.l - 6}%) 36%,
+                        hsl(${bgColor.h + 1}deg ${bgColor.s}% ${bgColor.l}%) 100%
+                      )`,
+            }}>
+                <div className="song-image me-2">
+                    <img ref={songImageRef}
+                        src={currentSong?.image}
+                        height={50} width={50}
+                        className="rounded fade-in-element" alt="song image"
+                        crossOrigin="anonymous"
+                    />
+                </div>
+
+                <div className="mob-song-info">
+                    <div>  {currentSong?.name} </div>
+                    <div>  {currentSong?.artist?.name} </div>
+                </div>
+
+                <div className="d-flex justify-content-center align-items-center mob-add-btn">
+                    <AddIcon fill={'white'} height={"1.2em"} width={"1.2em"} />
+                </div>
+
+                <div className={`mob-play-btn d-flex justify-content-center align-items-center`}
+                    onClick={handlePlayPause}
+                >
+                    {isPlaying
+                        ? <PauseIcon height={'1.2em'} width={'1.2em'} fill={'white'} />
+                        : <PlayIcon height={'1.2em'} width={'1.2em'} fill={'white'} />
+                    }
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+        </>}
 
 
         {fullMode ?
@@ -978,7 +1040,6 @@ const MyMusicPlayer = () => {
 
             </div>
 
-
             :
 
             // normal mode player
@@ -1126,6 +1187,8 @@ const MyMusicPlayer = () => {
                 </div>
 
             </div>
+
+
 
         }
     </>
